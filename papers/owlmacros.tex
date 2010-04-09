@@ -1,0 +1,769 @@
+%%DOS General comments
+%DOS I think that the favored solution - macro expansion of simple axioms with existential quantifier or value - needs to be emphasized more strongly.  I feel it gets a bit buried in the other stuff.
+
+\documentclass[11pt]{article}
+\input{logicmacros}
+
+\title{Macro expansion for OWL}
+
+\author{Chris Mungall, Alan Ruttenberg, David Osumi-Sutherland, ...}
+
+\def\PE{\pr{Physical Entity}}
+\def\Pr{\pr{Process}}
+\def\Sys{\pr{System}}
+\def\Snap{\pr{Snapshot}}
+\def\State{\pr{State}}
+\def\Property{\pr{Property}}
+\def\Tp{\pr{Timepoint}}
+\def\pred{\pr{Predicate}}
+\def\lacksPart{lacksPart}
+\def\capableOf{capableOf}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+Accurate representation of complex domains such the biosciences demand
+powerful and expressive ontology languages such as OWL. However, the
+very expressive power of OWL can be a hindrance to widespread adoption
+and effective use - OWL axioms and class expression may not always
+mirror the internal cognitive models of domain experts. In addition,
+it can be difficult to capture complex OWL axioms in simple
+graph-oriented databases and exchange formats such as OBO Format.
+
+One solution to this problem is to use an intermediate representation
+or syntactic sugar, which is translated to OWL. We present here a
+macro expansion language that has the advantage of allowing the
+intermediate representation to live directly in OWL.
+
+One of the main implications of this work is a way to simplify
+translation between OBO format and OWL. 
+
+\end{abstract}
+
+\section{Introduction}
+
+% TODO: 
+%  number axioms /ref
+
+Accurate representation of complex domains such the biosciences demand
+powerful and expressive ontology languages such as OWL. However, the
+very expressive power of OWL can be a hindrance to widespread adoption
+and effective use - OWL axioms and class expression may not always
+mirror the internal cognitive models of domain experts. 
+
+In addition, the development of large ontologies often requires the
+repeated application of the same templates for different combinations
+of classes. Table \ref{tab:example-templates} shows some examples.
+
+  \begin{table}
+    \begin{tabular}{ | p{7cm} | p{7cm} | }
+      \hline 
+      \textbf{Template} & \textbf{Example} \\
+      \hline
+
+      hasPart some ('plasma membrane' and hasPart ?Y)
+
+      &
+
+      Class: 'alpha-beta T cell'
+      EquivalentTo: 'T cell' and 
+      hasPart some ('plasma membrane' and hasPart 'alpha-beta TCR complex')
+
+      \\
+
+      \hline
+
+      bearerOf some (realizedBy only ?Y)
+
+      &
+
+      Class: 'immune cell'
+      EquivalentTo: 'cell' and bearerOf some (realizedBy only 'immune system process')
+
+      \\
+
+      \hline
+
+      (?X partOf some ?Y) (?Y hasPart some ?X)
+
+      &
+
+      Class: finger
+      SubClassOf: partOf some hand
+
+      Class: hand
+      SubClassOf: hasPart some finger 
+      \\
+
+      \hline
+
+      hasPart exactly 0 ?Y
+
+      &
+
+      Class: 'enucleate cell'
+      EquivalentTo: cell and hasPart exactly 0 nucleus
+
+      \\
+      \hline
+    \end{tabular}
+    \caption{Example templates.}
+    \label{tab:example-templates}
+  \end{table}
+
+
+To the seasoned ontologist accustomed to writing complex nested
+expressions this may seem a trivial problem.  A common response to
+this issue is to develop some concise ``syntactic sugar'' or
+intermediate representation, and have this translated behind the
+scenes to OWL. For example, on particular approach is to have domain
+experts fill in an Excel table, with columns corresponding to
+variables in the above, and to write a script to generate the OWL.
+
+However, this approach can be unsatisfying for a number of reasons. A
+scripting approach is ad-hoc and difficult to integrate with existing
+OWL toolchains. In addition, the original intermediate representation
+is lost on translation into OWL. Ideally the intermediate
+representation would still be visible within generic OWL viewers and
+development tools such as Protege.
+
+%The
+%ontology consumer (who may be typically be a domain scientist rather
+%than a logician) also has to view the ontology at this ``low level''.
+
+%However, for many users
+%it may be preferable to work with the ontology at the template level.
+
+Here we describe a macro expansion language that allows the
+representation in a high-level intermediate form directly in OWL. A
+generic tool can be used to translate back and forth between the
+intermediate form and the expanded form. This allows users to view and
+edit at either level, as appropriate.
+
+%This representation has the advantage that the ``sweetened'' form can
+%be directly represented in OWL-DL.
+
+We also discuss the usage of a macro expansion language versus using
+and extending existing OWL2 constructs such as property chains.
+
+\section{Macro Expansion Language}
+
+We propose a macro expansion language that can be represented directly
+within OWL-DL. The macro expansions are represented as OWL Manchester
+Syntax\cite{Horridge2006} with the addition of template
+variables. Either annotation properties or object properties
+(``shortcut'' relations) are annotated with macros, and these can be
+used to expand individual axioms, either during the authoring process
+or prior to reasoning. Table \ref{tab:macro-defining-props} shows the
+two different annotation properties that can be used to define
+shortcut relations, and table \ref{tab:macro-expansion} specifies how
+expansion occurs.
+
+  \begin{table}
+    \begin{tabular}{ | p{3.5cm} | p{3.5cm} | p{5cm} | }
+      \hline 
+      \textbf{Domain} & \textbf{Annotation Property} & \textbf{Use} \\
+
+      \hline
+      Annotation Property & expandAssertionTo & Annotation assertion axioms connecting two classes \\
+
+      \hline
+      Object Property & expandExpressionTo & Class expressions \\
+
+      \hline
+    \end{tabular}
+    \caption{Two annotation properties for describing shortcut relations.}
+    \label{tab:macro-defining-props}
+  \end{table}
+
+  \begin{table}
+    \begin{tabular}{ | p{4cm} | p{5cm} | p{5cm} | }
+      \hline 
+      \textbf{Annotation Property} & \textbf{Matches} & \textbf{Expansion} \\
+
+      \hline
+      expandAssertionTo & PropertyAssertion(?R,?X,?Y) & substitute(?R,?X,?Y) \\
+
+      \hline
+      expandExpressionTo & ?R some ?Y & substitute(?R,?Y) \\
+
+      \hline
+      expandExpressionTo & ?R value ?Y & substitute(?R,?Y) \\
+
+      \hline
+    \end{tabular}
+    \caption{Macro expansion of shortcut relations.}
+    \label{tab:macro-expansion}
+  \end{table}
+
+Table \ref{tab:examples} shows some examples. We now describe these in more detail.
+
+\subsection{Macro Expansion of Annotation Properties}
+
+We propose an annotation property expandAssertionTo that specifies how to expand
+a single OWL PropertyAssertion (i.e. rdf triple) into a more complex
+axiom by substituting two variables $?X$ and $?Y$ with the subject and
+target of the assertion respectively.
+
+The rule can be specified as:
+
+\begin{verbatim}
+PropertyAssertion(?R,?X,?Y) ==> substitute(?R,?X,?Y)
+\end{verbatim}
+
+For example:
+
+\begin{verbatim}
+AnnotationProperty: spatially_disconnected_from
+Annotations: expandAssertionTo 
+  "(part_of some ?X and part_of some ?Y) SubClassOf owl:Nothing"
+\end{verbatim}
+
+The following triple:
+
+\begin{verbatim}
+Class: brain
+Annotations: spatially_disconnected_from 'spinal cord'
+\end{verbatim}
+
+would expand to a general class inclusion axiom:
+
+\begin{verbatim}
+(part_of some brain and part_of some 'spinal cord') SubClassOf owl:Nothing"
+\end{verbatim}
+
+TODO: HOW DO WE WRITE GCIs IN MANCHESTER?
+
+%DOS GCIs?
+
+However, the approach of expanding individual property assertions does
+not work well when we want to use our high-level properties in
+equivalence axioms.
+
+Consider the following expansion rule:
+
+\begin{verbatim}
+ObjectProperty: has_plasma_membrane_part
+Annotations: macro "Class ?X: SubClassOf has_part some 
+   ('plasma membrane' and has_part some ?Y)"
+\end{verbatim}
+
+This works fine for:
+
+\begin{verbatim}
+Class: 'alpha-beta T cell'
+Annotations: has_plasma_membrane_part some ('alpha-beta TCR complex')
+\end{verbatim}
+
+Which would expand to:
+
+\begin{verbatim}
+Class: 'alpha-beta T cell'
+SubClassOf: has_part some 
+   ('plasma membrane' and 
+    has_part some 'alpha-beta TCR complex')
+\end{verbatim}
+
+However, because this expansion is only defined for property
+assertions, it cannot be used in equivalence axioms. If the ontology
+author wishes to write:
+
+\begin{verbatim}
+Class: 'alpha-beta T cell'
+EquivalentTo: 'T cell' and 
+   has_plasma_membrane_part some ('alpha-beta TCR complex')
+\end{verbatim}
+
+Then this requires a more complex means of treating expandAssertionTo
+assertions. In addition, the above axiom is problematic as it is using
+an annotation property where an object property should be used
+[PUNNING?]
+
+\subsection{Macro Expansion of Object Properties}
+
+As an alternative that works for both SubClass and EquivalentTo
+axioms, we propose a different expansion rule for a new annotation
+property expandExpressionTo. Here, the macro describes how to expand a class
+expression, not a property assertion, and only uses a single variable.
+
+The macro object property should be used in existential restrictions,
+and the translation rule is:
+
+\begin{verbatim}
+?R some ?Y ==> substitute(?R,?Y)
+\end{verbatim}
+
+For example:
+
+\begin{verbatim}
+ObjectProperty: has_plasma_membrane_part
+Annotations: expandExpressionTo "has_part some ('plasma membrane' and has_part some ?Y)"
+\end{verbatim}
+
+And the following intermediate-form axiom:
+
+\begin{verbatim}
+Class: 'alpha-beta T cell'
+EquivalentTo: 'T cell' and has_plasma_membrane_part some ('alpha-beta TCR complex')
+\end{verbatim}
+
+Would expand to:
+
+\begin{verbatim}
+Class: 'alpha-beta T cell'
+EquivalentTo: 'T cell' and has_part some ('plasma membrane' and has_part some 'alpha-beta TCR complex')
+\end{verbatim}
+
+% Difference with what you're calling property assertion expansion quite subtle - esp as both use quantifiers. 
+
+However, this is problematic if used in certain circumstances. Consider:
+
+\begin{verbatim}
+ObjectProperty: lacks_part
+Annotations: expandExpressionTo "has_part exactly 0 ?Y"
+\end{verbatim}
+
+The author would write in the intermediate form:
+
+\begin{verbatim}
+Class: 'enucleate cell'
+EquivalentTo: cell and lacks_part some nucleus
+\end{verbatim}
+
+Which would expand to:
+
+\begin{verbatim}
+Class: 'enucleate cell'
+EquivalentTo: cell and has_part exactly 0 nucleus
+\end{verbatim}
+
+% Curious why you prefer cardinality approach rather than negation as Rob uses.
+
+Note that the intermediate form would produce different inferences
+from the expanded form. This is a major point against this scenario.
+
+We can fix this by introducing an expansion rule for hasValue restrictions:
+
+\begin{verbatim}
+?R value ?Y ==> substitute(?R,?Y)
+\end{verbatim}
+
+Here we are treating the intermediate property as a relation between
+an individual and a class.
+
+Now we can write:
+
+\begin{verbatim}
+Class: 'enucleate cell'
+EquivalentTo: cell and lacks_part value nucleus
+\end{verbatim}
+
+% I'd like a little more explanation of what this actually means.
+% Also note - this may be legal OWL 2, but there are tooling issues.  P4 doesn't like this.  We should certainly test this against major reasoners.
+
+This expands to the correct form. Whilst the intermediate form does
+not produce all the same inferences as the intermediate form, the
+intermediate form does not produce any incorrect inferences.
+
+% So, the idea would be to use this value type expansions for these dangerous cases only?
+
+We can also safely introduce an expansion rule for individuals
+
+
+\begin{verbatim}
+PropertyValue(?R,?X,?Y) ==> ?X Types: substitute(?R,?Y)
+\end{verbatim}
+
+We can write property assertions:
+
+\begin{verbatim}
+Individual: imaged-cell00001234
+Properties: lacks_part nucleus
+\end{verbatim}
+
+\begin{verbatim}
+Individual: imaged-cell00001234
+Types: has_part exactly 0 nucleus
+\end{verbatim}
+
+\section{Extending Property Chains}
+
+TODO - merge this with discussion.
+
+OWL2 introduces additional more expressive constructs that reduces the
+need for syntactic sugar or intermediate representations. One such
+construct is property chains - we will first explore the potential for
+using property chains to abstract away from complex repetitive axioms.
+
+A biological ontology representing types of cells would likely include
+classifications based on proteins expressed on the surface of the cell
+(the \emph{plasma membrane}). The general template can be specified
+as:
+
+\begin{verbatim}
+Class: ?X
+EquivalentTo: 'T cell' and 
+  has_part some ('plasma membrane' and has_part ?Y)
+\end{verbatim}
+
+For example, an $\alpha \beta$ T cell is a defined to be a \emph{T
+  cell} that has an \emph{$\alpha\beta$ T cell receptor complex}
+expressed on the plasma membrane:
+
+\begin{verbatim}
+Class: 'alpha-beta T cell'
+EquivalentTo: 'T cell' and 
+  has_part some ('plasma membrane' and has_part 'alpha-beta TCR complex')
+\end{verbatim}
+
+With OWL2 we can use property chains and self-restrictions to declare
+a new property:
+
+\begin{verbatim}
+ObjectProperty: has_plasma_membrane_part 
+SubPropertyChain: has_part o is_plasma_membrane o has_part
+
+ObjectProperty: is_plasma_membrane
+
+Class: 'plasma membrane'
+SubClassOf: is_plasma_membrane Self
+\end{verbatim}
+
+%DOS Do you have this working in test ontologies?  Haven't managed to
+%construct this is Protege. 4.0 and 4.02 don't appear to support Self.
+%4.1 has other issues that prevent me testing.  I'd at least like to
+%see this working with one of the major OWL reasoners.
+
+This is somewhat complex for many domain experts who are not computer
+scientists, but if there are a limited number of such properties then
+the labor can be divided such that an OWL expert defines the
+properties and the domain expert defines classes using these properties.
+
+Now we can use this new property to define cells in terms of their
+plasma membrane parts:
+
+\begin{verbatim}
+Class: 'alpha-beta T cell'
+EquivalentTo: 'T cell' and has_plasma_membrane_part some ('alpha-beta TCR complex')
+\end{verbatim}
+
+Unfortunately, the semantics of this axiom is not exactly equivalent
+to the previous fully expanded form. For example, if we ask for
+subclasses of \emph{hasPart some plasma membrane} or \emph{hasPart
+  some TCR receptor complex}\footnote{we assume transitivity of
+  hasPart}, then only the first definition works. In fact, if we ask
+for subclasses of \emph{hasPart some (plasma membrane and hasPart some
+  abTCR complex)} then again only the first fully-expanded definition
+works.
+
+%DOS What about something that has_part some subtype of plasma membrane that has_part some subtype of alpha-beta TCR complex?  Would this be classified correctly?
+
+ In order to have the
+same semantics, the implication of the property chain would have to go
+in both directions, but this is not permissible in OWL2.
+
+%DOS Don't understand this point, and I suspect most readers wouldn't either.  For a start - isn't the property chain palindromic?
+% Could you elaborate on this point?
+
+It is important to point out that this may not be immediately obvious
+to many OWL users. Many users may be using properties as if the
+implication works in both directions.
+% (for example, with the overlaps
+%property, which can be inferred from a chain of hasPart and partOf).
+
+% DOS But has_part is not symmetric, so why would users assume has_plasma_membrane_part to be?  Also, if we're pushing that individuals are used sparingly, then for the vast majority of uses, direction should come from quantifiers. Given that, isn't symmetry on this instance level (or lack of if) less of an issue?
+
+One option here is to annotate the SubPropertyChain axiom:
+
+\begin{verbatim}
+SubPropertyChainOf:
+  Annotations: isReversible "true"
+  has_part o is_plasma_membrane o has_part
+\end{verbatim}
+
+This in itself does not change the semantics. However, some kind of
+macro expansion tool could use this annotation to guide the expansion
+of axioms that use the contracted form to the expanded form.
+
+%DOS Perhaps inserting the expanded form here would make this point clearer?
+
+The advantage here is that a subset of users (both ontology creators
+and downstream users of ontologies) can view the ontology through a
+simpler prism. The disadvantage is that it introduces complications -
+if for some reasoner the axioms are not expanded it will change the
+results of reasoning. Although in the above case it will not introduce
+incorrect inferences, it will fail to produce some correct inferences.
+
+The other main disadvantage here is that the intermediate
+representation is not sufficiently expressive to abstract over other
+useful common templates, such as:
+
+\begin{verbatim}
+bearer_of some (realized_by only ?Y)
+\end{verbatim}
+
+This kind of combination of an existential and universal restriction
+over an intermediate anonymous class is common in many BFO-compliant
+ontologies. For example:
+
+\begin{verbatim}
+Class: 'immune cell'
+EquivalentTo: 'cell' and bearer_of some 
+     (realized_by only 'immune system process')
+\end{verbatim}
+
+Immune cells are cells that bear some role or function that is
+realized by an immune system process.  We could attempt to approximate
+this using a property chain:
+
+\begin{verbatim}
+ObjectProperty: bearer_of_realized_by
+SubPropertyChain: bearer_of o realized_by
+\end{verbatim}
+
+This could be used to write more compact axioms:
+
+\begin{verbatim}
+Class: 'immune cell'
+EquivalentTo: 'cell' and 
+   bearer_of_realized_by some 'immune system process'
+\end{verbatim}
+
+However, this does not have the same semantics as the original
+expanded form, which combines an existential and universal
+quantification. This means the ontology developer is forced to
+explicitly write out the expanded form.
+
+\section{Implementation}
+
+We have implemented a tool called Annotation Property Expander (APEX)
+that will apply these macros.
+
+OK WE HAVENT YET BUT I CAN DO THIS QUICKLY
+
+
+\section{Challenges}
+
+Recursive expansion
+
+% This would be useful.  I have a number of cases where I'm using one property that needs expansion to define another (in fact, I see you're using them below).
+% However, it is not essential - The expansions for these complicated cases could just be written out in full.  
+% Might be helpful to use these examples.
+
+\section{Uses}
+
+
+\section{Discussion}
+
+\subsection{Do we need shortcut relations?}
+
+Some ontology authors may have no objection to explicitly writing the
+fully expanded forms of axioms. But this is not really practical for
+the development of large ontologies by domain experts with
+intermediate-level OWL skills. In these cases it is tremendously
+beneficial to be able to use shortcut relations in axioms, especially
+where these shortcut relations are used repeatedly. Ideally these
+shortcut relations would be both usable within the standard
+OWL-centric ontology authoring environment.
+
+This also works well in terms of division of labor - a smaller number
+of OWL experts can define a limited set of shortcut relations for a
+particular domain, and a larger number of domain experts can apply
+these.
+
+\subsection{The hidden dangers of property chains}
+
+Property chains are a powerful feature. However, the ontology author
+must take care and not assume that a property restriction is
+\emph{defining} the relation.
+
+For example, a standard axiom in mereology\cite{Bittner} defines an
+overlaps relation in terms of parthood:
+
+\begin{verbatim}
+overlaps(x,y) <-> exists z: hasPart(x,z), partOf(z,y)
+\end{verbatim}
+
+The overlaps relation is useful in bio-ontologies\cite{who}, so it can
+be tempting to declare an object property for it, and provide a
+property chain:
+
+\begin{verbatim}
+ObjectProperty: overlaps
+SubPropertyChain: has_part o part_of
+\end{verbatim}
+
+But this axiom is weaker, and there is a danger if this property is
+used in assertions thinking it has the same semantics. If an ontology
+asserts that a overlaps some b, then the class hasPart some partOf b will
+\emph{not} subsume a.
+
+It may be useful to have ontology ``spell-checker'' detect when
+properties with property chains are used in assertions, and ask the
+author if they really intended to write out the fully expanded
+form. As a matter of naming convention, it may be wise to call the
+object property above something different, like ``infers-overlap''???
+
+Self-restrictions add further power to property chains, by allowing
+class membership to be 'checked' at points along the chain. But this
+comes with the same health warnings as property chains, and an
+additional disadvantage of adding opaque axioms to OWL classes, where
+regular users will be looking, rather than burying the workings in
+property annotations, where they probably won't. Presumably in future
+there will be some syntactic sugar to hide this.
+
+Overall, the temptation to define shortcut relations using property
+chains should be avoided. Property chains should only be used when the
+unidirectional implication is truly intended (and in these situations
+they are of course very useful).
+
+\subsection{Macro-expansion strategies}
+
+Given that property chains are insufficient in themselves to support
+the requirements for shortcut relations we have proposed some
+strategies involving an explicit macro-expansion step.
+
+We first explored the possibility of annotating property chain axioms
+to indicate that the implication is intended to be
+bi-directional. However, this is likely to cause confusion. We decided
+it would be better to segregate shortcut relations completely from
+other object properties.
+
+We have explored two different types of shortcut relations. This first
+type is modeled as an annotation property between two classes. This is
+then expanded to a more complex axiom or collection of axioms -
+possible a GCI axiom. These shortcut relations can not be used in
+class expressions e.g. to define classes.
+
+The second type can formally be seen as a relation between an
+individual and a class. It expands to a more complex axiom involving
+two classes. It can be used within class expressions, and can be used
+to define classes. When used as a class expression, it can be used as
+an existential or value restriction.
+
+\subsection{Practical usage and implementation: ontology views}
+
+The scheme we have proposed is relatively simple and can be
+implemented easily.
+
+However, to be maximally useful, the translator could be integrated
+into ontology editing environments such as Protege4\cite{P4}. Expanded
+axioms could be marked using axiom annotations. Users would have the
+option of viewing the ontology at the intermediate level, the expanded
+level, or both. Changes at one level would automatically
+expand/contract to the other level, and feed in to incremental
+reasoning.
+
+However, even without this tight integration we believe that a
+translation tool implementing the macro language specified here would
+be useful.
+
+There is a possible concern about reasoning over the intermediate
+view, prior to expansion. However, our strategy here insulates us from
+making incorrect inferences at the intermediate level. Users will
+still have to be aware of the differences between the two levels to
+know why they get more inferences in the expanded view.
+
+% interestingly, we could write axioms specific to the intermediate
+% view, effectively making it more expressive in some ways than the
+% expanded view. But let's keep it simple and avoid this for now.
+
+\subsection{Applications for OBO to OWL translation}
+
+OBO-Edit is an ontology editing environment popular amongst
+biologists\cite{Day-Richter2007}. The native model for this tool is
+the OBO file format, which can be translated to a subset of
+OWL\cite{Horrocks}\cite{tirmizi2009}. Whilst it is possible to write
+nested class expressions in OBO format by using b-node style anonymous
+classes, this is not well-supported and best avoided. In addition,
+there is no standard way to write other OWL constructs such as
+negation and universal restriction, which are becoming increasingly
+necessary for bio-ontologies.
+
+Many OBO-Edit authored ontologies have started informally adopting
+shortcut relations with a view to translating these to expanded OWL
+axioms further down the line. One approach is to do this as part of
+the obo to owl translation, but we believe there are advantages to
+doing the expansion in a separate layer. For one thing, it simplifies
+the already complicated translation, which has some problems in the
+existing translation. It also has the advantage of maintaining the
+shortcut relations in the OWL environment.
+
+Currently a piece of obo-format may look like this:
+
+\begin{verbatim}
+[Typedef]
+id: ro:has_part
+is_transitive: true
+inverse_of: ro:part_of
+
+[Typedef]
+id: lacks_part
+expandExpressionTo: "ro:has_part 0 ?Y" []
+
+[Term]
+id: cl:enucleate_cell
+intersection_of: cl:cell
+intersection_of: lacks_part go:nucleus
+\end{verbatim}
+
+Using a simple extension of the Horrocks proposal, this would translate to:
+
+\begin{verbatim}
+ObjectProperty: lacks_part
+Annotations:
+  expandExpressionTo "ro:has_part exactly 0 ?Y"
+
+Class: cl:enucleate_cell
+EquivalentTo: cl:cell and lacks_part value go:nucleus
+\end{verbatim}
+
+(PUNNING?)
+
+Which would not lead to any incorrect inferences.
+
+Applying the expansions rules we would get:
+
+\begin{verbatim}
+ObjectProperty: ro:has_part
+Characteristics: Transitive
+
+ObjectProperty: lacks_part
+Annotations:
+  expandExpressionTo "ro:has_part exactly 0 ?Y"
+
+Class: cl:enucleate_cell
+EquivalentTo: cl:cell and ro:has_part exactly 0 go:nucleus
+\end{verbatim}
+
+Which has the intended semantics.
+
+\subsection{Applications for RDF and semantic web applications}
+
+If an OWL ontology contains complex axioms involving nested class
+expressions this can result in RDF triples that are difficult to work
+with at the RDF level. This difficulty is ameliorated by languages
+such as SPARQL-DL, but there is still problem for many triplestores
+and RDF libraries that are not OWL-aware.
+
+The shortcut relation strategy provided here could provide a means of
+providing a ``triple-friendly'' view over complex OWL ontologies.
+
+\subsection{N-ary relations}
+
+
+\subsection{Automatically extracting shortcut relations}
+
+
+\section{Conclusions}
+
+\section{References}
+
+\bibliographystyle{plain}
+\bibliography{owlmacros}
+
+\end{document}
+

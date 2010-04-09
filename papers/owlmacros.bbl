@@ -1,0 +1,21 @@
+\begin{thebibliography}{1}
+
+\bibitem{Day-Richter2007}
+John Day-Richter, Midori~A Harris, Melissa Haendel, Gene Ontology
+  OBO-Edit~Working Group, and Suzanna Lewis.
+\newblock {OBO-Edit--an ontology editor for biologists.}
+\newblock {\em Bioinformatics}, 23(16):2198--2200, Aug 2007.
+
+\bibitem{Horridge2006}
+M.Horridge, N.Drummond, J.Goodwin, A.Rector, R.Stevens, and H.Wan.
+\newblock {The Manchester OWL Syntax}.
+\newblock {\em OWL: Experience and Directions 2006}, 2006.
+
+\bibitem{tirmizi2009}
+S.H. Tirmizi, S.~Aitken, D.A. Moreira, C.~Mungall, J.~Sequeda, N.H. Shah, and
+  D.P. Miranker.
+\newblock {OBO \& OWL: Roundtrip Ontology Transformations}.
+\newblock In {\em {Semantic Web Applications and Tools for Life Sciences}},
+  2009.
+
+\end{thebibliography}
