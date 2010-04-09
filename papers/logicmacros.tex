@@ -1,0 +1,845 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                    ** mymacros.tex **                     %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\typeout{** loading mymacros.tex **}
+
+\def\h{\hbox}
+
+\newcommand{\mathcom}[3]{ \newcommand{#1}[#2]{\mbox{$#3$}}}
+\newcommand{\remathcom}[3]{ \renewcommand{#1}[#2]{\mbox{$#3$}}}
+
+\newcommand{\mdef}[2]{ \newcommand{#1}{\mbox{$#2$}} }
+ 
+\mathcom{\y}{0}{\ \vdash\ }               % yeilds 
+\mathcom{\ys}{0}{\vdash_{\cal S}}         % yeilds sub S
+\mathcom{\yt}{0}{\vdash_{\theta}}         % yeilds sub theta
+
+\mathcom{\absurd}{0}{\mathbf{f}}                 % absurdity
+\mathcom{\imp}{0}{\ \rightarrow\ }            % implication arrow
+\mathcom{\rimp}{0}{\ \leftarrow\ }            % implication arrow
+
+\mathcom{\con}{0}{\ \wedge\ }                 % conjunction
+\mathcom{\dis}{0}{\ \vee\ }                   % disjunction
+\mathcom{\n}{0}{\neg}                     % negation
+\mathcom{\dimp}{0}{\ \leftrightarrow\ }       % mat equiv
+
+\mathcom{\corresponds}{0}{\ \Lleftarrow\! \! \Rrightarrow\ }
+
+
+%%\mathcom{\th}{0}{\theta}                  % theta
+
+
+\mathcom{\A}{0}{\forall}                  % universal quantifier
+\mathcom{\E}{0}{\exists}                  % existential quant
+
+\mathcom{\Dec}{1}{{\cal D}(#1)}           % D(#1)
+
+\mathcom{\elt}{0}{\in}
+
+\mathcom{\tuple}{1}{\langle #1 \rangle}
+
+% \mathcom{\equivdef}{0}{\equiv_{\mbox{\em \tiny def}}}
+% \mathcom{\eqdef}{0}{=_{\mbox{\em \tiny def}}}
+\def\equivdef{\mathrel{\ \equiv_{\mbox{\em \tiny
+def}}\ }}
+
+\def\eqdef{\mathrel{\ =_{\mbox{\em \tiny def}}\ }}
+
+
+% \newtheorem{Rule}{Rule}
+% \newtheorem{Lemma}{Lemma}
+% \newtheorem{Theorem}{Theorem}
+
+
+% Redeclaration of symbols for intuitionistic logic
+% see Diller p.126
+\def\ineg{\mathop\sim}
+\def\iimp{\mathbin\Rightarrow}
+\def\iiff{\mathbin\Leftrightarrow}
+% new symbols from amssymb
+%\def\iimp{\mathbin\rightarrowtail}
+%\def\iiff{\mathbin\leftrightsquigarrow}
+
+\def\icon{\mathbin\curlywedge}
+\def\idis{\mathbin\curlyvee}
+
+%Definitions for RCC inserts
+\newcommand{\notch}{\Longrightarrow\kern-16pt{/}\ \ \ }
+\newcommand{\ch}{\Longrightarrow}
+\newcommand{\pr}[1]{\mbox{\sf #1}}
+
+% RCC relations
+\mathcom{\C}{0}{\pr{C}}
+\remathcom{\P}{0}{\pr{P}}
+\remathcom{\O}{0}{\pr{O}}
+\mathcom{\PO}{0}{\pr{PO}}
+\mathcom{\PP}{0}{\pr{PP}}
+\mathcom{\NTPP}{0}{\pr{NTPP}}
+\mathcom{\NTPPI}{0}{\pr{NTPP}^{-1}}
+\mathcom{\TPP}{0}{\pr{TPP}}
+\mathcom{\TPPI}{0}{\pr{TPP}^{-1}}
+\mathcom{\TP}{0}{\pr{TP}}
+\mathcom{\NTP}{0}{\pr{NTP}}
+\mathcom{\NTPi}{0}{\pr{NTPi}}
+\mathcom{\EC}{0}{\pr{EC}}
+\mathcom{\DC}{0}{\pr{DC}}
+\mathcom{\DR}{0}{\pr{DR}}
+\mathcom{\EQ}{0}{\pr{EQ}}
+\mathcom{\CG}{0}{\pr{CG}}
+
+\mathcom{\Pin}{0}{\pr{Pi}} % \Pi is Greek letter
+\mathcom{\PPi}{0}{\pr{PPi}}
+\mathcom{\NTPPi}{0}{\pr{NTPPi}}
+
+\mathcom{\OP}{0}{\pr{OP}}
+
+\mathcom{\conv}{0}{\pr{conv}}
+\mathcom{\rsum}{0}{\pr{sum}}
+\mathcom{\rdiff}{0}{\pr{diff}}
+\mathcom{\rcompl}{0}{\pr{compl}}
+\mathcom{\rprod}{0}{\pr{prod}}
+\mathcom{\cp}{0}{\pr{cp}}
+\mathcom{\Us}{0}{\pr{Us}}
+\mathcom{\us}{0}{\pr{u}}
+\mathcom{\NULL}{0}{\pr{NULL}}
+\mathcom{\rnull}{0}{\emptyset}
+\mathcom{\CONV}{0}{\pr{CONV}}
+\mathcom{\CON}{0}{\pr{CON}}
+
+% Adaptations for new latex compatibility
+\renewcommand{\Box}{\square}
+\def\cal{\mathcal}
+
+% meta language in definitions etc
+\mathcom{\ml}{1}{\;\;\;\; \mbox{#1} \;\;\;\;}
+
+
+%-- TOPLOG SYMBOLS
+
+\mathcom{\Co}{0}{{\cal C}_{0} \ }
+\mathcom{\CoX}{0}{{\cal C}_{0}}
+\mathcom{\Cop}{0}{{\cal C}_{0}^+ \ }
+\mathcom{\CopX}{0}{{\cal C}_{0}^+}
+\mathcom{\mcop}{0}{\models_{C_o^+}}
+
+\mathcom{\Lop}{0}{{\cal L}_{0}^+ \ }
+\mathcom{\LopX}{0}{{\cal L}_{0}^+}
+\def\mlo{\models_{{\mathcal  L}_0}}
+\def\mlop{\models_{{\mathcal  L}_0^+}}
+
+\mathcom{\Ci}{0}{{\cal C}_{1} \ }
+\mathcom{\CiX}{0}{{\cal C}_{1}}
+
+\mathcom{\Io}{0}{{\cal I}_{0} \ }
+\mathcom{\IoX}{0}{{\cal I}_{0}}
+\mathcom{\Iop}{0}{{\cal I}_{0}^+ \ }
+\mathcom{\IopX}{0}{{\cal I}_{0}^+}
+
+%%\mathcom{\inter}{1}{\langle #1 \rangle}
+\mathcom{\inter}{1}{i( #1 )}
+
+\newfont{\myssfont}{cmss12}
+
+\mathcom{\Maps}{2}{\, _{#1}\!\!\!\rightleftharpoons^{#2} \ }
+
+\mathcom{\CotoST}{0}{\Maps{C_0}{ST}}
+\mathcom{\CtoST}{0}{\Maps{C\,}{ST}}
+\mathcom{\IotoST}{0}{\Maps{I_0}{ST}}
+
+\mathcom{\uni}{0}{\cal U \, }
+\mathcom{\uniX}{0}{\cal U}
+\mathcom{\U}{0}{\cal U}
+
+\mathcom{\eu}{0}{\,=\,\uni}
+
+\mathcom{\ol}{1}{\overline{#1}}
+
+\mathcom{\Lsse}{0}{{\cal L}_{sse}}
+\mathcom{\Lssei}{0}{{\cal L}_{ssei}}
+
+\mathcom{\Luse}{0}{{\cal L}_{use}}
+\mathcom{\Lusei}{0}{{\cal L}_{usei}}
+
+\mathcom{\disdots}{0}{\dis\!\!\!\ldots\!\!\dis}
+\mathcom{\condots}{0}{\con\ldots\con}
+
+
+
+
+
+%% Miscelleneous
+
+
+\def\HA#1#2{\pr{Holds-At}(#1,#2)}
+\def\col{\!:\!}
+
+% Enclose arguments in square double brackets to
+% refer to semantic value of an expression
+\def\semvalue#1{[\mkern-3mu[#1]\mkern-3mu]}
+
+\def\forces{\mathop{\setbox0=\hbox{$\vdash$}\ \rule{0.04em}{1\ht0}\mkern1.5mu\box0}}
+
+\mathcom{\hence}{0}{\Longrightarrow \hspace{2em}}
+
+\def\sliderule{\centerline{\rule{4in}{1mm}}}
+
+\def\Cbox{\mathop{\square\mkern-10mu
+                   \mbox{\raise0.45ex\hbox{\tiny\sf C}}
+                  \mkern2mu
+                 }
+         }
+
+\def\letterbox#1{\mathop{\square\mkern-10mu
+                   \mbox{\raise0.2ex\hbox{\small\sf #1}}
+                  \mkern2mu
+                 }
+         }
+
+%\def\tBox{\letterbox{\lower0.4ex\hbox{t}}}
+\def\sBox{\letterbox{s}}
+\def\tBox{\letterbox{t}}
+
+\def\overstrike#1#2{\mathop{%
+               \setbox1=\hbox{$#1$}%
+               \setbox2=\hbox{$#2$}%
+               \ifdim 1\wd1<1\wd2 % 
+                    { \rlap{\mbox{\kern0.5\wd2\kern-0.5\wd1 \box1}} \box2 }
+              \else {   \rlap{\mbox{$#1$}}
+                        \rlap{\mbox{\kern0.5\wd1\kern-0.5\wd2 \box2}}
+                        \phantom{#1} } 
+              \fi }}
+
+\def\rbox{\boxminus}
+\def\rdia{\overstrike{\Diamond}{-}}
+\def\cdia{\overstrike{\Diamond}{\rule{0.04em}{1.5ex}}}
+\def\cbox{\inbox{\rule{0.04em}{1.6ex}}}
+\def\cbox{\mathop{\setbox0=\hbox{$\square$}
+                  \overstrike{\square}{\hbox{\rule{0.04em}{1\ht0}}}
+             }}
+
+\def\diaplus{\overstrike{\Diamond}{+}}
+
+
+
+
+%% Make a modal box with a symbol centred inside
+\def\inbox#1{\mathop{\setbox0=\hbox{$\square$}%
+                      \setbox1=\hbox{#1}%
+                      \rlap{\hbox{$\square$}}
+                      \rlap{\mbox{\kern0.5\wd0\kern-0.5\wd1%
+                                  \box1}}%
+                      \phantom{\square}}}
+
+\def\ibox{\mathop{\square\mkern-10mu
+                   \mbox{\raise0.45ex\hbox{\tiny\em i}}
+                  \mkern7mu
+                 }
+         }
+\def\cdiamond{\mathop{\Diamond\mkern-12.7mu
+                   \mbox{\raise0.4ex\hbox{\tiny\em c}}
+                  \mkern7mu
+                 }
+         }
+
+
+\def\s5box{\mathop{\square\mkern-10mu
+                   \mbox{\raise0.45ex\hbox{\tiny 5}}
+                  \mkern7mu
+                 }
+         }
+
+\def\Fbox{\mathop{\square\mkern-11mu
+                   \mbox{\raise0.45ex\hbox{\tiny \bf F}}
+                  \mkern2mu
+                 }
+         }
+
+\def\Box{\mathop\square}
+\def\Diamond{\mathop\lozenge}
+
+\def\bigI{\mathop{%
+\hbox{%
+%%
+\def\thickness{1pt}%
+\def\width{6pt}%
+\def\height{0.6em}%
+\def\gap{0.15em}%
+%%
+\dimen0=\thickness%
+\divide\dimen0 by 2%
+\dimen1=\width%
+\divide\dimen1 by 2%
+%%
+\kern\gap%
+\rlap{\vrule width\width height\thickness depth0pt}%
+\rlap{\kern\dimen1 \kern-\dimen0%
+\vrule width\thickness height\height depth0pt}%
+\raise\height\hbox{\vrule width\width height\thickness depth0pt}%
+\kern\gap}}}
+
+\def\mconv{\mathop{% 
+      \mbox{\raise0.35ex\hbox{$\scriptstyle\bigcirc$}}
+                  }
+          }
+\def\mpconv{\circleddash}
+
+
+
+% \def\putat#1#2#3{\setbox1=\hbox{#3}%
+% \rule{0pt}{0pt}%
+% \vspace*{#2}%
+% \hspace*{#1}%
+% \rule{0pt}{0pt}%
+% \hbox to 0em{\rlap{\vtop to 0ex{\hbox to 0em{#3}}}}%
+% \hspace*{-#1}\vspace*{-#2}}
+% %\rule{0pt}{0pt}
+% %\vspace*{-\ht1}\rule{0pt}{0pt}
+% %\vspace*{-\ht1}
+
+\def\putat#1#2#3{\rlap{\hbox{%
+\kern#1% 
+\vtop{\hbox{}%
+\hbox{\vbox to #2{}} \hbox{#3}}}}}
+
+% use putat within \hbox
+% Objects will be located relative to baseline
+% at start of the \hbox
+% eg:
+% \hbox{
+% \putat{2in}{2in}{xxxxx}%
+% \putat{2in}{2in}{00000}%
+% \putat{5in}{3in}{Z}%
+% \putat{2in}{2in}{0}%
+% \putat{5in}{4in}{x}%
+% }
+
+
+%\long\def\putat#1#2#3{
+
+
+
+
+\def\ri{\mathclose{\raise1ex\hbox{$\smile$}}}
+
+\def\eqtag#1{\eqno ({\bf #1})}
+
+\def\mc:#1{\hbox{${\mathcal{#1}}$}}
+\def\mb#1{{\mathbf{#1}}}
+ 
+\def\ifff{\qquad \hbox{if and only if} \qquad}
+
+%%\def\d{\delta}
+
+\def\QED{$\blacksquare$}
+
+\def\epsrcgrant{GR/K65041}
+\def\VUGgrant{GR/M56807}
+
+\def\Boxx{\boxtimes}
+
+%% Force a math symbol to go into scriptsize
+\def\mscriptsize#1{\hbox{\scriptsize $#1$}}
+\def\mlarge#1{\hbox{\large $#1$}}
+
+\def\boxtheorem#1#2{~\\
+\centerline{\fbox{
+\parbox{5in}{
+\centerline{\bf #1}
+#2
+}}}
+\vspace{1ex}}
+
+\def\proof#1#2{
+\begin{quotation}
+\noindent {\bf Proof of #1:}
+#2
+\QED
+\end{quotation}
+}
+
+\def\proofpar{\\ \hspace*{1.5em}}
+
+
+%%%% ENVIRONMENTS
+
+%% specify my list parameters
+%% These can be overridden by declarations within
+%% a document.
+
+\def\mytopsep{1ex}
+\def\mypartopsep{0ex}
+\def\myitemsep{0.3ex}
+\def\myparsep{0ex}
+\def\mylistparindent{2em}
+\def\myleftmargin{4.5em}
+\def\mylabelwidth{4.5em}
+\def\mylabelsep{1em}
+\def\myitemindent{0em}
+
+\def\setmylistparams{%
+             \setlength{\topsep}{\mytopsep}
+             \setlength{\partopsep}{\mypartopsep}
+             \setlength{\itemsep}{\myitemsep}
+             \setlength{\parsep}{\myparsep}
+             \setlength{\listparindent}{\mylistparindent}
+             \setlength{\leftmargin}{\myleftmargin}
+             \setlength{\labelwidth}{\mylabelwidth}
+             \setlength{\labelsep}{\mylabelsep}
+             \setlength{\itemindent}{\myitemindent}
+        }
+
+\def\clistbullet{$\bullet$}
+
+\newcounter{tempvalue}
+% A compact list making environment
+\newenvironment{clist}
+    { %\vspace{1ex}
+      \begin{list}
+            {\labelitemi}
+            \setmylistparams
+    }
+    { \end{list}\addvspace{1ex} 
+    }
+% A compact list making environment
+% with -- as the default item tag
+\newenvironment{cdashlist}
+    { %\vspace{1ex}
+      \begin{list}
+            {--}
+            {\setlength{\topsep}{0.2ex}
+             \setlength{\partopsep}{0ex}
+             \setlength{\itemsep}{0.3ex}
+             \setlength{\parsep}{0ex}
+             \setlength{\listparindent}{2em}
+            }
+    }
+    { \end{list}\addvspace{1ex} 
+    }
+
+
+% compact list with wide labels for item tags
+\newenvironment{taglist}[1]
+    { %\vspace{1ex}
+      \begin{list}
+            {$\bullet$}
+            {\setlength{\topsep}{0.2ex}
+             \setlength{\partopsep}{0ex}
+             \setlength{\itemsep}{0.3ex}
+             \setlength{\parsep}{0ex}
+             \setlength{\listparindent}{2em}
+             \setlength{\leftmargin}{#1}
+             \setlength{\labelwidth}{#1}
+             %\addtolength{\labelwidth}{-1em}
+             \setlength{\labelsep}{0em}
+            }
+    }
+    { \end{list}\addvspace{1ex} 
+    }
+
+\newcounter{cenumcount}
+\newenvironment{cenum}
+    { %\vspace{1ex}
+      \begin{list}
+            {\arabic{cenumcount}.}
+            {\usecounter{cenumcount}
+               \setmylistparams
+            }
+    }
+    { \end{list}\addvspace{1ex} 
+    }
+
+\newcounter{romcount}
+\newenvironment{romanenum}
+          { 
+            \begin{list}{\roman{romcount})~~}
+                        {\usecounter{romcount}
+                         \setmylistparams
+                        }
+          }
+          { \end{list} }
+
+\newcounter{alphcount}
+\newenvironment{alphenum}
+          { \begin{list}{\alph{alphcount})~~}
+                        {\usecounter{alphcount}}}
+          { \end{list} }
+
+
+%% Labelled list environment
+\newenvironment{llist}[1]{%
+\newcounter{#1}
+\begin{list}{({\bf #1\arabic{#1}})\hspace{1em}}{\usecounter{#1}}
+}
+{\end{list}}
+
+%% Labelled list continued
+%% (assumes counter already exists)
+\newenvironment{llistcont}[1]{%
+\setcounter{tempvalue}{\value{#1}}
+\begin{list}{({\bf #1\arabic{#1}})\hspace{1em}}{%
+\usecounter{#1}
+\setcounter{#1}{\value{tempvalue}}
+}
+}
+{\end{list}}
+
+%%% compact versions of llist and llistcont
+\newenvironment{cllist}[1]{%
+\newcounter{#1}
+\begin{list}{({\bf #1\arabic{#1}})}
+             { \usecounter{#1}
+               \setmylistparams
+             }
+}
+{\end{list}}
+
+%% Labelled list continued
+%% (assumes counter already exists)
+\newenvironment{cllistcont}[1]{%
+\setcounter{tempvalue}{\value{#1}}
+\begin{list}{({\bf #1\arabic{#1}})}{%
+                 \usecounter{#1}
+                 \setcounter{#1}{\value{tempvalue}}
+                \setmylistparams
+          }
+}
+{\end{list}}
+
+
+\def\longdef{\long\def}
+
+%% Define a labelled list type
+%% #1 name of control sequence for the list type
+%% #2 prefix for numbering
+\def\llisttype#1#2{%
+\newcounter{#2}
+\expandafter\longdef\csname #1list\endcsname##1{%
+\begin{cllistcont}{#2}
+##1
+\end{cllistcont}}
+\expandafter\def\csname #1\endcsname##1{%
+\begin{cllistcont}{#2}
+\item
+##1
+\end{cllistcont}}
+}
+
+\def\litem#1#2{%
+\begin{clist}
+\item[({\bf #1})] 
+#2
+\end{clist}}
+
+\newenvironment{chapabst}%
+{\begin{quotation}\small\noindent }{\end{quotation}}
+
+% Split line displayed formulae
+% (not actually an environment)
+\newcommand{\splitdismath}[4]{%
+{\setlength{\arraycolsep}{0em}
+\begin{eqnarray}
+& #1 & #2 \nonumber \\
+ &    & #3 
+\label{#4}
+\end{eqnarray}
+}
+}
+
+% Displayed equation with tabbing
+
+\newcommand{\tabmathn}[2]
+{ \begin{equation}
+\vbox{
+\vspace{-2ex}
+\begin{tabbing}
+#1
+\end{tabbing}
+\vspace{-3.5ex}
+}
+\label{#2}
+\end{equation}
+}
+
+\newcommand{\displaytab}[1]
+{ \begin{displaymath}
+\vbox{
+\vspace{-2ex}
+\begin{tabbing}
+#1
+\end{tabbing}
+\vspace{-3.5ex}
+}
+\end{displaymath}
+}
+
+\def\myeq#1{$$\eqalign{#1}$$}
+
+
+%%% Reinstate \eqalign macros removed by Lamport
+\catcode`\@=11
+\def\eqalign#1{\null \,\vcenter {\openup \jot \m@th 
+\ialign {\strut \hfil $\displaystyle{##}$&$\displaystyle {{}##}$\hfil
+ \crcr #1\crcr }}\,}
+
+\def\eqalignno#1{\displ@y \tabskip \centering 
+\halign to\displaywidth {\hfil $\@lign \displaystyle{##}$\tabskip \z@skip
+ &$\@lign \displaystyle {{}##}$\hfil \tabskip \centering 
+ &\llap {$\@lign ##$}\tabskip \z@skip \crcr 
+ #1\crcr }}
+
+\def\leqalignno#1{\displ@y \tabskip \centering
+ \halign to\displaywidth {\hfil $\@lign \displaystyle {##}$\tabskip \z@skip
+ &$\@lign \displaystyle {{}##}$\hfil \tabskip \centering
+ &\kern -\displaywidth \rlap {$\@lign ##$}\tabskip \displaywidth \crcr 
+ #1\crcr}}
+
+%%% Define something like \bibliography but only records the
+%%% bibfiles (does not input the bbl file)
+\def\bibliographyfiles#1{%
+  \if@filesw
+    \immediate\write\@auxout{\string\bibdata{#1}}%
+  \fi}
+
+%%% Define a separate command to input the bbl file.
+\def\bibliographytext{%
+  \@input@{\jobname.bbl}}
+
+
+%% Suppress printing of bibitems in thebibliography
+%% This is for use with the `inlinebib' package,
+%% which adds fullcitations where you give the \cite command.
+%% Doesn't print note
+%% Could add note by changing ##2 to ##2##3 in the \bibcite argument
+%% But output not quite right.
+\def\suppressendbib{%
+\long\def\@bibitem##1 ##2 \note ##3 \short ##4 \end{\par\if@filesw
+        {\def\protect####1{\string ####1\space}%
+         \let\newblock\@empty
+         \immediate\write\@auxout{\string
+                \bibcite{##1}{\string\@bibcall{##1}{##2}{##4}}}}\fi
+        }
+\def\thebibliography##1{}
+}
+
+
+%% Change indent space allocated by \thebibliography
+%% use before \bibliography or \bibliographytext 
+\def\setbibindent#1{%
+\let\oldthebibliography\thebibliography
+\def\thebibliography##1{\oldthebibliography{#1}}
+}
+
+
+
+\catcode`\@=12
+
+\long\def\skipover#1{}
+
+\long\def\correction#1{\footnote{TO CORRECT: #1}}
+\def\nocorrections{\long\def\correction##1{}}
+\def\question#1{{\bf Question:} {\em #1} }
+\long\def\todo#1{{\bf To Do:} {\em #1} }
+
+
+\def\twiddle{$\sim$}
+
+%% Macro for URLs
+%% puts them in tt format and  breaks line after dot if needed.
+
+\skipover{
+\def\urlspace{-0.5em}
+\def\url#1{{\tt \urlsub#1\end}}
+%\def\urldot{. \hspace{-1em}\urlsub}
+\def\urldot{. \linebreak[1]\hspace\urlspace\urlsub}
+\def\urlcolon{: \linebreak[1]\hspace\urlspace\hspace\urlspace\urlsub}
+\def\urlslash{/ \linebreak[1]\hspace\urlspace\urlsub}
+\def\urltilde{\twiddle\urlsub}
+\def\urlsub#1{\ifx#1\end \let\next=\relax
+      \else \ifx#1.\let\next=\urldot
+      \else \ifx#1:\let\next=\urlcolon
+      \else \ifx#1/\let\next=\urlslash
+      \else \ifx#1~\let\next=\urltilde
+      \else#1\let\next=\urlsub\fi\fi\fi\fi\fi\next}
+}
+
+% Input a file in verbatim mode (eg a program file)
+\def\verbinput#1{\expandafter\begin{verbatim}\input#1}
+%NB: usage: \verbinput{filename}\end{verbatim}
+
+
+\def\mb#1{{\mathbf{#1}}}
+\def\mbf#1{{\mathbf{#1}}}
+
+
+%%% MACROS for SLIDES
+
+
+\def\heading#1{%
+\centerline{\shadowbox{
+\large \begin{tabular}{c} #1 \end{tabular}
+           }  }
+\vspace{1ex minus 1ex}
+}
+
+\def\bheading#1{%
+\centerline{\shadowbox{
+\large\bf \begin{tabular}{c} #1 \end{tabular}
+           }  }
+\vspace{1ex minus 1ex}
+}
+
+\def\printlandscape{\special{landscape}}    % Works with dvips.
+\def\printportrait{\special{portrait}}
+
+\def\leedslogo#1{\centerline{
+\psfig{file=uol.eps,width=#1} %% May look wrong in xdvi
+}}
+
+\def\titleslide#1#2{
+\begin{slide*}
+~
+
+\vfill
+\heading{#1}
+
+\vfill
+\begin{center}
+        {\large\bf Brandon Bennett} 
+
+\vspace{3ex}
+        Division of AI \\
+        School of Computing \\
+        University of Leeds\\ 
+        Leeds LS2 9JT, England \\
+        {\tt brandon@comp.leeds.ac.uk} \\
+\end{center}
+
+\vfill
+\centerline{
+\psfig{file=uol.eps,width=0.7in} %% May look wrong in xdvi
+}
+\vfill
+\centerline{#2}
+\vfill
+\end{slide*}
+}
+
+
+\def\nlf{\\ \mbox{} \hfill}
+
+%%\def\fixhyphens{\usepackage[english]{babel}}
+
+%% FIX HYPHENATION
+\lefthyphenmin=2
+\righthyphenmin=3
+
+%% special commands for spell checker
+\def\sic#1{#1}
+\def\sico!#1!{#1}
+\def\sicname#1{#1}
+\def\accept#1{}
+\def\acceptname#1{}
+
+%\newenvironment{nospell}{}{}
+\def\spelloff{}
+\def\spellon{}
+
+
+%% Check whether a macro is defined
+\def\ifundefined#1{\expandafter\ifx\csname#1\endcsname\relax}
+
+%% Define \ifpdf
+%% Used in graphic stuff to check if pdf is running
+%% This is taken from ifpdf.sty
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+\else
+  \ifx\pdfoutput\relax
+  \else
+    \ifcase\pdfoutput
+    \else
+      \pdftrue
+    \fi
+  \fi
+\fi
+
+\ifpdf
+  \typeout{Running in PDF mode}
+\else
+  \typeout{Running in DVI mode}
+\fi
+
+%%%% CLEVER GRAPHIC INCLUSION
+
+\def\pdfgraphictype{jpg} %% or perhaps pdf or png
+\ifpdf   
+  \def\graftype{\pdfgraphictype}  
+\else
+  \def\graftype{eps}
+\fi
+
+
+\typeout{* BB mymacros: Default graphic type set to: \graftype}
+
+\ifpdf
+   \def\optpdftex{pdftex}
+   \def\optgraphic[#1]#2#3{\includegraphics[#1]{#3}} 
+\else
+   \def\pdfinfo#1{}
+   \def\optpdftex{}
+   \def\optgraphic[#1]#2#3{\includegraphics[#1]{#2}} 
+\fi
+
+\def\altgraphic[#1]#2#3#4{\optgraphic[#1]{#2.#3}{#2.#4}}
+
+\def\figurepath{}
+\def\graphswap[#1]#2{\optgraphic[#1]{\figurepath#2.eps}{\figurepath#2.\pdfgraphictype}}
+
+%% \graphicifpdf includes graphic in pdf mode
+%% otherwise just draws a box with the file name
+%% I haven't really used this much.
+\ifpdf
+     \def\graphicifpdf[#1]#2{\includegraphics[#1]{#2}}
+   \else
+     \def\graphicifpdf[#1]#2{\fbox{\parbox{1in}{#1\\ #2}}}
+\fi 
+
+%\def\setaltgraphic#1#2{%
+%   \def\altgraphic[##1]##2{\optgraphic[##1]{##2.#1}{##2.#1}}}
+
+\def\graphic[#1]#2{\includegraphics[#1]{#2.\graftype}} 
+
+\def\psfiggraphic{\renewcommand{\graphic}[2][]{\psfig{##1,file=##2.eps}}}
+
+%%% Date functions
+
+\def\dayth{\number\day\ifcase\day \or
+st\or nd\or rd\or th\or th\or th\or th\or th\or th\or th\or 
+th\or th\or th\or th\or th\or th\or th\or th\or th\or th\or
+st\or nd\or rd\or th\or th\or th\or th\or th\or th\or th\or
+st\fi}
+
+\def\monthname{\ifcase\month \or
+January\or February\or March\or April\or May\or June\or
+July\or August\or September\or October\or November\or December\fi}
+
+
+%%%% How to set up new font sizes
+%% define a font which is Helvetica at 4.5 pt
+\newfont{\boxfont}{hv at 4.5 pt}
+
+% How to rename or alter the References section
+% \renewcommand\refname{References\footnote{The   reference  list  given
+%     here is somewhat incomplete due to limited preparation time. It is
+%     intended  to  add several  more  recent  references  to the  final
+%     version of this paper, relating the discussion to current works on
+%     ontology      development.}}      
+
+
+\typeout{** finished loading mymacros.tex **}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  END END END         (of mymacros.tex)      END END END   %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
