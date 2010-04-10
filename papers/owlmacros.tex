@@ -25,21 +25,29 @@
 
 \begin{abstract}
 
-Accurate representation of complex domains such the biosciences demand
+Accurate representation of complex domains such as biomedicine demands
 powerful and expressive ontology languages such as OWL. However, the
-very expressive power of OWL can be a hindrance to widespread adoption
-and effective use - OWL axioms and class expression may not always
-mirror the internal cognitive models of domain experts. In addition,
-it can be difficult to capture complex OWL axioms in simple
-graph-oriented databases and exchange formats such as OBO Format.
+complex nested class expressions required for modeling can be a
+hindrance to ontology authoring and adoption. These class expressions
+can appear opaque to domain experts, and even users proficient in OWL
+can benefit from some kind of syntactic sugar or ``short-cut''
+strategy, especially when authoring large ontologies.
 
-One solution to this problem is to use an intermediate representation
-or syntactic sugar, which is translated to OWL. We present here a
-macro expansion language that has the advantage of allowing the
-intermediate representation to live directly in OWL.
+One solution is to have domain experts fill in simple templates (for
+example, in Excel) and translate the results into more complex axioms,
+but this has the disadvantage of being disconnected from full ontology
+authoring and reasoning environment.
 
-One of the main implications of this work is a way to simplify
-translation between OBO format and OWL. 
+We present here a method of specifying shortcut properties directly in
+OWL. These shortcut properties can be used in similar ways as object
+properties within the OWL environment, with the resulting simple
+axioms translated automatically to more complex axioms via macro
+expansion. We describe some example scenarios where this is of use in
+authoring existing bio-ontologies.
+
+One of the main implications of this work is a way to simplify the
+translation between OBO format and OWL, and the use of RDF
+triple-stores with complex OWL ontologies.
 
 \end{abstract}
 
@@ -746,7 +754,7 @@ Which has the intended semantics.
 If an OWL ontology contains complex axioms involving nested class
 expressions this can result in RDF triples that are difficult to work
 with at the RDF level. This difficulty is ameliorated by languages
-such as SPARQL-DL, but there is still problem for many triplestores
+such as SPARQL-DL, but there is still problem for many triple stores
 and RDF libraries that are not OWL-aware.
 
 The shortcut relation strategy provided here could provide a means of
