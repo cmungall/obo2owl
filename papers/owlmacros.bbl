@@ -1,15 +1,48 @@
 \begin{thebibliography}{1}
 
+\bibitem{QTT2009}
+
+
+\bibitem{dahdul2009}
+WM~Dahdul, JG~Lundberg, PE~Midford, JP~Balhoff, H.~Lapp, TJ~Vision, MA~Haendel,
+  M.~Westerfield, and PM~Mabee.
+\newblock {The Teleost Anatomy Ontology: Anatomical representation for the
+  genomics age}.
+\newblock {\em Systematic Biology}, 2009.
+
 \bibitem{Day-Richter2007}
 John Day-Richter, Midori~A Harris, Melissa Haendel, Gene Ontology
   OBO-Edit~Working Group, and Suzanna Lewis.
 \newblock {OBO-Edit--an ontology editor for biologists.}
 \newblock {\em Bioinformatics}, 23(16):2198--2200, Aug 2007.
 
+\bibitem{golbreich2007obo}
+C.~Golbreich and I.~Horrocks.
+\newblock {The obo to owl mapping, go to owl 1.1}.
+\newblock In {\em Proceedings of the OWLED 2007 Workshop on OWL: Experiences
+  and Directions: June 6-7 2007; Innsbruck, Austria}. Citeseer.
+
+\bibitem{Masci2009}
+Anna~Maria Masci, Cecilia Arighi, Alexander Diehl, Anne Lieberman, Chris
+  Mungall, Richard Scheuermann, Barry Smith, and Lindsay Cowell.
+\newblock {An improved ontological representation of dendritic cells as a
+  paradigm for all cell types}.
+\newblock {\em {BMC} Bioinformatics}, 10(1):70, 2009.
+
 \bibitem{Horridge2006}
 M.Horridge, N.Drummond, J.Goodwin, A.Rector, R.Stevens, and H.Wan.
 \newblock {The Manchester OWL Syntax}.
 \newblock {\em OWL: Experience and Directions 2006}, 2006.
+
+\bibitem{Smith2007}
+Barry Smith, Michael Ashburner, Cornelius Rosse, Jonathan Bard, William Bug,
+  Werner Ceusters, Louis~J Goldberg, Karen Eilbeck, Amelia Ireland,
+  Christopher~J Mungall, The~OBI Consortium, Neocles Leontis, Philippe
+  Rocca-Serra, Alan Ruttenberg, Susanna-Assunta Sansone, Richard~H Scheuermann,
+  Nigam Shah, Patricia~L Whetzel, and Suzanna Lewis.
+\newblock {The OBO Foundry: coordinated evolution of ontologies to support
+  biomedical data integration.}
+\newblock {\em Nat Biotechnol}, 25(11):1251--1255, Nov 2007.
 
 \bibitem{tirmizi2009}
 S.H. Tirmizi, S.~Aitken, D.A. Moreira, C.~Mungall, J.~Sequeda, N.H. Shah, and
