@@ -54,13 +54,13 @@
 \author{Chris Mungall\inst{1}, Alan Ruttenberg\inst{2}, David Osumi-Sutherland\inst{3}}
 
 \institute{
-Lawrence Berkeley National Laboratory\\
+Genomics Division, Lawrence Berkeley National Laboratory, Berkeley, CA, USA\\
 \email{CJMungall@lbl.gov}
 \and
-Science Commons \\
+Science Commons, Cambridge, MA, USA \\
 \email{alanruttenberg@gmail.com}
 \and
-University of Cambridge \\
+Department of Genetics, University of Cambridge, Cambridge, UK \\
 \email{djs93@gen.cam.ac.uk}
 }
 
@@ -342,8 +342,8 @@ subject and target of the assertion respectively.
 The rule can be specified as:
 
 \begin{exprule}\label{exp-pa}
-\pr{PropertyAssertion}(expandAssertionTo,?R,?V)  $\Rightarrow$ \newline
- substitute(\pr{PropertyAssertion}(?R,?X,?Y),?V)
+\pr{PropertyAssertion}(expandAssertionTo,?R,?T)  $\Rightarrow$ \newline
+ substitute(\pr{PropertyAssertion}(?R,?X,?Y),?T)
 \end{exprule}
 
 Where \emph{substitute} is a two-argument function that replaces
@@ -388,8 +388,8 @@ The macro object property should be used in existential restrictions,
 and the translation rule is:
 
 \begin{exprule}\label{exp-some}
-\pr{PropertyAssertion}(expandExpressionTo,?R,?V)  $\Rightarrow$ \newline
-substitute(?R some ?Y,?V)
+\pr{PropertyAssertion}(expandExpressionTo,?R,?T)  $\Rightarrow$ \newline
+substitute(?R some ?Y,?T)
 \end{exprule}
 
 For example, the cell ontology defines a shortcut relation used for
@@ -464,8 +464,8 @@ Notice that table \ref{tab:macro-expansion} has an additional rule for
 hasValue restrictions:
 
 \begin{exprule}\label{exp-some}
-\pr{PropertyAssertion}(expandExpressionTo,?R,?V)  $\Rightarrow$ \newline
-substitute(?R value ?Y,?V)
+\pr{PropertyAssertion}(expandExpressionTo,?R,?T)  $\Rightarrow$ \newline
+substitute(?R value ?Y,?T)
 \end{exprule}
 
 Here we are treating the intermediate property as a relation between
@@ -496,7 +496,7 @@ instances  and classes.
 We can also safely introduce an expansion rule for individuals:
 
 \begin{exprule}\label{exp-inst}
-\pr{expandExpressionTo}(?R,?V)  $\Rightarrow$ \newline
+\pr{expandExpressionTo}(?R,?T)  $\Rightarrow$ \newline
 substitute(PropertyValue(?R,?X,?Y),?X Types: substitute(?R,?Y))
 \end{exprule}
 
@@ -688,12 +688,15 @@ and RDF libraries that are not OWL-aware.
 The shortcut relation strategy provided here could provide a means of
 providing a ``triple-friendly'' view over complex OWL ontologies.
 
-\section{Availability}
+\section{Availability and future directions}
 
 A demo implementation of the macro-expansion system is available as
 part of Thea2\cite{Vangelis_2009}. Futher examples in obo and owl are
 available from the obo2owl
 repository\footnote{http://github.org/cmungall/obo2owl}.
+
+Future extensions planned include support for n-ary relations and
+description graphs.
 
 \section{Conclusions}
 
