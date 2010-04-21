@@ -47,9 +47,18 @@
 
 \title{Macro expansion for OWL}
 
-\author{Chris Mungall, Alan Ruttenberg, David Osumi-Sutherland, ...}
+\author{Chris Mungall\inst{1}, Alan Ruttenberg\inst{2}, David Osumi-Sutherland\inst{3}}
 
-\institute{}
+\institute{
+Lawrence Berkeley National Laboratory\\
+\email{CJMungall@lbl.gov}
+\and
+Science Commons \\
+\email{alanruttenberg@gmail.com}
+\and
+University of Cambridge \\
+\email{djs93@gen.cam.ac.uk}
+}
 
 \maketitle              % typeset the title of the contribution
 
@@ -86,19 +95,20 @@ triple-stores with complex OWL ontologies.
 % TODO: 
 %  number axioms /ref
 
-Accurate representation of complex domains such the biosciences demand
+Accurate representation of complex domains such as biology demand
 powerful and expressive ontology languages such as OWL. However, the
 very expressive power of OWL can be a hindrance to widespread adoption
-and effective use - OWL axioms and class expression may not always
-mirror the internal cognitive models of domain experts. 
-
-In addition, the development of large ontologies often requires the
-repeated application of the same template pattern for different
-combinations of classes. In addition to being tedious and error-prone,
-the high-level pattern is not immediately apparent on viewing the
-ontology. Table \ref{tab:example-templates} shows some example
-repeated patterns extracted from core bio-ontologies from the OBO
-Foundry registry\cite{Smith2007}.
+and effective use - domain experts may not be comfortable with complex
+axioms and deeply nested class expressions. Even those proficient in
+OWL may prefer to work in terms of high-level templates that abstract
+away from the logical ``machine code'' of OWL. This is particularly
+true for the development of large ontologies, which often requires the
+repeated application of the same template pattern for multiple
+classes. In addition to being tedious and error-prone, the high-level
+pattern is not immediately apparent on viewing the ontology. Table
+\ref{tab:example-templates} shows some example repeated patterns
+extracted from core bio-ontologies from the OBO Foundry
+registry\cite{Smith2007}.
 
   \begin{table}
     \begin{tabular}{ | p{1.1cm} | p{4cm} | p{7cm} | }
@@ -106,9 +116,9 @@ Foundry registry\cite{Smith2007}.
       \textbf{Source} & \textbf{Pattern} & \textbf{Example} \\
       \hline
 
-      CL &
+      DC-CL &
 
-      hasPart some ('plasma membrane' and hasPart ?Y)
+      hasPart some ('plasma membrane' and hasPart $?Y$)
 
       &
 
@@ -122,7 +132,7 @@ Foundry registry\cite{Smith2007}.
 
       CL &
 
-      bearerOf some (realizedBy only ?Y)
+      bearerOf some (realizedBy only $?Y$)
 
       &
 
@@ -135,7 +145,7 @@ Foundry registry\cite{Smith2007}.
 
       GO &
 
-      (partOf some ?X) disjointFrom (partOf some ?Y)
+      (partOf some $?X$) disjointFrom (partOf some $?Y$)
 
       &
 
@@ -147,7 +157,8 @@ Foundry registry\cite{Smith2007}.
 
       Fly &
 
-      (?X partOf some ?Y) \newline (?Y hasPart some ?X)
+      Class: $?X$ \newline SubClassOf: partOf some $?Y$ \newline 
+      Class: $?Y$ \newline SubClassOf: hasPart some $?X$
 
       &
 
@@ -162,7 +173,7 @@ Foundry registry\cite{Smith2007}.
 
       CL &
 
-      hasPart exactly 0 ?Y
+      hasPart exactly 0 $?Y$
 
       &
 
@@ -175,7 +186,7 @@ Foundry registry\cite{Smith2007}.
 
       TAO &
 
-      hasPart some (partOf some ?Y)
+      hasPart some (partOf some $?Y$)
 
       &
 
@@ -188,7 +199,7 @@ Foundry registry\cite{Smith2007}.
 
       OBI &
 
-      realizes some ('analyte role' and roleOf some ('scattered molecular aggregate' and hasGrain only ?Y))
+      realizes some ('analyte role' and roleOf some ('scattered molecular aggregate' and hasGrain only $?Y$))
 
       &
 
@@ -198,25 +209,25 @@ Foundry registry\cite{Smith2007}.
 
       \\
 
-
-
       \hline
     \end{tabular}
     \caption{Example generic patterns taken from various ontologies in
-      the OBO library (http://obofoundry.org). CL = cell ontology, Fly
-      = \emph{Drosophila} anatomy, GO = Gene Ontology, OBI = Ontology
-      for Biomedical Investigations.}
+      the OBO library (http://obofoundry.org). CL = cell ontology,
+      DC-CL = dendritic cell ontology, Fly = \emph{Drosophila}
+      anatomy, GO = Gene Ontology, OBI = Ontology for Biomedical
+      Investigations, TAO = Teleost anatomy ontology. Note that for GO
+      and CL these axioms are available as optional
+      extensions\cite{Mungall_GOXP_2010}\cite{Diehl_ICBO_2009}}
     \label{tab:example-templates}
   \end{table}
 
-
-To the seasoned ontologist accustomed to writing complex nested
-expressions, this may seem a trivial problem. It is not hard for a
-computer scientist to devise some ``syntactic sugar'' or intermediate
-representation, and have this translated behind the scenes to OWL. For
-example, on particular approach is to have domain experts fill in an
-Excel table, with columns corresponding to variables in the above, and
-to write a script to generate the OWL.
+There are a number of approaches to this problem. Quick Term Templates
+(QTTs)\cite{QTT2009} are a way of generating complex OWL axioms from
+simple tables. The domain expert can use a familiar tool such as
+Excel, structured according to a predetermined template, rather than
+working directly in an ontology development environment such as
+Protege. A similar approach is to defined a domain-specific
+intermediate representation language, and translate this to OWL.
 
 However, this approach can be unsatisfying for a number of reasons. A
 scripting approach is ad-hoc and difficult to integrate with existing
@@ -233,16 +244,21 @@ Protege and Pellet.
 %it may be preferable to work with the ontology at the template level.
 
 Here we describe a macro expansion language that allows the
-representation in a high-level intermediate form directly in OWL. A
-generic simple macro-expansion tool can be used to translate back and
-forth between the intermediate form and the expanded form. This allows
-users to view and edit at either level, as appropriate.
+representation in a high-level intermediate form directly in OWL,
+through the use of high-level shortcut relations. A generic simple
+macro-expansion tool can be used to expand these shortcut relations
+into more complex axioms and class-expressions. This has the advantage
+of allowing the intermediate representation to be viewed and
+manipulated from within standard OWL tools and environments.
+
+%allows users to
+%view and edit at either level, as appropriate.
 
 %This representation has the advantage that the ``sweetened'' form can
 %be directly represented in OWL-DL.
 
-We also discuss the usage of a macro expansion language versus using
-and extending existing OWL2 constructs such as property chains.
+%We also discuss the usage of a macro expansion language versus using
+%and extending existing OWL2 constructs such as property chains.
 
 \section{Macro Expansion Language}
 
@@ -253,7 +269,7 @@ variables. Either annotation properties or object properties are
 annotated with macros, and these can be used to expand individual
 axioms at any time during the ontology development or deployment
 cycle, preferably prior to reasoning. We refer to properties that are
-annotated in this way as ``shortcut relations''.  Table
+annotated in this way as \emph{shortcut relations}.  Table
 \ref{tab:macro-defining-props} shows the two different annotation
 properties that can be used to define shortcut relations, and table
 \ref{tab:macro-expansion} specifies how expansion occurs.
@@ -285,13 +301,13 @@ properties that can be used to define shortcut relations, and table
       \textbf{Annotation Property} & \textbf{Matches} & \textbf{Expansion} \\
 
       \hline
-      expandAssertionTo & PropertyAssertion(?R,?X,?Y) & substitute(?R,?X,?Y) \\
+      expandAssertionTo & PropertyAssertion(?R,$?X$,$?Y$) & substitute(?R,$?X$,$?Y$) \\
 
       \hline
-      expandExpressionTo & ?R some ?Y & substitute(?R,?Y) \\
+      expandExpressionTo & ?R some $?Y$ & substitute(?R,$?Y$) \\
 
       \hline
-      expandExpressionTo & ?R value ?Y & substitute(?R,?Y) \\
+      expandExpressionTo & ?R value $?Y$ & substitute(?R,$?Y$) \\
 
       \hline
     \end{tabular}
@@ -301,20 +317,21 @@ properties that can be used to define shortcut relations, and table
     \label{tab:macro-expansion}
   \end{table}
 
-Table \ref{tab:examples} shows some examples. We now describe these in more detail.
+We now describe these in more detail, first describing expansion of
+property assertions, followed by expansions of expressions.
 
 \subsection{Macro Expansion of Annotation Properties}
 
-We propose an annotation property expandAssertionTo that specifies how to expand
-a single OWL PropertyAssertion (i.e. rdf triple) into a more complex
-axiom by substituting two variables $?X$ and $?Y$ with the subject and
-target of the assertion respectively.
+We propose an annotation property \emph{expandAssertionTo} that
+specifies how to expand a single OWL AnnotationPropertyAssertion into a more
+complex axiom by substituting two variables $?X$ and $?Y$ with the
+subject and target of the assertion respectively.
 
 The rule can be specified as:
 
-\begin{verbatim}
-PropertyAssertion(?R,?X,?Y) ==> substitute(?R,?X,?Y)
-\end{verbatim}
+\begin{expr}\label{exp-pa}
+\pr{expandAssertionTo}(?R,?V)  $\Rightarrow$ substitute(?R(?X,?Y),?V)
+\end{expr}
 
 For example:
 
@@ -352,9 +369,9 @@ expression, not a property assertion, and only uses a single variable.
 The macro object property should be used in existential restrictions,
 and the translation rule is:
 
-\begin{verbatim}
-?R some ?Y ==> substitute(?R,?Y)
-\end{verbatim}
+\begin{expr}\label{exp-some}
+\pr{expandExpressionTo}(?R,?V)  $\Rightarrow$ substitute(?R some ?Y,?V)
+\end{expr}
 
 For example, the cell ontology defines a shortcut relation used for
 defining cell types based on the proteins expressed on the plasma
@@ -427,9 +444,9 @@ too strong.
 Notice that table \ref{tab:macro-expansion} has an additional rule for
 hasValue restrictions:
 
-\begin{verbatim}
-?R value ?Y ==> substitute(?R,?Y)
-\end{verbatim}
+\begin{expr}\label{exp-some}
+\pr{expandExpressionTo}(?R,?V)  $\Rightarrow$ substitute(?R value ?Y,?V)
+\end{expr}
 
 Here we are treating the intermediate property as a relation between
 an individual and a class.
@@ -458,9 +475,10 @@ instances  and classes.
 
 We can also safely introduce an expansion rule for individuals:
 
-\begin{verbatim}
-PropertyValue(?R,?X,?Y) ==> ?X Types: substitute(?R,?Y)
-\end{verbatim}
+\begin{expr}\label{exp-inst}
+\pr{expandExpressionTo}(?R,?V)  $\Rightarrow$ \newline
+substitute(PropertyValue(?R,?X,?Y),?X Types: substitute(?R,?Y))
+\end{expr}
 
 We can write property assertions:
 
@@ -526,9 +544,9 @@ only.
 To see this, consider a standard axiom in mereology defining an
 overlaps relation in terms of parthood:
 
-\begin{verbatim}
-overlaps(x,y) <-> exists z: hasPart(x,z), partOf(z,y)
-\end{verbatim}
+$$
+\pr{overlaps}(x,y) \dimp \E z: \pr{hasPart}(x,z) \con \pr{partOf}(z,y)
+$$
 
 The overlaps relation is useful in bio-ontologies\cite{dahdul2009}, so
 it can be tempting to declare an object property for it, and provide a
@@ -618,7 +636,7 @@ inverse_of: ro:part_of
 
 [Typedef]
 id: lacks_part
-expandExpressionTo: "ro:has_part 0 ?Y" []
+expandExpressionTo: "ro:has_part exactly 0 ?Y" []
 
 [Term]
 id: cl:enucleate_cell
@@ -689,12 +707,12 @@ extension to QTTs, ...
 We have defined two annotation properties that can be used to specify
 shortcut relations that can be used in intermediate OWL-DL
 representations that provide a simplified view over a complex
-ontology. 
+ontology. These shortcut relations can be used 
 
 \section{References}
 
-\bibliographystyle{plain}
 \bibliography{owlmacros}
+\bibliographystyle{plain}
 
 \end{document}
 
