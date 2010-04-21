@@ -1,7 +1,4 @@
-\begin{thebibliography}{1}
-
-\bibitem{QTT2009}
-
+\begin{thebibliography}{10}
 
 \bibitem{dahdul2009}
 WM~Dahdul, JG~Lundberg, PE~Midford, JP~Balhoff, H.~Lapp, TJ~Vision, MA~Haendel,
@@ -16,11 +13,27 @@ John Day-Richter, Midori~A Harris, Melissa Haendel, Gene Ontology
 \newblock {OBO-Edit--an ontology editor for biologists.}
 \newblock {\em Bioinformatics}, 23(16):2198--2200, Aug 2007.
 
+\bibitem{Diehl_ICBO_2009}
+Alexander~D. Diehl, Alison~Deckhut Augustine, Judith~A. Blake, Lindsay~G.
+  Cowell, Elizabeth~S. Gold, Timothy~A. Gondré-Lewis, Anna~Maria Masci,
+  Terrence~F. Meehan, Penelope~A. Morel, NIAID Cell Ontology~Working Group,
+  Anastasia Nijnik, Bjoern Peters, Bali Pulendran, Richard~H. Scheuerman,
+  Q.~Alison Yao, Martin~S. Zand, and Christopher~J. Mungall.
+\newblock {Hematopoietic Cell Types: Prototype for a Revised Cell Ontology}.
+\newblock In {\em {Proceedings of the First International Conference on
+  Biomedical Ontology}}, 2009.
+
 \bibitem{golbreich2007obo}
 C.~Golbreich and I.~Horrocks.
 \newblock {The obo to owl mapping, go to owl 1.1}.
 \newblock In {\em Proceedings of the OWLED 2007 Workshop on OWL: Experiences
-  and Directions: June 6-7 2007; Innsbruck, Austria}. Citeseer.
+  and Directions: June 6-7 2007; Innsbruck, Austria}, 2009.
+
+\bibitem{horridge2006supporting}
+M.~Horridge, D.~Tsarkov, and T.~Redmond.
+\newblock {Supporting early adoption of OWL 1.1 with Protege-OWL and FaCT++}.
+\newblock In {\em {Proc. of the OWL Experiences and Directions Workshop
+  (OWLED’06) at the ISWC}}, volume~6, 2006.
 
 \bibitem{Masci2009}
 Anna~Maria Masci, Cecilia Arighi, Alexander Diehl, Anne Lieberman, Chris
@@ -33,6 +46,21 @@ Anna~Maria Masci, Cecilia Arighi, Alexander Diehl, Anne Lieberman, Chris
 M.Horridge, N.Drummond, J.Goodwin, A.Rector, R.Stevens, and H.Wan.
 \newblock {The Manchester OWL Syntax}.
 \newblock {\em OWL: Experience and Directions 2006}, 2006.
+
+\bibitem{Mungall_GOXP_2010}
+Christopher~J. Mungall, Michael Bada, Tanya~Z. Berardini, Jennifer Deegan,
+  Amelia Ireland, Midori~A. Harris, David~P. Hill, and Jane Lomax.
+\newblock {Cross-Product Extensions of the Gene Ontology}.
+\newblock {\em Journal of Biomedical Informatics}, In Press, Uncorrected Proof,
+  2010.
+
+\bibitem{QTT2009}
+B.~Peters, A.~Ruttenberg, J.~Greenbaum, M.~Courtot, R.~Brinkman, P.~Whetzel,
+  D.~Schober, S.A. Sansone, R.~Scheuerman, and P.~Rocca-Serra.
+\newblock {Overcoming the Ontology Enrichment Bottleneck with Quick Term
+  Templates}.
+\newblock In {\em {Proceedings of the First International Conference on
+  Biomedical Ontology}}, 2009.
 
 \bibitem{Smith2007}
 Barry Smith, Michael Ashburner, Cornelius Rosse, Jonathan Bard, William Bug,
@@ -49,6 +77,13 @@ S.H. Tirmizi, S.~Aitken, D.A. Moreira, C.~Mungall, J.~Sequeda, N.H. Shah, and
   D.P. Miranker.
 \newblock {OBO \& OWL: Roundtrip Ontology Transformations}.
 \newblock In {\em {Semantic Web Applications and Tools for Life Sciences}},
+  2009.
+
+\bibitem{Vangelis_2009}
+Vangelis Vassiliadis, Jan Wielemaker, and Chris Mungall.
+\newblock {Processing OWL2 ontologies using Thea: An application of logic
+  programming}.
+\newblock In {\em {6th OWL Experiences and Directions Workshop (OWLED 2009)}},
   2009.
 
 \end{thebibliography}

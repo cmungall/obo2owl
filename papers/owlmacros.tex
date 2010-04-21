@@ -25,6 +25,10 @@
 \setcounter{expr}{0}
 \renewcommand{\theexpr}{A-\arabic{expr}}
 
+\newtheorem{exprule}{}[section]
+\setcounter{exprule}{0}
+\renewcommand{\theexpr}{R-\arabic{exprule}}
+
 \newcommand{\mod}[1]{\textbf{#1}}
 
 
@@ -64,7 +68,7 @@ University of Cambridge \\
 
 \begin{abstract}
 
-Accurate representation of complex domains such as biomedicine demands
+Accurate representation of complex domains such as biology demands
 powerful and expressive ontology languages such as OWL. However, the
 complex nested class expressions required for modeling can be a
 hindrance to ontology authoring and adoption. These class expressions
@@ -171,6 +175,22 @@ registry\cite{Smith2007}.
 
       \hline
 
+      Fly &
+
+      hasPart some ('presynaptic membrane' and partOf some (synpase
+      and hasPart some ('postsynaptic membrane' and partOf some ?Y)))
+
+      &
+
+      Class: 'giant fiber neuron' \newline SubClassOf: hasPart some
+      ('presynaptic membrane' and partOf some (synpase and hasPart
+      some ('postsynaptic membrane' and partOf some 'tergotrochanteral
+      muscle motor neuron')))
+
+      \\
+
+      \hline
+
       CL &
 
       hasPart exactly 0 $?Y$
@@ -217,7 +237,7 @@ registry\cite{Smith2007}.
       anatomy, GO = Gene Ontology, OBI = Ontology for Biomedical
       Investigations, TAO = Teleost anatomy ontology. Note that for GO
       and CL these axioms are available as optional
-      extensions\cite{Mungall_GOXP_2010}\cite{Diehl_ICBO_2009}}
+      extensions\cite{Mungall_GOXP_2010}\cite{Diehl_ICBO_2009}}.
     \label{tab:example-templates}
   \end{table}
 
@@ -270,50 +290,42 @@ annotated with macros, and these can be used to expand individual
 axioms at any time during the ontology development or deployment
 cycle, preferably prior to reasoning. We refer to properties that are
 annotated in this way as \emph{shortcut relations}.  Table
-\ref{tab:macro-defining-props} shows the two different annotation
-properties that can be used to define shortcut relations, and table
-\ref{tab:macro-expansion} specifies how expansion occurs.
+\ref{tab:macro-expansion} shows the two different annotation
+properties that can be used to define shortcut relations. The first is
+intended to apply to annotation properties connecting two classes, and
+the second is intended to apply to object properties used in different
+contexts. In both cases the value of the annotation property is a
+template string containing Manchester syntax with variable
+placeholders denoted by the $?$ symbol.
+
+The pattern in the second row of table \ref{tab:example-templates}
+could be specified as follows:
+
+\begin{verbatim}
+AnnotationProperty: capableOf
+Annotations: expandExpressionTo "bearerOf some (realizedBy only ?Y)"
+\end{verbatim}
 
   \begin{table}
-    \begin{tabular}{ | p{3.5cm} | p{4.5cm} | p{4cm} | }
+    \begin{tabular}{ | p{3.2cm} | p{4.5cm} | p{4.5cm} | }
       \hline 
-      \textbf{Annotation Property}  & \textbf{Usage} & \textbf{Domain} \\
+      \textbf{Annotation Property} & \textbf{Usage} & \textbf{Matches} \\
 
       \hline
-      expandAssertionTo  & Expanding annotation assertion axioms connecting two classes & Annotation Property \\
+      expandAssertionTo & Expanding annotation assertion axioms connecting two classes & PropertyAssertion(?R,$?X$,$?Y$) \\
 
       \hline
-      expandExpressionTo  & Expanding class expressions & Object Property \\
+      expandExpressionTo & Expanding class expressions & 
+      $?R$ some $?Y$ \textbf{or} \newline
+      $?R$ value $?Y$ \\
 
       \hline
     \end{tabular}
-    \caption{Two annotation properties for describing shortcut
-      relations. The first is intended to annotate annotation
-      properties that are used to make property assertions about
-      classes, and the second is to annotate object properties used in
-      class expressions.}
-    \label{tab:macro-defining-props}
-  \end{table}
-
-  \begin{table}
-    \begin{tabular}{ | p{4cm} | p{5cm} | p{5cm} | }
-      \hline 
-      \textbf{Annotation Property} & \textbf{Matches} & \textbf{Expansion} \\
-
-      \hline
-      expandAssertionTo & PropertyAssertion(?R,$?X$,$?Y$) & substitute(?R,$?X$,$?Y$) \\
-
-      \hline
-      expandExpressionTo & ?R some $?Y$ & substitute(?R,$?Y$) \\
-
-      \hline
-      expandExpressionTo & ?R value $?Y$ & substitute(?R,$?Y$) \\
-
-      \hline
-    \end{tabular}
-    \caption{Macro expansion of shortcut relations. If a match is
-      found for $?R$, then the matching axiom or expression is
-      substituted using the value of the annotation property for $?R$.}
+    \caption{Annotation properties use to specify a macro
+      expansion. If a property $?R$ is annotated using one of these
+      two annotation properties, then the ontology is scanned for
+      occurrences of the match pattern, which is then expanded
+      according to the specified template.}
     \label{tab:macro-expansion}
   \end{table}
 
@@ -329,11 +341,15 @@ subject and target of the assertion respectively.
 
 The rule can be specified as:
 
-\begin{expr}\label{exp-pa}
-\pr{expandAssertionTo}(?R,?V)  $\Rightarrow$ substitute(?R(?X,?Y),?V)
-\end{expr}
+\begin{exprule}\label{exp-pa}
+\pr{PropertyAssertion}(expandAssertionTo,?R,?V)  $\Rightarrow$ \newline
+ substitute(\pr{PropertyAssertion}(?R,?X,?Y),?V)
+\end{exprule}
 
-For example:
+Where \emph{substitute} is a two-argument function that replaces
+axioms or expressions (argument 1) with a template (argument 2).
+
+For example, given the following shortcut relation specification:
 
 \begin{verbatim}
 AnnotationProperty: spatially_disconnected_from
@@ -341,7 +357,7 @@ Annotations: expandAssertionTo
   "DisjointClasses: (part_of some ?X) disjointFrom part_of some ?Y)"
 \end{verbatim}
 
-The following triple:
+The following annotation property assertion axiom:
 
 \begin{verbatim}
 Class: nucleus
@@ -354,10 +370,12 @@ would expand to a general class inclusion (GCI) axiom:
 DisjointClasses: (part_of some nucleus) disjointFrom (part_of some cytoplasm)
 \end{verbatim}
 
-Note that this pattern does not work in all cases - for example, for
-defining classes using equivalence axioms. Here we want a generic way
-of expanding class expressions using shortcut relations, such that
-they can be used in different axiom types.
+Note that this pattern is not applicable to all cases in table
+\ref{tab:example-templates} - for example, we may want to define a
+class using an equivalence axiom. Here we want a generic way of
+expanding class expressions using shortcut relations, such that they
+can be used in different axiom types. This is where the second type of
+expansion comes in.
 
 \subsection{Macro Expansion of Object Properties}
 
@@ -369,9 +387,10 @@ expression, not a property assertion, and only uses a single variable.
 The macro object property should be used in existential restrictions,
 and the translation rule is:
 
-\begin{expr}\label{exp-some}
-\pr{expandExpressionTo}(?R,?V)  $\Rightarrow$ substitute(?R some ?Y,?V)
-\end{expr}
+\begin{exprule}\label{exp-some}
+\pr{PropertyAssertion}(expandExpressionTo,?R,?V)  $\Rightarrow$ \newline
+substitute(?R some ?Y,?V)
+\end{exprule}
 
 For example, the cell ontology defines a shortcut relation used for
 defining cell types based on the proteins expressed on the plasma
@@ -414,8 +433,8 @@ form.
 Consider the following shortcut relation:
 
 \begin{verbatim}
-ObjectProperty: lacks_part
-Annotations: expandExpressionTo "has_part exactly 0 ?Y"
+ObjectProperty: lacksPart
+Annotations: expandExpressionTo "hasPart exactly 0 ?Y"
 \end{verbatim}
 
 The author would write in the intermediate form:
@@ -444,9 +463,10 @@ too strong.
 Notice that table \ref{tab:macro-expansion} has an additional rule for
 hasValue restrictions:
 
-\begin{expr}\label{exp-some}
-\pr{expandExpressionTo}(?R,?V)  $\Rightarrow$ substitute(?R value ?Y,?V)
-\end{expr}
+\begin{exprule}\label{exp-some}
+\pr{PropertyAssertion}(expandExpressionTo,?R,?V)  $\Rightarrow$ \newline
+substitute(?R value ?Y,?V)
+\end{exprule}
 
 Here we are treating the intermediate property as a relation between
 an individual and a class.
@@ -475,10 +495,10 @@ instances  and classes.
 
 We can also safely introduce an expansion rule for individuals:
 
-\begin{expr}\label{exp-inst}
+\begin{exprule}\label{exp-inst}
 \pr{expandExpressionTo}(?R,?V)  $\Rightarrow$ \newline
 substitute(PropertyValue(?R,?X,?Y),?X Types: substitute(?R,?Y))
-\end{expr}
+\end{exprule}
 
 We can write property assertions:
 
@@ -494,26 +514,7 @@ Individual: imaged-cell00001234
 Types: has_part exactly 0 nucleus
 \end{verbatim}
 
-\section{Uses}
-
-
 \section{Discussion}
-
-\subsection{Do we need shortcut relations?}
-
-Some ontology authors may have no objection to explicitly writing the
-fully expanded forms of axioms. But this is not really practical for
-the development of large ontologies by domain experts with
-intermediate-level OWL skills. In these cases it is tremendously
-beneficial to be able to use shortcut relations in axioms, especially
-where these shortcut relations are used repeatedly. Ideally these
-shortcut relations would be both usable within the standard
-OWL-centric ontology authoring environment.
-
-This also works well in terms of division of labor - a smaller number
-of OWL experts can define a limited set of shortcut relations for a
-particular domain, and a larger number of domain experts can apply
-these.
 
 \subsection{Comparison with property chains}
 
@@ -564,16 +565,14 @@ asserting that a hasPart some partOf some b. If a user queries for
 \emph{hasPart some partOf some b}, then classes asserted to be
 subclasses of \emph{overlaps some b} will \emph{not} be returned.
 
-It may be useful to have ontology ``spell-checker'' detect when
-properties with property chains are used in assertions, and ask the
-author if they really intended to write out the fully expanded
-form. As a matter of naming convention, it may be wise to call the
-property chain above something different from ``overlaps''.
+The guiding principle here is: if the intention is to \emph{define} a
+property then a shortcut relation should be specified. If the
+intention is to infer property assertions then use a property chain.
 
-Overall, the temptation to define shortcut relations using property
-chains should be avoided. Property chains should only be used when the
-unidirectional implication is truly intended (and in these situations
-they are of course very useful).
+Note that property chains cannot be used for shortcut relations such
+as \emph{capableOf}, because in this case the shortcut relation
+abbreviates a nested class expression involving both an existential
+and universal restriction.
 
 \subsection{Practical usage and implementation: ontology views}
 
@@ -581,12 +580,12 @@ The scheme we have proposed is relatively simple and can be
 implemented easily.
 
 However, to be maximally useful, the translator could be integrated
-into ontology editing environments such as Protege4\cite{P4}. Expanded
-axioms could be marked using axiom annotations. Users would have the
-option of viewing the ontology at the intermediate level, the expanded
-level, or both. Changes at one level would automatically
-expand/contract to the other level, and feed in to incremental
-reasoning.
+into ontology editing environments such as
+Protege4\cite{horridge2006supporting}. Expanded axioms could be marked
+using axiom annotations. Users would have the option of viewing the
+ontology at the intermediate level, the expanded level, or
+both. Changes at one level would automatically expand/contract to the
+other level, and feed in to incremental reasoning.
 
 However, even without this tight integration we believe that a
 translation tool implementing the macro language specified here would
@@ -621,10 +620,10 @@ Many OBO-Edit authored ontologies have started informally adopting
 shortcut relations with a view to translating these to expanded OWL
 axioms further down the line. One approach is to do this as part of
 the obo to owl translation, but we believe there are advantages to
-doing the expansion in a separate layer. For one thing, it simplifies
-the already complicated translation, which has some problems in the
-existing translation. It also has the advantage of maintaining the
-shortcut relations in the OWL environment.
+doing the expansion as a separate independent step. For one thing, it
+simplifies the already complicated translation, which has some
+problems in the existing translation. It also has the advantage of
+maintaining the shortcut relations in the OWL environment.
 
 Currently a piece of obo-format may look like this:
 
@@ -689,25 +688,27 @@ and RDF libraries that are not OWL-aware.
 The shortcut relation strategy provided here could provide a means of
 providing a ``triple-friendly'' view over complex OWL ontologies.
 
-\subsection{N-ary relations}
+\section{Availability}
 
-The expansion strategy specified here is intended for binary
-relations, but could in principle be extended to n-ary relations.
-
-\subsection{Comparison with Quick Term Templates}
-
-Quick Term Templates (QTTs)\cite{QTT2009} are a way of translating
-from simple tables that can be generated in Excel into complex OWL
-axioms. The macro expansion strategy specified here provides a useful
-extension to QTTs, ...
-
+A demo implementation of the macro-expansion system is available as
+part of Thea2\cite{Vangelis_2009}. Futher examples in obo and owl are
+available from the obo2owl
+repository\footnote{http://github.org/cmungall/obo2owl}.
 
 \section{Conclusions}
 
 We have defined two annotation properties that can be used to specify
 shortcut relations that can be used in intermediate OWL-DL
 representations that provide a simplified view over a complex
-ontology. These shortcut relations can be used 
+ontology. Axioms or expressions that use these relations can be
+expended to a more verbose form prior to reasoning. At the same time,
+the intermediate form is safe for reasoning.
+
+We believe that these shortcut relations will assist with ontology
+authoring for both novices and experts. We also believe that these
+relations will assist with interconversion between OWL and popular but
+less expressive formalisms and data models, opening up OWL to a wider
+community of users.
 
 \section{References}
 

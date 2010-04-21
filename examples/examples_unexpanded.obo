@@ -1,0 +1,135 @@
+[Typedef]
+id: lacks_part
+comment: this is an example of a syntactic sugar relation
+expandExpressionTo: "hasPart 0 ?Y" []
+is_type_level: true
+
+[Typedef]
+id: capable_of
+comment: note the difficulty in representing this one as a property chain on the instance level, because of the some-only pattern
+expandExpressionTo: "bearerOf some (realizedBy only ?Y)" []
+is_type_level: true
+
+[Typedef]
+id: overlaps_some
+expandExpressionTo: "has_part some (part_of some ?Y)" []
+comment: it is debatable whether we want to macroify this given the property chain will give us most of what we need
+holds_over_chain: has_part part_of
+is_type_level: true
+
+[Typedef]
+id: integral_part_of
+comment: this is an example of a syntactic sugar relation. saves writing two axioms
+expandAssertionTo: "?X: SubClassOf part_of some ?Y" []
+expandAssertionTo: "?Y: SubClassOf part_of some ?X" []
+is_type_level: true
+
+[Typedef]
+id: spatially_disconnected_from
+expandAssertionTo: "?X: SubClassOf hasPart exactly 0 (part_of some ?Y)" []
+expandAssertionTo: "?Y: SubClassOf hasPart exactly 0 (part_of some ?X)" []
+comment: CGI in OWL Manchester?
+is_type_level: true
+
+[Typedef]
+id: has_plasma_membrane_part
+expandExpressionTo: "has_part some (GO:0005886 and has_part some ?Y)" []
+is_type_level: true
+
+[Typedef]
+id: fasciculates_with_tl
+def: "Instance level: Relation between a neuron and the neuron projection bundle it fasciculates with. x fasciculates_with y iff: for some 'neuron projection GO:0043005' (np), np part_of x AND np overlaps y AND np aligned_with y. Example: antennal ORN fasciculates_with antennal nerve." [FB:djs]
+type_domain: CL:0000540
+type_range: GO:0043005
+is_type_level: true
+comment: we need Description Graphs for full expressivity
+expandExpressionTo: "has_part some (GO:0043005 and overlaps some ?Y)" []
+expandExpressionTo: "has_part some (GO:0043005 and aligns_with some ?Y)" []
+
+[Typedef]
+id: fasciculates_with_il
+def: "Relation between a neuron and the neuron projection bundle it fasciculates with. x fasciculates_with y iff: for some 'neuron projection GO:0043005' (np), np part_of x AND np overlaps y AND np aligned_with y. Example: antennal ORN fasciculates_with antennal nerve." [FB:djs]
+domain: CL:0000540
+range: GO:0043005
+comment: role chain not strong enough. need property intersection (e.g. p overlaps b AND p aligns_wth b)
+formula: OWL "fasciculates_with <- has_part o is(GO:0043005) o overlaps" []
+formula: OWL "fasciculates_with <- has_part o is(GO:0043005) o aligns_with" []
+exp: SWRL "has_part(?a,?p),GO:0043005(?p),overlaps(?p,?b),aligns_with(?p,?b) -> fasciculates_with(?a,?b)"
+
+[Typedef]
+id: releases_neurotransmitter
+def: "Relation between a neuron and the neurotransmitter it releases. x releases_neurotransmitter y iff: for some 'neurotransmitter secretion'* (ns), x has_function_in** ns AND ns has_participant y" [FB:djs]
+is_type_level: true
+type_domain: CL:0000540 ! neuron
+type_range: CHEBI:24431
+comment: check range constraint - role vs molecule. Problem - how do we do recursive expansion? We could just disallow this and force the macro-author to do it
+!expandExpressionTo: "capable_of VALUE (GO:0007269 and results_in_secretion_of some ?Y)" []
+expandExpressionTo: "bearer_of some (realized_by only (GO:0007269 and results_in_secretion_of some ?Y))" []
+
+[Typedef]
+id: synapsed_to
+def: "n1 synapsed_to n2 iff: for some synapse (s), some presynaptic membrane (pre), some postsynaptic membrane (post): pre part_of s and post part_of s and pre part_of n1 and post part_of n2" [FB:djs]
+is_type_level: true
+type_domain: CL:0000540 ! neuron
+type_range: CL:0000540 ! neuron
+expandExpressionTo: "has_part some (GO:0042734[pre] and part_of some (GO:0045202[syn] and has_part some (GO:0045211[post] and part_of some ?Y)))" []
+
+[Typedef]
+id: synapsed_to_il
+def: "n1 synapses_to n2 iff: for some synapse (s), some presynaptic membrane (pre), some postsynaptic membrane (post): pre part_of s and post part_of s and pre part_of n1 and post part_of n2" [FB:djs]
+domain: CL:0000540 ! neuron
+range: CL:0000540 ! neuron
+comment: note the property chain is strong enough in one direction, would we ever need to infer in the other direction?
+formula: OWL "synapsed_to <- has_part o is(GO:0042734) o part_of o is(GO:0045202) o has_part o is(GO:0045211) o part_of"
+
+[Typedef]
+id: axon_innervates
+def: "Relation between an axon and the structure it synapses to. x axon_innervates y: iff: for some axon (a), a part_of x and a synapsed_to y" [FB:djs]
+comment: definition refers to another macro. See comments above. property chain below mixes IL and TL
+expandExpressionTo: "part_of some (synapsed_to_il some ?Y)" []
+expandExpressionTo: "part_of some (synapsed_to VALUE ?Y)" []
+holds_over_chain: part_of synapsed_to_il
+domain: GO:0030424
+
+[Typedef]
+id: axon_innervates_il
+def: "Relation between an axon and the structure it synapses to. x axon_innervates y: iff: for some axon (a), a part_of x and a synapsed_to y" [FB:djs]
+comment: definition refers to another macro. See comments above
+formula: OWL "axon_innervates <- part_of o synapsed_to_il" []
+holds_over_chain: part_of synapsed_to_il
+type_domain: GO:0030424
+
+!! test ontologies
+
+[Term]
+id: CL:0000236
+name: B cell
+namespace: cell
+def: "A lymphocyte of B lineage with the phenotype CD19-positive and surface immunoglobulin-positive." [GOC:add, GOC:tfm, ISBN:0781735149]
+synonym: "B lymphocyte" EXACT []
+synonym: "B-cell" EXACT []
+synonym: "B-lymphocyte" EXACT []
+is_a: CL:0000945 ! lymphocyte of B lineage
+intersection_of: CL:0000945 ! lymphocyte of B lineage
+intersection_of: has_plasma_membrane_part GO:0019814 ! immunoglobulin complex
+relationship: develops_from CL:0000826 ! pro-B cell
+
+[Term]
+id: FBbt:nnnnn
+name: adult ORN ab3
+def: "Bilateral odorant receptor neuron that transduces signals from antennal basiconic sensillum ab3. Its axon branches, with one branch innervating the ipsilateral antennal lobe glomerulus VM5d, and the other fasciculating with the antennal commissure and innervating the contralateral antennal lobe glomerulus VM5d." [FlyBase:FBrf0187305, FlyBase:FBrf0208960]
+is_a: FBbt:00005106 ! neuron
+relationship: axon_innervates FBbt:00007391 ! antennal lobe glomerulus VM5d
+relationship: fasciculates_with FBbt:00003979 ! antennal commissure
+
+[Typedef]
+id: overlaps_in_soma_with
+name: overlaps_in_soma_with
+expandExpressionTo: "has_part some ((part_of some GO:0044297) and part_of some ?Y)" []
+
+![Typedef]
+!id: all_components_found_in
+!expandExpressionTo: "?Y SubClassOf (has_part some (protein and part_of some ?X) " []
+!exp: SWRL "all_components_found_in(?SC,?C),has_part(?sc1,?p1),classAssertion(?C,?c1) -> ???(?a,?b)"
+
+
