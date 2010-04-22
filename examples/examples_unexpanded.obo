@@ -1,18 +1,18 @@
 [Typedef]
 id: lacks_part
 comment: this is an example of a syntactic sugar relation
-expandExpressionTo: "hasPart 0 ?Y" []
+expand_expression_to: "hasPart 0 ?Y" []
 is_type_level: true
 
 [Typedef]
 id: capable_of
 comment: note the difficulty in representing this one as a property chain on the instance level, because of the some-only pattern
-expandExpressionTo: "bearerOf some (realizedBy only ?Y)" []
+expand_expression_to: "bearerOf some (realizedBy only ?Y)" []
 is_type_level: true
 
 [Typedef]
 id: overlaps_some
-expandExpressionTo: "has_part some (part_of some ?Y)" []
+expand_expression_to: "has_part some (part_of some ?Y)" []
 comment: it is debatable whether we want to macroify this given the property chain will give us most of what we need
 holds_over_chain: has_part part_of
 is_type_level: true
@@ -33,7 +33,7 @@ is_type_level: true
 
 [Typedef]
 id: has_plasma_membrane_part
-expandExpressionTo: "has_part some (GO:0005886 and has_part some ?Y)" []
+expand_expression_to: "has_part some (GO:0005886 and has_part some ?Y)" []
 is_type_level: true
 
 [Typedef]
@@ -43,8 +43,8 @@ type_domain: CL:0000540
 type_range: GO:0043005
 is_type_level: true
 comment: we need Description Graphs for full expressivity
-expandExpressionTo: "has_part some (GO:0043005 and overlaps some ?Y)" []
-expandExpressionTo: "has_part some (GO:0043005 and aligns_with some ?Y)" []
+expand_expression_to: "has_part some (GO:0043005 and overlaps some ?Y)" []
+expand_expression_to: "has_part some (GO:0043005 and aligns_with some ?Y)" []
 
 [Typedef]
 id: fasciculates_with_il
@@ -63,8 +63,8 @@ is_type_level: true
 type_domain: CL:0000540 ! neuron
 type_range: CHEBI:24431
 comment: check range constraint - role vs molecule. Problem - how do we do recursive expansion? We could just disallow this and force the macro-author to do it
-!expandExpressionTo: "capable_of VALUE (GO:0007269 and results_in_secretion_of some ?Y)" []
-expandExpressionTo: "bearer_of some (realized_by only (GO:0007269 and results_in_secretion_of some ?Y))" []
+!expand_expression_to: "capable_of VALUE (GO:0007269 and results_in_secretion_of some ?Y)" []
+expand_expression_to: "bearer_of some (realized_by only (GO:0007269 and results_in_secretion_of some ?Y))" []
 
 [Typedef]
 id: synapsed_to
@@ -72,7 +72,7 @@ def: "n1 synapsed_to n2 iff: for some synapse (s), some presynaptic membrane (pr
 is_type_level: true
 type_domain: CL:0000540 ! neuron
 type_range: CL:0000540 ! neuron
-expandExpressionTo: "has_part some (GO:0042734[pre] and part_of some (GO:0045202[syn] and has_part some (GO:0045211[post] and part_of some ?Y)))" []
+expand_expression_to: "has_part some (GO:0042734[pre] and part_of some (GO:0045202[syn] and has_part some (GO:0045211[post] and part_of some ?Y)))" []
 
 [Typedef]
 id: synapsed_to_il
@@ -86,8 +86,8 @@ formula: OWL "synapsed_to <- has_part o is(GO:0042734) o part_of o is(GO:0045202
 id: axon_innervates
 def: "Relation between an axon and the structure it synapses to. x axon_innervates y: iff: for some axon (a), a part_of x and a synapsed_to y" [FB:djs]
 comment: definition refers to another macro. See comments above. property chain below mixes IL and TL
-expandExpressionTo: "part_of some (synapsed_to_il some ?Y)" []
-expandExpressionTo: "part_of some (synapsed_to VALUE ?Y)" []
+expand_expression_to: "part_of some (synapsed_to_il some ?Y)" []
+expand_expression_to: "part_of some (synapsed_to VALUE ?Y)" []
 holds_over_chain: part_of synapsed_to_il
 domain: GO:0030424
 
@@ -125,11 +125,11 @@ relationship: fasciculates_with FBbt:00003979 ! antennal commissure
 [Typedef]
 id: overlaps_in_soma_with
 name: overlaps_in_soma_with
-expandExpressionTo: "has_part some ((part_of some GO:0044297) and part_of some ?Y)" []
+expand_expression_to: "has_part some ((part_of some GO:0044297) and part_of some ?Y)" []
 
 ![Typedef]
 !id: all_components_found_in
-!expandExpressionTo: "?Y SubClassOf (has_part some (protein and part_of some ?X) " []
+!expand_expression_to: "?Y SubClassOf (has_part some (protein and part_of some ?X) " []
 !exp: SWRL "all_components_found_in(?SC,?C),has_part(?sc1,?p1),classAssertion(?C,?c1) -> ???(?a,?b)"
 
 
