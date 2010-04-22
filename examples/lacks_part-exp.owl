@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE rdf:RDF [
+    <!ENTITY oboInOwl 'http://www.geneontology.org/formats/oboInOwl#'>
+    <!ENTITY owl 'http://www.w3.org/2002/07/owl#'>
+    <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+    <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema#'>
+    <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
+]>
+
+<rdf:RDF
+    xmlns:oboInOwl="&oboInOwl;"
+    xmlns:owl="&owl;"
+    xmlns:rdf="&rdf;"
+    xmlns:rdfs="&rdfs;"
+    xmlns:xsd="&xsd;"
+>
+<owl:Ontology rdf:about="http://purl.org/obo/owl/lacks_part"
+    rdfs:label="">
+  <rdfs:comment>          This is an OWL translation of an ontology whose native representational form is .obo. The translation was performed using the oboInOwl xslt library. For details, see http://www.berkeleybop.org/obo-conv.cgi
+        </rdfs:comment>
+</owl:Ontology>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasAlternativeId"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasDate"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasVersion"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasDbXref"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasDefaultNamespace"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasOBONamespace"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasDefinition"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasSynonym"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasExactSynonym"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasNarrowSynonym"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasBroadSynonym"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasRelatedSynonym"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasSynonymType"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasSubset"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasURI"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;isCyclic"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;inSubset"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;savedBy"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;replacedBy"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;consider"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;expandAssertionTo"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;expandExpressionTo"/>
+
+<owl:Class rdf:about="&oboInOwl;DbXref"/>
+
+<owl:Class rdf:about="&oboInOwl;Definition"/>
+
+<owl:Class rdf:about="&oboInOwl;Subset"/>
+
+<owl:Class rdf:about="&oboInOwl;Synonym"/>
+
+<owl:Class rdf:about="&oboInOwl;SynonymType"/>
+
+<owl:Class rdf:about="&oboInOwl;ObsoleteClass"/>
+
+<owl:Class rdf:about="http://purl.org/obo/owl/CL#CL_0000768"
+    oboInOwl:hasOBONamespace="cell">
+  <oboInOwl:hasExactSynonym>
+    <oboInOwl:Synonym>
+      <rdfs:label xml:lang="en">immature basophilic leucocyte</rdfs:label>
+    </oboInOwl:Synonym>
+  </oboInOwl:hasExactSynonym>
+  <oboInOwl:hasExactSynonym>
+    <oboInOwl:Synonym>
+      <rdfs:label xml:lang="en">immature basophilic leukocyte</rdfs:label>
+    </oboInOwl:Synonym>
+  </oboInOwl:hasExactSynonym>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="http://purl.org/obo/owl/obo#develops_from"/>
+      <owl:someValuesFrom rdf:resource="http://purl.org/obo/owl/CL#CL_0000830"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf rdf:resource="http://purl.org/obo/owl/CL#CL_0000767"/>
+  <oboInOwl:hasDefinition>
+    <oboInOwl:Definition>
+      <oboInOwl:hasDbXref>
+        <oboInOwl:DbXref
+            rdfs:label="GOC:add">
+          <oboInOwl:hasURI rdf:datatype="&xsd;anyURI">http://purl.org/obo/owl/GOC#GOC_add</oboInOwl:hasURI>
+        </oboInOwl:DbXref>
+      </oboInOwl:hasDbXref>
+      <oboInOwl:hasDbXref>
+        <oboInOwl:DbXref
+            rdfs:label="ISBN:0721601464">
+          <oboInOwl:hasURI rdf:datatype="&xsd;anyURI">http://purl.org/obo/owl/ISBN#ISBN_0721601464</oboInOwl:hasURI>
+        </oboInOwl:DbXref>
+      </oboInOwl:hasDbXref>
+      <rdfs:label xml:lang="en">Any of the immature forms of a basophil, in which basophilic specific granules are present but other phenotypic features of the mature form may be lacking.</rdfs:label>
+    </oboInOwl:Definition>
+  </oboInOwl:hasDefinition>
+  <rdfs:label xml:lang="en">immature basophil</rdfs:label>
+  <owl:equivalentClass>
+    <rdf:Description>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="http://purl.org/obo/owl/CL#CL_0000767"/>
+        <owl:Restriction>
+          <owl:onClass rdf:resource="http://purl.org/obo/owl/CP#CP_0000025"/>
+          <owl:onProperty rdf:resource="hasPart"/>
+          <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:qualifiedCardinality>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </rdf:Description>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:about="http://purl.org/obo/owl/CL#CL_0000767"/>
+
+<owl:ObjectProperty rdf:about="&oboInOwl;ObsoleteProperty"/>
+
+<owl:ObjectProperty rdf:about="http://purl.org/obo/owl/obo#develops_from"/>
+
+<owl:ObjectProperty rdf:about="http://purl.org/obo/owl/obo#lacks_part"
+    oboInOwl:expandExpressionTo="hasPart exactly 0 ?Y">
+  <rdfs:comment rdf:datatype="&xsd;string">this is an example of a syntactic sugar shortcut relation</rdfs:comment>
+</owl:ObjectProperty>
+
+<owl:AnnotationProperty rdf:about="&rdfs;label"/>
+
+<owl:AnnotationProperty rdf:about="&rdfs;comment"/>
+
+</rdf:RDF>

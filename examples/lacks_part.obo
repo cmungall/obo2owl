@@ -1,0 +1,18 @@
+[Typedef]
+id: lacks_part
+comment: this is an example of a syntactic sugar shortcut relation
+expand_expression_to: "hasPart exactly 0 ?Y" []
+is_type_level: true
+
+[Term]
+id: CL:0000768
+name: immature basophil
+namespace: cell
+def: "Any of the immature forms of a basophil, in which basophilic specific granules are present but other phenotypic features of the mature form may be lacking." [GOC:add, ISBN:0721601464]
+synonym: "immature basophilic leucocyte" EXACT []
+synonym: "immature basophilic leukocyte" EXACT []
+is_a: CL:0000767 ! basophil
+intersection_of: CL:0000767 ! basophil
+intersection_of: lacks_part CP:0000025 ! lobed nucleus
+relationship: develops_from CL:0000830 ! basophilic promyelocyte
+

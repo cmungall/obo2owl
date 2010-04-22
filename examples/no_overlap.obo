@@ -1,0 +1,15 @@
+
+[Typedef]
+id: no_overlap
+expand_assertion_to: "DisjointClasses: (part_of some ?X), (part_of some ?Y)" []
+!expand_assertion_to: "DisjointClasses: ?X, ?Y" []
+is_type_level: true
+
+[Term]
+id: nucleus
+
+[Term]
+id: cytoplasm
+relationship: no_overlap nucleus
+
+

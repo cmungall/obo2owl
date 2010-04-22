@@ -1,7 +1,7 @@
 [Typedef]
 id: lacks_part
-comment: this is an example of a syntactic sugar relation
-expand_expression_to: "hasPart 0 ?Y" []
+comment: this is an example of a syntactic sugar shortcut relation
+expand_expression_to: "hasPart exactly 0 ?Y" []
 is_type_level: true
 
 [Typedef]

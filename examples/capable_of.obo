@@ -1,0 +1,14 @@
+[Typedef]
+id: capable_of
+comment: note the difficulty in representing this one as a property chain on the instance level, because of the some-only pattern
+expand_expression_to: "bearerOf some (realizedBy only ?Y)" []
+is_type_level: true
+
+[Term]
+id: CL:0000034
+name: stem cell
+namespace: cell
+def: "A relatively undifferentiated cell that retains the ability to divide and proliferate throughout life to provide progenitor cells that can differentiate into specialized cells." [MESH:A.11.872]
+is_a: CL:0000012 ! cell by class
+intersection_of: CL:0000000 ! cell
+intersection_of: capable_of GO:0017145 ! stem cell division
