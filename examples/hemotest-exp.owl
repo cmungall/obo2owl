@@ -1,0 +1,307 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE rdf:RDF [
+    <!ENTITY oboInOwl 'http://www.geneontology.org/formats/oboInOwl#'>
+    <!ENTITY owl 'http://www.w3.org/2002/07/owl#'>
+    <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+    <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema#'>
+    <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
+]>
+
+<rdf:RDF
+    xmlns:oboInOwl="&oboInOwl;"
+    xmlns:owl="&owl;"
+    xmlns:rdf="&rdf;"
+    xmlns:rdfs="&rdfs;"
+    xmlns:xsd="&xsd;"
+>
+<owl:Ontology rdf:about="http://purl.org/obo/owl/hemotest"
+    rdfs:label="">
+  <rdfs:comment>          This is an OWL translation of an ontology whose native representational form is .obo. The translation was performed using the oboInOwl xslt library. For details, see http://www.berkeleybop.org/obo-conv.cgi
+        </rdfs:comment>
+</owl:Ontology>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasAlternativeId"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasDate"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasVersion"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasDbXref"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasDefaultNamespace"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasOBONamespace"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasDefinition"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasSynonym"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasExactSynonym"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasNarrowSynonym"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasBroadSynonym"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasRelatedSynonym"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasSynonymType"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasSubset"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;hasURI"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;isCyclic"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;inSubset"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;savedBy"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;replacedBy"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;consider"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;expandAssertionTo"/>
+
+<owl:AnnotationProperty rdf:about="&oboInOwl;expandExpressionTo"/>
+
+<owl:Class rdf:about="&oboInOwl;DbXref"/>
+
+<owl:Class rdf:about="&oboInOwl;Definition"/>
+
+<owl:Class rdf:about="&oboInOwl;Subset"/>
+
+<owl:Class rdf:about="&oboInOwl;Synonym"/>
+
+<owl:Class rdf:about="&oboInOwl;SynonymType"/>
+
+<owl:Class rdf:about="&oboInOwl;ObsoleteClass"/>
+
+<owl:Class rdf:about="http://purl.org/obo/owl/CL#CL_0000037"
+    oboInOwl:hasOBONamespace="cell">
+  <oboInOwl:hasExactSynonym>
+    <oboInOwl:Synonym>
+      <rdfs:label xml:lang="en">hemopoietic stem cell</rdfs:label>
+    </oboInOwl:Synonym>
+  </oboInOwl:hasExactSynonym>
+  <oboInOwl:hasExactSynonym>
+    <oboInOwl:Synonym>
+      <rdfs:label xml:lang="en">HSC</rdfs:label>
+    </oboInOwl:Synonym>
+  </oboInOwl:hasExactSynonym>
+  <oboInOwl:hasRelatedSynonym>
+    <oboInOwl:Synonym>
+      <rdfs:label xml:lang="en">colony forming unit hematopoietic</rdfs:label>
+    </oboInOwl:Synonym>
+  </oboInOwl:hasRelatedSynonym>
+  <oboInOwl:hasRelatedSynonym>
+    <oboInOwl:Synonym>
+      <rdfs:label xml:lang="en">hematopoietic progenitor cell</rdfs:label>
+    </oboInOwl:Synonym>
+  </oboInOwl:hasRelatedSynonym>
+  <oboInOwl:hasRelatedSynonym>
+    <oboInOwl:Synonym>
+      <rdfs:label xml:lang="en">hemopoietic progenitor cell</rdfs:label>
+    </oboInOwl:Synonym>
+  </oboInOwl:hasRelatedSynonym>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="http://purl.org/obo/owl/obo#develops_from"/>
+      <owl:someValuesFrom rdf:resource="http://purl.org/obo/owl/CL#CL_0000566"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf rdf:resource="http://purl.org/obo/owl/CL#CL_0000988"/>
+  <oboInOwl:hasDefinition>
+    <oboInOwl:Definition>
+      <oboInOwl:hasDbXref>
+        <oboInOwl:DbXref
+            rdfs:label="GOC:19022770">
+          <oboInOwl:hasURI rdf:datatype="&xsd;anyURI">http://purl.org/obo/owl/GOC#GOC_19022770</oboInOwl:hasURI>
+        </oboInOwl:DbXref>
+      </oboInOwl:hasDbXref>
+      <oboInOwl:hasDbXref>
+        <oboInOwl:DbXref
+            rdfs:label="GOC:add">
+          <oboInOwl:hasURI rdf:datatype="&xsd;anyURI">http://purl.org/obo/owl/GOC#GOC_add</oboInOwl:hasURI>
+        </oboInOwl:DbXref>
+      </oboInOwl:hasDbXref>
+      <oboInOwl:hasDbXref>
+        <oboInOwl:DbXref
+            rdfs:label="GOC:tfm">
+          <oboInOwl:hasURI rdf:datatype="&xsd;anyURI">http://purl.org/obo/owl/GOC#GOC_tfm</oboInOwl:hasURI>
+        </oboInOwl:DbXref>
+      </oboInOwl:hasDbXref>
+      <rdfs:label xml:lang="en">A stem cell from which all cells of the lymphoid and myeloid lineages develop, including blood cells and cells of the immune system. Hematopoietic stem cells lack cell markers of effector cells (lin-negative).</rdfs:label>
+    </oboInOwl:Definition>
+  </oboInOwl:hasDefinition>
+  <rdfs:comment rdf:datatype="&xsd;string">Markers differ between species, and two sets of markers have been described for mice.</rdfs:comment>
+  <rdfs:label xml:lang="en">hematopoietic stem cell</rdfs:label>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="http://purl.org/obo/owl/CL#CL_0000988"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="http://purl.org/obo/owl/obo#bearerOf"/>
+          <owl:someValuesFrom>
+            <owl:Restriction>
+              <owl:allValuesFrom rdf:resource="http://purl.org/obo/owl/GO#GO_0002244"/>
+              <owl:onProperty rdf:resource="http://purl.org/obo/owl/obo#realized_by"/>
+            </owl:Restriction>
+          </owl:someValuesFrom>
+        </owl:Restriction>
+
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="http://purl.org/obo/owl/obo#bearerOf"/>
+          <owl:someValuesFrom>
+            <owl:Restriction>
+              <owl:allValuesFrom rdf:resource="http://purl.org/obo/owl/GO#GO_0048103"/>
+              <owl:onProperty rdf:resource="http://purl.org/obo/owl/obo#realized_by"/>
+            </owl:Restriction>
+          </owl:someValuesFrom>
+        </owl:Restriction>
+
+        <owl:Restriction>
+          <owl:onClass>
+            <owl:Class>
+              <owl:intersectionOf rdf:parseType="Collection">
+                <rdf:Description rdf:about="http://purl.org/obo/owl/GO#GO_0005886"/>
+                <owl:Restriction>
+                  <owl:onProperty rdf:resource="http://purl.org/obo/owl/obo#has_part"/>
+                  <owl:someValuesFrom rdf:resource="http://purl.org/obo/owl/PRO#PRO_000002981"/>
+                </owl:Restriction>
+              </owl:intersectionOf>
+            </owl:Class>
+          </owl:onClass>
+          <owl:onProperty rdf:resource="http://purl.org/obo/owl/obo#has_part"/>
+          <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:qualifiedCardinality>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:about="http://purl.org/obo/owl/CL#CL_0000988"/>
+
+<owl:Class rdf:about="http://purl.org/obo/owl/GO#GO_0005886"
+    oboInOwl:hasAlternativeId="GO:0005904"
+    oboInOwl:hasOBONamespace="cellular_component">
+  <oboInOwl:hasDbXref>
+    <oboInOwl:DbXref
+        rdfs:label="NIF_Subcellular:sao1663586795">
+      <oboInOwl:hasURI rdf:datatype="&xsd;anyURI">http://purl.org/obo/owl/NIF_Subcellular#NIF_Subcellular_sao1663586795</oboInOwl:hasURI>
+    </oboInOwl:DbXref>
+  </oboInOwl:hasDbXref>
+  <oboInOwl:hasDbXref>
+    <oboInOwl:DbXref
+        rdfs:label="Wikipedia:Cell_membrane">
+      <oboInOwl:hasURI rdf:datatype="&xsd;anyURI">http://purl.org/obo/owl/Wikipedia#Wikipedia_Cell_membrane</oboInOwl:hasURI>
+    </oboInOwl:DbXref>
+  </oboInOwl:hasDbXref>
+  <oboInOwl:hasExactSynonym>
+    <oboInOwl:Synonym>
+      <rdfs:label xml:lang="en">cell membrane</rdfs:label>
+    </oboInOwl:Synonym>
+  </oboInOwl:hasExactSynonym>
+  <oboInOwl:hasExactSynonym>
+    <oboInOwl:Synonym>
+      <rdfs:label xml:lang="en">cytoplasmic membrane</rdfs:label>
+    </oboInOwl:Synonym>
+  </oboInOwl:hasExactSynonym>
+  <oboInOwl:hasExactSynonym>
+    <oboInOwl:Synonym>
+      <rdfs:label xml:lang="en">plasmalemma</rdfs:label>
+    </oboInOwl:Synonym>
+  </oboInOwl:hasExactSynonym>
+  <oboInOwl:hasNarrowSynonym>
+    <oboInOwl:Synonym>
+      <rdfs:label xml:lang="en">bacterial inner membrane</rdfs:label>
+    </oboInOwl:Synonym>
+  </oboInOwl:hasNarrowSynonym>
+  <oboInOwl:hasNarrowSynonym>
+    <oboInOwl:Synonym>
+      <rdfs:label xml:lang="en">inner endospore membrane</rdfs:label>
+    </oboInOwl:Synonym>
+  </oboInOwl:hasNarrowSynonym>
+  <oboInOwl:hasNarrowSynonym>
+    <oboInOwl:Synonym>
+      <oboInOwl:hasDbXref>
+        <oboInOwl:DbXref
+            rdfs:label="GOC:mah">
+          <oboInOwl:hasURI rdf:datatype="&xsd;anyURI">http://purl.org/obo/owl/GOC#GOC_mah</oboInOwl:hasURI>
+        </oboInOwl:DbXref>
+      </oboInOwl:hasDbXref>
+      <rdfs:label xml:lang="en">plasma membrane lipid bilayer</rdfs:label>
+    </oboInOwl:Synonym>
+  </oboInOwl:hasNarrowSynonym>
+  <oboInOwl:inSubset rdf:resource="http://purl.org/obo/owl/obo#goslim_candida"/>
+  <oboInOwl:inSubset rdf:resource="http://purl.org/obo/owl/obo#goslim_generic"/>
+  <oboInOwl:inSubset rdf:resource="http://purl.org/obo/owl/obo#goslim_plant"/>
+  <oboInOwl:inSubset rdf:resource="http://purl.org/obo/owl/obo#goslim_yeast"/>
+  <oboInOwl:inSubset rdf:resource="http://purl.org/obo/owl/obo#gosubset_prok"/>
+  <oboInOwl:hasBroadSynonym>
+    <oboInOwl:Synonym>
+      <rdfs:label xml:lang="en">juxtamembrane</rdfs:label>
+    </oboInOwl:Synonym>
+  </oboInOwl:hasBroadSynonym>
+  <oboInOwl:hasDefinition>
+    <oboInOwl:Definition>
+      <oboInOwl:hasDbXref>
+        <oboInOwl:DbXref
+            rdfs:label="ISBN:0716731363">
+          <oboInOwl:hasURI rdf:datatype="&xsd;anyURI">http://purl.org/obo/owl/ISBN#ISBN_0716731363</oboInOwl:hasURI>
+        </oboInOwl:DbXref>
+      </oboInOwl:hasDbXref>
+      <rdfs:label xml:lang="en">The membrane surrounding a cell that separates the cell from its external environment. It consists of a phospholipid bilayer and associated proteins.</rdfs:label>
+    </oboInOwl:Definition>
+  </oboInOwl:hasDefinition>
+  <rdfs:label xml:lang="en">plasma membrane</rdfs:label>
+  <rdfs:subClassOf rdf:resource="http://purl.org/obo/owl/GO#GO_0016020"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://purl.org/obo/owl/GO#GO_0002244"/>
+
+<owl:Class rdf:about="http://purl.org/obo/owl/PRO#PRO_000002981"/>
+
+<owl:ObjectProperty rdf:about="&oboInOwl;ObsoleteProperty"/>
+
+<owl:ObjectProperty rdf:about="http://purl.org/obo/owl/obo#develops_from"/>
+
+<owl:ObjectProperty rdf:about="http://purl.org/obo/owl/obo#capable_of"
+    oboInOwl:hasOBONamespace="cell">
+  <oboInOwl:expandExpressionTo>http://purl.org/obo/owl/obo#bearerOf some (http://purl.org/obo/owl/obo#realized_by only ?Y)</oboInOwl:expandExpressionTo>
+  <oboInOwl:hasDefinition>
+    <oboInOwl:Definition>
+      <oboInOwl:hasDbXref>
+        <oboInOwl:DbXref
+            rdfs:label="CL:cjm">
+          <oboInOwl:hasURI rdf:datatype="&xsd;anyURI">http://purl.org/obo/owl/CL#CL_cjm</oboInOwl:hasURI>
+        </oboInOwl:DbXref>
+      </oboInOwl:hasDbXref>
+      <rdfs:label xml:lang="en">C capable_of P if and only if every instance of C is the bearer of some disposition, role or function that is realized_by P. Example: osteoclast capable of bone resorption.</rdfs:label>
+    </oboInOwl:Definition>
+  </oboInOwl:hasDefinition>
+  <rdfs:label xml:lang="en">capable_of</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://purl.org/obo/owl/obo#lacks_plasma_membrane_part"
+    oboInOwl:hasOBONamespace="cell">
+  <oboInOwl:expandExpressionTo>http://purl.org/obo/owl/obo#has_part exactly 0 (http://purl.org/obo/owl/GO#GO_0005886 and http://purl.org/obo/owl/obo#has_part some ?Y)</oboInOwl:expandExpressionTo>
+  <rdfs:label xml:lang="en">lacks_plasma_membrane_part</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://purl.org/obo/owl/obo#has_part">
+  <rdfs:label xml:lang="en">has_part</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://purl.org/obo/owl/obo#bearer_of">
+  <rdfs:label xml:lang="en">bearer_of</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://purl.org/obo/owl/obo#realized_by">
+  <rdfs:label xml:lang="en">realized_by</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:AnnotationProperty rdf:about="&rdfs;label"/>
+
+<owl:AnnotationProperty rdf:about="&rdfs;comment"/>
+
+</rdf:RDF>
