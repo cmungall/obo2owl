@@ -1,0 +1,1339 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>OBO Flat File Format 1.4 Syntax and Semantics</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <link href="css/W3C-Member-SUBM.css" type="text/css" rel="stylesheet">
+  <style type="text/css">
+  </style>
+  <link href="owl.css" rel="stylesheet" type="text/css" />
+  <link href="http://www.w3.org/StyleSheets/TR/W3C-WG-NOTE" rel="stylesheet" type="text/css" />
+
+<body>
+
+<div class="head">
+<h1 class="mainTitle">
+OBO Flat File Format 1.4 Syntax and Semantics</h1>
+<h2><a id="editordraft" name="editordraft"></a>Editor's Draft of Sept 2010</h2>
+<dl>
+  <dt>This version: </dt>
+  <dd><a href="http://www.cs.man.ac.uk/~horrocks/obo/syntax.html">http://www.cs.man.ac.uk/~horrocks/obo/syntax.html</a></dd>
+  <dt>Latest version: </dt>
+  <dd><a href="http://www.cs.man.ac.uk/~horrocks/obo/syntax.html">http://www.cs.man.ac.uk/~horrocks/obo/syntax.html</a></dd>
+<dt>Previous version: </dt>
+  <dd><a href="http://www.cs.man.ac.uk/~horrocks/obo/syntax-20070126.html">http://www.cs.man.ac.uk/~horrocks/obo/syntax-20070126.html</a></dd>
+  <dt>Author: </dt>
+  <dd>Chris Mungall, Lawrence Berkeley National Laboratory</dd>
+<!--  <dt>Contributors: </dt>
+  <dd><a href="person-URL">person-URL </a>, Affiliation</dd>
+-->
+</dl>
+<hr>
+</div>
+
+<h2 class="notoc"><a id="abstract" name="abstract">Abstract</a></h2>
+<div class="abstract">
+<p>This document provides a BNF specification of
+  the <a href="http://www.geneontology.org/GO.format.obo-1_4.shtml">OBO
+    Flat File Format, version 1.4</a></p>
+</div>
+
+<div class="status">
+<h2 class="notoc"><a id="status" name="status">Status of this Document</a></h2>
+<p><strong>This is an editor's draft, for comment by the community.</strong></p>
+<p>Comments should be sent to <a href="mailto:obo-format@lists.sourceforge.net">obo-format@lists.sourceforge.net</a> (<a href="http://sourceforge.net/mailarchive/forum.php?forum=obo-format">archive</a>)
+to ensure wide visibility. </p>
+</div>
+<hr>
+
+
+
+<div class="toc">
+<h2 class="notoc"><a id="toc" name="toc">Table of Contents</a></h2>
+
+<ul class="toc">
+  <li class="tocline1"><a href="#1">1 Introduction</a></li>
+  <li class="tocline1"><a href="#2">2 Preliminary Definitions</a>
+    <ul class="toc">
+      <li class="tocline2"><a href="#2.1">2.1 BNF Notation</a></li>
+      <li class="tocline2"><a href="#2.2">2.2 Spacing Characters</a></li>
+      <li class="tocline2"><a href="#2.3">2.3 Line Termination</a></li>
+    </ul>
+  </li>
+  <li class="tocline1"><a href="#3">3 OBO Grammar</a></li>
+  <li class="tocline1"><a href="#3">4 OBO Document Structure</a></li>
+  <li class="tocline1"><a href="#3">5 OBO Semantics: Mapping to OWL2-DL</a></li>
+  <li class="tocline1"><a href="#3">6 OWL to OBO</a></li>
+  <li class="tocline1"><a href="#3">7 OWL Macros</a></li>
+</ul>
+<hr>
+</div>
+
+
+
+<h2><a name="1"></a>1 Introduction</h2>
+
+<p>This document provides a formalisation (using BNF) of the <a
+href="http://www.godatabase.org/dev/doc/obo_format_spec.html">OBO Flat
+File Format Specification, version 1.4</a> (which we will refer to
+from now on as OBOF), and a semantics for (part of) the language
+defined via a translation to the OWL DL abstract syntax</p>
+
+<p>
+  This document is derived from a document by Ian Horrocks. The status
+  is still pre-alpha, mistakes may have been introduced that are not
+  due to the original author
+</p>
+
+<a name="Preliminary_Definitions"></a><h2> <span class="mw-headline">2  Preliminary Definitions </span></h2>
+
+<a name="BNF"></a><h2> <span class="mw-headline">2.1 BNF Notation </span></h2>
+
+<p>OBO-Format 1.4 is defined using a standard BNF notation, which is summarized in the table below. 
+</p>
+
+<div class="center">
+<table border="1">
+<caption> <span class="caption">Table 1.</span> The BNF Notation Used in this Document
+</caption><tr>
+<th> Construct
+</th><th> Syntax
+</th><th> Example
+</th></tr>
+<tr>
+<td> non-terminal symbols
+</td><td> boldface
+</td><td> <span class="nonterminal">ClassExpression</span>
+</td></tr>
+<tr>
+<td> terminal symbols
+</td><td> single quoted
+</td><td> <span class="name">'PropertyRange'</span>
+</td></tr>
+<tr>
+<td> zero or more
+</td><td> curly braces
+</td><td> <span class="name">{ </span><span class="nonterminal">ClassExpression</span><span class="name"> }</span>
+</td></tr>
+<tr>
+<td> zero or one
+</td><td> square brackets
+</td><td> <span class="name">[ </span><span class="nonterminal">ClassExpression</span><span class="name"> ]</span>
+</td></tr>
+<tr>
+<td> alternative
+</td><td> vertical bar
+</td><td> <span class="nonterminal">Assertion</span><span class="name"> | </span><span class="nonterminal">Declaration</span>
+</td></tr>
+<tr>
+<td> grouping
+</td><td> parentheses
+</td><td> <span class="nonterminal">dataPropertyExpression</span> )
+</td></tr></table>
+<tr>
+<td> complementation
+</td><td> minus symbol
+</td><td> <span class="nonterminal">character</span><span class="name"> - </span><span class="terminal">\n</span>
+</td></tr>
+</div>
+
+<p>Because generic tag-value pairs occur in very many places in the syntax,
+to save space the grammar has meta-productions for basic tag-values and for the tags themselves:
+</p>
+<p class="grammar" style="white-space: pre;"><span class="nonterminal">&lt;T&gt;-TVP</span>  ::= <span class="terminal">&lt;T&gt;:</span> {ws} <span class="nonterminal">UnquotedString</span> }
+<span class="nonterminal">&lt;T&gt;-Tag</span> ::= <span class="terminal">&lt;T&gt;:</span> {ws}
+</p>
+
+<p>
+Documents in the obo-format consist of sequences of Unicode characters
+[<cite><a href="#ref-unicode" title="">UNICODE</a></cite>] and are encoded in UTF-8
+[<cite><a href="#ref-rfc-3629" title="">RFC 3629</a></cite>].
+
+
+<h3><a name="2.2"></a>2.2 Spacing Characters</h3>
+
+<p class="grammar" style="white-space: pre;">
+<span class="nonterminal">WhiteSpaceChar</span> ::= ' ' | \t | U+0020 | U+0009
+<span class="nonterminal">ws</span> ::= { <span class="nonterminal">WhiteSpaceChar</span> }
+<span class="nonterminal">NewlineChar</span> ::= \r | \n | U+000A | U+000C | U+000D
+<span class="nonterminal">nl</span> ::= { <span class="nonterminal">ws</span> <span class="nonterminal">NewLineChar</span> }
+<span class="nonterminal">OBOChar</span> ::= '\' <span class="nonterminal">Letter</span> | ( <span class="nonterminal">Char</span> - (<span class="nonterminal">NewLineChar</span> | '\') )
+</p>
+
+<h3><a name="2.3"></a>2.3 Line Termination</h3>
+
+<p>
+Each tag-value clause in OBOF is line separated. The line can
+optionally be ended by a comment, indicated by the ! character - this
+is ignored by the parser. Each clause can also have zero or more
+tag-value qualifiers.
+</p>
+
+<p class="grammar" style="white-space: pre;">
+<span class="nonterminal">EOL</span> ::=  <span class="nonterminal">ws*</span> [ <span class="nonterminal">QualifierBlock</span> ] <span class="nonterminal">ws*</span> [ <span class="nonterminal">HiddenComment</span> ] <span class="nonterminal">ws*</span> <span class="nonterminal">NewLineChar</span>
+<span class="nonterminal">QualifierBlock</span> ::= '{' <span class="nonterminal">QualifierList</span> } 
+<span class="nonterminal">HiddenComment</span> ::= '!' { ( <span class="nonterminal">Char</span> - <span class="nonterminal">NewlineChar</span> } 
+</p>
+
+<h3><a name="2.4"></a>2.4 Tokens</h3>
+
+<p class="grammar" style="white-space: pre;">
+<span class="nonterminal">QuotedString</span> ::=  <span class="nonterminal">DblQuote</span> { ( <span class="nonterminal">OBOChar</span> - <span class="nonterminal">DblQuote</span> ) } <span class="nonterminal">DblQuote</span>
+<span class="nonterminal">UnquotedString</span> ::=  { <span class="nonterminal">OBOChar</span>  }
+<span class="nonterminal">OBOToken</span> ::=  { ( <span class="nonterminal">OBOChar</span> - <span class="nonterminal">WhiteSpaceChar</span> )  }
+<span class="nonterminal">ID</span> ::=  <span class="nonterminal">Class-ID</span> | <span class="nonterminal">Rel-ID</span>  | <span class="nonterminal">Instance-ID</span>  | <span class="nonterminal">Other-ID</span> 
+<span class="nonterminal">Class-ID</span> ::=  <span class="nonterminal">OBOToken</span>
+<span class="nonterminal">Rel-ID</span> ::=  <span class="nonterminal">OBOToken</span>
+<span class="nonterminal">Instance-ID</span> ::=  <span class="nonterminal">OBOToken</span>
+<span class="nonterminal">Other-ID</span> ::=  <span class="nonterminal">OBOToken</span>
+</p>
+
+<h2><a name="3"></a>3 OBO Grammar</h3>
+<h3><a name="3.1"></a>3.1 OBO Document Structure</h3>
+
+<p>An OBO document (file) consists of a series of header lines followed by zero or more frames.</p>
+
+<p class="grammar" style="white-space: pre;">
+  <span class="nonterminal">OBO-Doc</span> := { <span class="nonterminal">header-line</span> } { <span class="nonterminal">frame</span> } [ <span class="nonterminal">nl</span> ]
+</p>
+
+
+<h3><a name="3.2"></a>3.2 OBO Headers</h3>
+
+<p class="grammar" style="white-space: pre;">
+<span class="nonterminal">header-line</span> ::= <span class="nonterminal">header-stmt</span> <span class="nonterminal">nl</span>
+<span class="nonterminal">header-stmt</span> ::= <span class="nonterminal">format-version-TVP</span>
+        | <span class="nonterminal">data-version-TVP</span>
+        | data-Tag  <span class="nonterminal">DD-MM-YYYY</span> <span class="nonterminal">sp</span> <span class="nonterminal">hh-mm</span>
+        | <span class="nonterminal">saved-by-TVP</span>
+        | <span class="nonterminal">auto-generated-by-TVP</span>
+        | import-Tag  <span class="nonterminal">IRI</span> | <span class="nonterminal">filepath</span>
+        | subsetdef-Tag  <span class="nonterminal">ID</span> <span class="nonterminal">sp</span> <span class="nonterminal">QuotedString</span>
+        | synonymtypedef-Tag  <span class="nonterminal">ID</span> <span class="nonterminal">sp</span> <span class="nonterminal">QuotedString</span>
+             [  <span class="nonterminal">ID</span> ]
+        | default-namespace-Tag  <span class="nonterminal">OBONamespace</span>
+        | idspace-Tag <span class="nonterminal">IDPrefix</span> <span class="nonterminal">sp</span> <span class="nonterminal">IRI</span>
+            [ <span class="nonterminal">sp</span> <span class="nonterminal">QuotedString</span> ]
+        | treat-xrefs-as-equivalent-Tag <span class="nonterminal">IDPrefix</span>
+        | treat-xrefs-as-genus-differentia-Tag <span class="nonterminal">IDPrefix</span> <span class="nonterminal">ws</span> <span class="nonterminal">Rel-ID</span> <span class="nonterminal">ws</span> <span class="nonterminal">Class-ID</span>
+        | treat-xrefs-as-relationship-Tag <span class="nonterminal">IDPrefix</span>
+        | treat-xrefs-as-is_a-Tag <span class="nonterminal">IDPrefix</span>
+        | remark-TVP
+        | <span class="nonterminal">UnreservedToken</span> ':'  [  <span class="nonterminal">ws</span> ] <span class="nonterminal">UnuotedString</span>
+<span class="nonterminal">frame</span> ::= <span class="nonterminal">term-frame</span> | <span class="nonterminal">typedef-frame</span> | <span class="nonterminal">instance-frame</span> | <span class="nonterminal">annotation-frame</span>
+</p>
+
+
+<h3><a name="3.3"></a>3.3 Term Frames</h3>
+
+<p >Term frames introduce and define the meaning of <i>terms</i> (AKA
+classes).</p >
+
+<p class="grammar" style="white-space: pre;">
+<span class="nonterminal">term-frame</span> ::= [ <span class="nonterminal">nl</span> ]
+        '[Term]' <span class="nonterminal">nl</span>
+        id-Tag <span class="nonterminal">Class-ID</span> <span class="nonterminal">EOL</span>
+        { <span class="nonterminal">term-frame-stmt</span> <span class="nonterminal">EOL</span> }
+
+<span class="nonterminal">term-frame-stmt</span> ::= 
+        is_anonymous-BT
+        | name-TVP
+        | namespace-Tag <span class="nonterminal">OBONamespace</span> 
+        | alt_id-Tag <span class="nonterminal">ID</span> 
+        | def-Tag <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">XrefList</span> 
+        | comment-TVP
+        | subset-Tag <span class="nonterminal">Subset-ID</span> 
+        | synonym-Tag <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">SynonymScope</span> [ <span class="nonterminal">ws</span> <span class="nonterminal">SynonymType-ID</span> ] <span class="nonterminal">XrefList</span> 
+        | xref-Tag <span class="nonterminal">ID</span> 
+        | is_a-Tag <span class="nonterminal">Class-ID</span> 
+        | intersection_of-Tag <span class="nonterminal">Class-ID</span> 
+        | intersection_of-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">Class-ID</span> 
+        | union_of-Tag <span class="nonterminal">Class-ID</span> 
+        | equivalent_to-Tag <span class="nonterminal">Class-ID</span> 
+        | disjoint_from-Tag <span class="nonterminal">Class-ID</span> 
+        | relationship-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">Class-ID</span> 
+        | created_by-Tag <span class="nonterminal">Person-ID</span> 
+        | creation_date-Tag <span class="nonterminal">ISO-8601-DateTime</span> 
+        | is_obsolete-BT
+        | replaced_by-Tag <span class="nonterminal">Class-ID</span> 
+        | consider-Tag <span class="nonterminal">ID</span> 
+        | is_metadata_tag-BT
+        | is_class_level_tag-BT
+</p >
+
+
+<h3><a name="3.4"></a>3.4 Typedef Frames</h3>
+
+<p >Typedef frames introduce and define the meaning of
+<i>relations</i> (AKA properties).</p >
+
+<p class="grammar" style="white-space: pre;">
+<span class="nonterminal">typedef-frame</span> ::= [ <span class="nonterminal">nl</span> ]
+        '[Typedef]' <span class="nonterminal">nl</span>
+        id-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">EOL</span>
+        { <span class="nonterminal">typedef-frame-stmt</span> <span class="nonterminal">EOL</span> }
+
+<span class="nonterminal">typedef-frame-stmt</span> ::= 
+        is_anonymous-BT
+        | name-TVP
+        | namespace-Tag <span class="nonterminal">OBONamespace</span> 
+        | alt_id-Tag <span class="nonterminal">ID</span> 
+        | def-Tag <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">XrefList</span> 
+        | comment-TVP
+        | subset-Tag <span class="nonterminal">Subset-ID</span> 
+        | synonym-Tag <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">SynonymScope</span> [ <span class="nonterminal">ws</span> <span class="nonterminal">SynonymType-ID</span> ] <span class="nonterminal">XrefList</span> 
+        | xref-Tag <span class="nonterminal">ID</span> 
+        | domain-Tag <span class="nonterminal">Class-ID</span> 
+        | range-Tag <span class="nonterminal">Class-ID</span> 
+        | is_anti_symmetric-BT
+        | is_cyclic-BT
+        | is_reflexive-BT
+        | is_symmetric-BT
+        | is_transitive-BT
+        | is_functional-BT
+        | is_inverse_functional-BT
+        | is_a-Tag <span class="nonterminal">Rel-ID</span> 
+        | intersection_of-Tag <span class="nonterminal">Rel-ID</span> 
+        | union_of-Tag <span class="nonterminal">Rel-ID</span> 
+        | equivalent_to-Tag <span class="nonterminal">Rel-ID</span> 
+        | disjoint_from-Tag <span class="nonterminal">Rel-ID</span> 
+        | transitive_over-Tag <span class="nonterminal">Relation-ID</span>
+        | holds_over_chain-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">Relation-ID</span>
+        | equivalent_to_chain-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">Relation-ID</span>
+        | disjoint_over-Tag <span class="nonterminal">Rel-ID</span> 
+        | relationship-Tag <span class="nonterminal">Rel-ID</span> <span class="nonterminal">Rel-ID</span> 
+        | created_by-Tag <span class="nonterminal">Person-ID</span> 
+        | creation_date-Tag <span class="nonterminal">ISO-8601-DateTime</span> 
+        | is-obsolete-BT
+        | replaced_by-Tag <span class="nonterminal">Rel-ID</span> 
+        | consider-Tag <span class="nonterminal">ID</span> 
+        | expand_assertion_to-Tag <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">XrefList</span> 
+        | expand_expression_to-Tag <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">XrefList</span> 
+</p >
+
+
+<h3><a name="3.5"></a>3.5 Instance Frames</h3>
+
+<p >Instance frames introduce and define the meaning of
+<i>instances</i> (AKA individuals).</p >
+
+<p class="grammar" style="white-space: pre;">
+<span class="nonterminal">instance-frame</span> ::= [ <span class="nonterminal">nl</span> ]
+        '[Instance]' <span class="nonterminal">nl</span>
+        id-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">EOL</span>
+        { <span class="nonterminal">instance-frame-stmt</span> <span class="nonterminal">EOL</span> }
+
+<span class="nonterminal">instance-frame-stmt</span> ::= 
+        is_anonymous-BT
+        | name-TVP
+        | namespace-Tag <span class="nonterminal">OBONamespace</span> 
+        | alt_id-Tag <span class="nonterminal">ID</span> 
+        | def-Tag <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">XrefList</span> 
+        | comment-TVP
+        | subset-Tag <span class="nonterminal">Subset-ID</span> 
+        | synonym-Tag <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">SynonymScope</span> [ <span class="nonterminal">ws</span> <span class="nonterminal">SynonymType-ID</span> ] <span class="nonterminal">XrefList</span> 
+        | xref-Tag <span class="nonterminal">ID</span> 
+        | instance_of-Tag <span class="nonterminal">Class-ID</span> 
+        | <span class="nonterminal">PropertyValueTagValue</span> 
+        | relationship-Tag <span class="nonterminal">Rel-ID</span> <span class="nonterminal">ID</span> 
+        | created_by-Tag <span class="nonterminal">Person-ID</span> 
+        | creation_date-Tag <span class="nonterminal">ISO-8601-DateTime</span> 
+        | is-obsolete-BT
+        | replaced_by-Tag <span class="nonterminal">Rel-ID</span> 
+        | consider-Tag <span class="nonterminal">ID</span> 
+</p >
+
+
+<h3><a name="3.5"></a>3.5 Annotation Frames</h3>
+
+<p >Annotation frames declares
+<i>annotations</i> (Note that these do not directly correspond to OWL
+annotations). An annotation is a statement relating two entities for
+which metadata can be conveniently attached</p >
+
+<p class="grammar" style="white-space: pre;">
+<span class="nonterminal">annotation-frame</span> ::= [ <span class="nonterminal">nl</span> ]
+        '[Annotation]' <span class="nonterminal">nl</span>
+        { <span class="nonterminal">annotation-frame-stmt</span> <span class="nonterminal">EOL</span> }
+
+<span class="nonterminal">instance-frame-stmt</span> ::= 
+        id-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">EOL</span>
+        | is_anonymous-BT
+        | name-TVP
+        | namespace-Tag <span class="nonterminal">OBONamespace</span> 
+        | alt_id-Tag <span class="nonterminal">ID</span> 
+        | def-Tag <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">XrefList</span> 
+        | comment-TVP
+        | subset-Tag <span class="nonterminal">Subset-ID</span> 
+        | synonym-Tag <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">SynonymScope</span> [ <span class="nonterminal">ws</span> <span class="nonterminal">SynonymType-ID</span> ] <span class="nonterminal">XrefList</span> 
+        | xref-Tag <span class="nonterminal">ID</span> 
+        | instance_of-Tag <span class="nonterminal">Class-ID</span> 
+        | subject-Tag <span class="nonterminal">ID</span> 
+        | relation-Tag <span class="nonterminal">ID</span> 
+        | is_negated-BT
+        | object-Tag <span class="nonterminal">ID</span> 
+        | source-Tag <span class="nonterminal">ID</span> 
+        | assigned_by-Tag <span class="nonterminal">ID</span> 
+        | evidence-Tag <span class="nonterminal">ID</span> 
+        | relationship-Tag <span class="nonterminal">Rel-ID</span> <span class="nonterminal">ID</span> 
+        | created_by-Tag <span class="nonterminal">Person-ID</span> 
+        | creation_date-Tag <span class="nonterminal">ISO-8601-DateTime</span> 
+        | is-obsolete-BT
+        | replaced_by-Tag <span class="nonterminal">Rel-ID</span> 
+        | consider-Tag <span class="nonterminal">ID</span> 
+</p >
+
+
+<h2><a name="4"></a>4 OBO Document Structure</h2>
+
+<p>This section defines structural constraints on an OBO
+Document. These structural constraints hold on an abstract OBO
+Document - the result of parsing a physical OBO document file.</p>
+
+<h3><a name="4.1"></a>4.1 Combining Frames</h3>
+
+<p>
+  Each frame in an abstract OBO document can be accessed by its
+  identifier - the value of the <b>id</b> tag.
+</p>
+
+<p>
+  Although it is strongly recommended that an OBOF document does not
+  contain two frames with the same identifier, this is syntactically
+  valid. If two frames have the same identifier, then they
+  are <i>combined</i>. Only frames of the same type can be combined -
+  if a document uses the same ID for two frames of different types,
+  the document is structurally invalid.
+</p>
+
+<p>
+  When two frames F1 and F2 are combined, the new frame F3 has a set
+  of tag-values consisting of the union of the set of tag-values from
+  F1 and the set of tag-values from F2. If two tag-values are have
+  identical tags and identical values, they are considered a single
+  tag-value.
+</p>
+
+<h3><a name="4.2"></a>4.2 Assigning OBO namespaces</h3>
+
+<p>
+  Note that OBO namespaces are not the same as OWL namespaces - the
+  analog of OWL namespaces are OBO ID spaces. OBO namespaces are
+  semantics-free properties of a frame that allow partitioning of an
+  ontology into sub-ontologies. For example, the GO is partitioned
+  into 3 ontologies (3 OBO namespaces, 1 OWL namespace).
+</p>
+
+<p>
+  Every frame must have exactly one namespace. However, these do not
+  need to be explicitly assigned. After parsing an OBO Document, any
+  frame without a namespace is assigned the default-namespace, from
+  the OBO Document header. If this is not specified, the Parser
+  assigns a namespace arbitrarily. It is recommended this is
+  equivalent to the URL or file path from which the document was
+  retrieved.
+</p>
+
+<h3><a name="4.3"></a>4.4 Processing Header Macros</h3>
+
+<table border="1" cellspacing="0">
+<caption><a id="cardinality" name="cardinality" />
+	Cardinality Constraints</caption>
+
+<thead>
+<tr><th>Header</th>
+    <th>Precondition</th>
+    <th>Postcondition</th>
+</tr>
+</thead>
+
+<tbody>
+
+  <tr>
+    <td valign="top" style="white-space: pre;">treat-xrefs-as-equivalent(Prefix)</td>
+    <td valign="top" style="white-space: pre;">xref(Prefix:B) &isin; Frame[A]</td>
+    <td valign="top" style="white-space: pre;">equivalent_to(Prefix:B) &isin; Frame[A]</td>
+  </tr>
+
+  <tr>
+    <td valign="top" style="white-space: pre;">treat-xrefs-as-is_a(Prefix)</td>
+    <td valign="top" style="white-space: pre;">xref(Prefix:B) &isin; Frame[A]</td>
+    <td valign="top" style="white-space: pre;">is_a(Prefix:B) &isin; Frame[A]</td>
+  </tr>
+
+  <tr>
+    <td valign="top" style="white-space: pre;">treat-xrefs-as-genus-differentia(Prefix Rel-ID Class-ID)</td>
+    <td valign="top" style="white-space: pre;">xref(Prefix:B) &isin; Frame[A] and
+intersection_of(...) &notin; Frame[A]</td>
+    <td valign="top" style="white-space: pre;">intersection_of(X:B) &isin; Frame[A] and
+intersection_of(Rel-ID Class-ID) &isin; Frame[A]
+</td>
+  </tr>
+
+  <tr>
+    <td valign="top" style="white-space: pre;">treat-xrefs-as-relationship(Prefix Rel-ID)</td>
+    <td valign="top" style="white-space: pre;">xref(Prefix:B) &isin; Frame[A]</td>
+    <td valign="top" style="white-space: pre;">relationship(Rel-ID X:B) &isin; Frame[A]</td>
+  </tr>
+
+
+</tbody>
+</table>
+
+<h3><a name="4.4"></a>4.4 Tag Cardinality Constraints</h3>
+
+<p>Note that the id tag is not specified in this table. Each frame has
+  exactly one id tag, and the id tag uniquely identifier the
+  frame. These constrainst must hold <i>after</i> frames with
+  identical ids have been combined (see above).</p>
+
+<p>Any tag not mentioned has free cardinality (zero, one or many).</p>
+
+<table border="1" cellspacing="0">
+<caption><a id="cardinality" name="cardinality" />
+	Cardinality Constraints</caption>
+
+<thead>
+<tr><th>Tag</th>
+    <th>Frame</th>
+    <th>Cardinality</th>
+    <th>Notes</th>
+</tr>
+</thead>
+
+<tbody>
+
+  <tr><td>is_anonymous</td><td>*</td><td>zero or one</td><td>-</td></tr>
+  <tr><td>name</td><td>*</td><td>zero or one</td><td>names are recommended for all tags</td></tr>
+  <tr><td>namespace</td><td>*</td><td>one</td><td>-</td></tr>
+  <tr><td>def</td><td>*</td><td>zero or one</td><td>-</td></tr>
+  <tr><td>comment</td><td>*</td><td>zero or one</td><td>-</td></tr>
+  <tr><td>domain</td><td>Typedef</td></td><td>zero or one</td><td>use union constructs in place of multiple values</td></tr>
+  <tr><td>range</td><td>Typedef</td></td><td>zero or one</td><td>use union constructs in place of multiple values</td></tr>
+  <tr><td>is_anti_symmetric</td><td>*</td><td>zero or one</td><td>-</td></tr>
+  <tr><td>is_cyclic</td><td>*</td><td>zero or one</td><td>-</td></tr>
+  <tr><td>is_symmetric</td><td>*</td><td>zero or one</td><td>-</td></tr>
+  <tr><td>is_reflexive</td><td>*</td><td>zero or one</td><td>-</td></tr>
+  <tr><td>is_transitive</td><td>*</td><td>zero or one</td><td>-</td></tr>
+  <tr><td>is_functional</td><td>*</td><td>zero or one</td><td>-</td></tr>
+  <tr><td>is_inverse_functional</td><td>*</td><td>zero or one</td><td>-</td></tr>
+  <tr><td>is_obsolete</td><td>*</td><td>zero or one</td><td>-</td></tr>
+  <tr><td>instance_of</td><td>Instance</td><td>zero or one</td><td>use intersection constructs in place of multiple values</td></tr>
+  <tr><td>intersection_of</td><td>Term or Typedef</td><td>zero or (two or more)</td><td>-</td></tr>
+  <tr><td>union_of</td><td>Term or Typedef</td><td>zero or (two or more)</td><td>-</td></tr>
+  <tr><td>created_by</td><td>*</td><td>zero or one</td><td>-</td></tr>
+  <tr><td>creation_date</td><td>*</td><td>zero or one</td><td>-</td></tr>
+  <tr><td>is_obsolete</td><td>*</td><td>zero or one</td><td>-</td></tr>
+  <tr><td>is_metadata_tag</td><td>Term or Typedef</td><td>zero or one</td></tr>
+
+</tbody>
+</table>
+
+<p>
+  <ul>
+    <li>
+      If a frame with an intersection_of clause has exactly one intersection_of(Class-ID) clause, then the frame is said to have a <i>genus-differentia definition</i>
+    </li>
+  </ul>
+</p>
+
+<h2><a name="5"></a>5 OBO Semantics : Mapping to OWL2-DL</h2>
+
+<p>On completions this section will define the semantics of the
+entirety of OBO via mappings to OWL2. The mappings could also be used
+to specify a translation procedure and/or an interface to OWL tools
+(such as OWL reasoners).</p>
+
+
+<p>The translation is defined using a translation function <span
+class="name">T</span> which translates (a fragment of) OBO into OWL
+DL. The definition of <span class="name">T</span> is often recursive,
+but it will eventually "ground out" in (a fragment of) OWL DL.</p>
+
+
+<h3><a name="5.0"></a>5.0 Ontologies</h3>
+
+Generation of Ontology IRI - TODO
+
+<table border="1" cellspacing="0">
+<caption><a id="decl" name="decl" />
+	Mapping of Ontology Document</caption>
+
+<thead>
+<tr><th>OBO</th>
+   <th>Translation - <span class="name">T</span>(S)</th></tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td valign="top" style="white-space: pre;">OBO-Doc(Header1...HeaderN Frame1..FrameM)
+</td>
+<td valign="top" style="white-space: pre;">Ontology(Ont-IRI 
+    <span class="name">T</span>(Header-1)...<span class="name">T</span>(Header-1)
+    <span class="name">T</span>(Frame1)...<span class="name">T</span>(FrameM) )
+</td>
+</tr>
+</tbody>
+</table>
+
+<p></p>
+
+<p></p>
+
+<table border="1" cellspacing="0">
+<caption><a id="decl" name="decl" />
+  Mapping of Ontology Headers</caption>
+
+<thead>
+<tr><th>OBO</th>
+   <th>Translation - <span class="name">T</span>(S)</th></tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td valign="top" style="white-space: pre;">data-version(String)
+</td>
+<td valign="top" style="white-space: pre;"><span class="name">T</span>(remark) <span class="name">T</span>(String)</td>
+</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">import(IRI)
+</td>
+<td valign="top" style="white-space: pre;">Import(IRI)</td>
+</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">remark(String)
+</td>
+<td valign="top" style="white-space: pre;">Annotation(<span class="name">T</span>(remark) <span class="name">T</span>(String))</td>
+</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">subsetdef(ID String)
+</td>
+<td valign="top" style="white-space: pre;">ClassAssertion(<span class="name">T</span>(subsetdef) <span class="name">T</span>(ID))
+AnnotationAssertion(<span class="name">T</span>(name) <span class="name">T</span>(ID) <span class="name">T</span>(String))
+</td>
+</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">synonymtypedef(ID String [Scope])
+</td>
+<td valign="top" style="white-space: pre;">ClassAssertion(<span class="name">T</span>(synonymtypedef) <span class="name">T</span>(ID))
+AnnotationAssertion(<span class="name">T</span>(name) <span class="name">T</span>(ID) <span class="name">T</span>(String))
+AnnotationAssertion(<span class="name">T</span>(scope) <span class="name">T</span>(ID) <span class="name">T</span>(Scope))
+</td>
+</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">&lt;Tag&gt;(String Qualifiers)</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(&lt;Tag&gt;) <span class="name">T</span>(ID) <span class="name">T</span>(String))</td>
+</tr>
+
+</tbody>
+</table>
+
+
+
+<h3><a name="5.1"></a>5.1 Declarations</h3>
+
+
+<table border="1" cellspacing="0">
+<caption><a id="decl" name="decl" />
+	Mapping of declarations to OWL</caption>
+
+<thead>
+<tr><th>Frame</th>
+  <th>Conditions</th>
+    <th>Translation - <span class="name">T</span>(S)</th></tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td valign="top" style="white-space: pre;">Term(Class-id)
+</td>
+<td>
+</td>
+<td valign="top" style="white-space: pre;">Class(<span class="name">T</span>(Class-id))
+</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">Typedef(Rel-id)
+</td>
+<td>is_metadata_tag(true) OR
+is_class_level(true)
+</td>
+<td valign="top" style="white-space: pre;">AnnotationProperty(<span class="name">T</span>(Rel-id))
+</td>
+</tr>
+
+
+<tr>
+<td valign="top" style="white-space: pre;">Typedef(Rel-id)
+</td>
+<td>
+</td>
+<td valign="top" style="white-space: pre;">ObjectProperty(<span class="name">T</span>(Rel-id))
+</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">Instance(Instance-id)
+</td>
+<td>
+</td>
+<td valign="top" style="white-space: pre;">NamedIndividual(<span class="name">T</span>(Instance-id))
+</td>
+</tr>
+</tbody>
+
+</table>
+
+<h3><a name="5.2"></a>5.2 Mapping Term Frames - Class Axioms</h3>
+
+<p>
+  Term frames are mapped to Class declarations and Class-level
+  axioms. We list the translations that are specific to Term frames
+  here - generic translations making annotation assertions are applied
+  later on.
+</p>
+
+<table border="1" cellspacing="0">
+<caption><a id="translation" name="translationDL" />
+	Translation of Term frames to OWL</caption>
+
+<thead>
+<tr><th>Term frame with id:Class-ID</th>
+    <th>Translation - <span class="name">T</span>(S)</th></tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td valign="top" style="white-space: pre;">is_a(SubClass-ID Qualifiers))
+</td>
+<td valign="top" style="white-space: pre;">SubClassOf(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Class-ID) <span class="name">T</span>(SubClass-ID))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">relationship(Rel-ID TargetClass-ID Qualifiers)
+</td>
+<td valign="top" style="white-space: pre;">SubClassOf(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Class-ID) <span class="name">T</span>(rel(Rel-ID TargetClass-ID Qualifiers)) )</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">intersection_of(GenusClass1 Qualifiers1) 
+... 
+intersection_of(GenusClassN QualifiersN) 
+...
+intersection_of(Rel-ID1 TargetClass-ID1 QualifiersN+1)
+...
+intersection_of(Rel-IDM TargetClass-IDM QualifiersN+M)
+</td>
+<td valign="top" style="white-space: pre;">EquivalentClasses(<span class="name">T</span>(Qualifiers1 .. QualifiersN+M)
+    <span class="name">T</span>(Class-ID) 
+    ObjectIntersectionOf(
+       <span class="name">T</span>(GenusClass1) 
+       ... 
+       <span class="name">T</span>(GenusClassN)
+       <span class="name">T</span>(rel(Rel-ID1 TargetClass-ID1 Qualifiers))
+       ... 
+       <span class="name">T</span>(rel(Rel-IDM TargetClass-IDM Qualifiers)))</td>
+</tr>
+<tr>
+<td valign="top" style="white-space: pre;">union_of(UnionClass1 QualifiersN)
+... 
+union_of(UnionClassN QualifiersN) 
+</td>
+<td valign="top" style="white-space: pre;">EquivalentClasses(<span class="name">T</span>(Qualifiers1 .. QualifiersN)
+    <span class="name">T</span>(Class-ID) 
+    ObjectUnionOf(
+       <span class="name">T</span>(UnionClass1) ... <span class="name">T</span>(UnionClassN) )
+</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">disjoint_from(TargetClass-ID Qualifiers))
+</td>
+<td valign="top" style="white-space: pre;">DisjointClasses(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Class-ID) <span class="name">T</span>(TargetClass-ID))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">equivalent_to(TargetClass-ID Qualifiers))
+</td>
+<td valign="top" style="white-space: pre;">EquivalentClasses(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Class-ID) <span class="name">T</span>(TargetClass-ID))</td>
+</tr>
+
+</tbody>
+</table>
+
+
+<h3><a name="5.3"></a>5.3 Class Expressions</h3>
+
+<p>
+  The relationship and intersection_of tags can take pairs of values;
+  these pairs map to OWL Class Expressions according to the following
+  table.
+</p>
+
+
+<p>
+  Mappings are listed in order of precedence - an expression cannot match twice, only the first match counts.
+</p>
+
+<table border="1" cellspacing="0">
+<caption><a id="translation" name="translationDL" />
+	Translation of class expressions to OWL</caption>
+
+<thead>
+<tr><th>Expression</th>
+    <th>Condition</th>
+    <th>Translation - <span class="name">T</span>(S)</th></tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td valign="top" style="white-space: pre;">rel(Rel-ID Class-ID Qualifiers)
+</td>
+<td valign="top" style="white-space: pre;">exactCardinality(X) &isin; Qualifiers
+</td>
+<td valign="top" style="white-space: pre;">ObjectExactCardinality(X <span class="name">T</span>(Rel-ID) <span class="name">T</span>(Class-ID))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">rel(Rel-ID Class-ID Qualifiers)
+</td>
+<td valign="top" style="white-space: pre;">exactCardinality(0) &isin; Qualifiers or
+maxCardinality(0) &isin; Qualifiers
+</td>
+<td valign="top" style="white-space: pre;">ObjectAllValuesFrom(<span class="name">T</span>(Rel-ID) ObjectComplementOf(<span class="name">T</span>(Class-ID)))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">rel(Rel-ID Class-ID Qualifiers)
+</td>
+<td valign="top" style="white-space: pre;">minCardinality(A) &isin; Qualifiers and
+maxCardinality(B) &isin; Qualifiers
+</td>
+<td valign="top" style="white-space: pre;">ObjectIntersectionOf(
+    ObjectMinCardinality(A <span class="name">T</span>(Rel-ID) <span class="name">T</span>(Class-ID))
+    ObjectMaxCardinality(B <span class="name">T</span>(Rel-ID) <span class="name">T</span>(Class-ID)))
+</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">rel(Rel-ID Class-ID Qualifiers)</td>
+<td valign="top" style="white-space: pre;">minCardinality(A) &isin; Qualifiers</td>
+<td valign="top" style="white-space: pre;">ObjectMinCardinality(A <span class="name">T</span>(Rel-ID) <span class="name">T</span>(Class-ID))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">rel(Rel-ID Class-ID Qualifiers)</td>
+<td valign="top" style="white-space: pre;">maxCardinality(A) &isin; Qualifiers</td>
+<td valign="top" style="white-space: pre;">ObjectMaxCardinality(A <span class="name">T</span>(Rel-ID) <span class="name">T</span>(Class-ID))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">rel(Rel-ID Class-ID Qualifiers)
+</td>
+<td valign="top" style="white-space: pre;">all_only(true) &isin; Qualifiers and
+all_some(true) &isin; Qualifiers
+</td>
+<td valign="top" style="white-space: pre;">ObjectIntersectionOf(
+  ObjectSomeValuesFrom(X <span class="name">T</span>(Rel-ID) <span class="name">T</span>(Class-ID)
+  ObjectAllValuesFrom(X <span class="name">T</span>(Rel-ID) <span class="name">T</span>(Class-ID)
+)</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">rel(Rel-ID Class-ID Qualifiers)
+</td>
+<td valign="top" style="white-space: pre;">all_only(true) &isin; Qualifiers
+</td>
+<td valign="top" style="white-space: pre;">ObjectAllValuesFrom(<span class="name">T</span>(Rel-ID) <span class="name">T</span>(Class-ID))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">rel(Rel-ID Class-ID Qualifiers)
+</td>
+<td valign="top" style="white-space: pre;">is_class_level(true) &isin; TypedefFrames[Rel-ID]
+</td>
+<td valign="top" style="white-space: pre;">ObjectHasValue(<span class="name">T</span>(Rel-ID) <span class="name">T</span>(Class-ID))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">rel(Rel-ID Class-ID Qualifiers)
+</td>
+<td></td>
+<td valign="top" style="white-space: pre;">ObjectSomeValuesFrom(<span class="name">T</span>(Rel-ID) <span class="name">T</span>(Class-ID)</td>
+</tr>
+
+
+</tbody>
+</table>
+
+<h3><a name="5.4"></a>5.4 Propery Axioms</h3>
+
+<p>
+  Note that OWL2 does not have the ability to declare
+  EquivalentProperties between a named object property and either an
+  intersection or a union. We translate these OBO constructs to a
+  weaker axiom and add an AnnotationAssertion - we will later provide
+  an appendix for handling these in FOL. This is also true for equivalent_to_chain
+</p>
+
+<table border="1" cellspacing="0">
+<caption><a id="translation" name="translationDL" />
+	Translation of Typedef frames to OWL</caption>
+
+<thead>
+<tr><th>Typedef frame with id:Rel-ID</th>
+    <th>Translation - <span class="name">T</span>(S)</th></tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td valign="top" style="white-space: pre;">is_a(SubRel-ID Qualifiers))
+</td>
+<td valign="top" style="white-space: pre;">SubObjectPropertyOf(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(SubRel-ID))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">domain(TargetClass-ID Qualifiers))
+</td>
+<td valign="top" style="white-space: pre;">ObjectPropertyDomain(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(TargetClass-ID))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">range(TargetClass-ID Qualifiers))
+</td>
+<td valign="top" style="white-space: pre;">ObjectPropertyRange(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(TargetClass-ID))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">disjoint_from(TargetRel-ID Qualifiers))
+</td>
+<td valign="top" style="white-space: pre;">DisjointObjectProperties(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(TargetRel-ID))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">equivalent_to(TargetRel-ID Qualifiers))
+</td>
+<td valign="top" style="white-space: pre;">EquivalentObjectProperties(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(TargetRel-ID))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">relationship(MetaRel-ID TargetRel-ID Qualifiers)
+</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(MetaRel-ID) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(TargetRel-ID) )</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">intersection_of(TargetRel-ID Qualifiers)</td>
+<td valign="top" style="white-space: pre;">SubObjectPropertyOf(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Rel-ID) (TargetRel-ID))
+AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(relation_intersection_of) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(TargetRel-ID))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">union_of(TargetRel-ID Qualifiers)</td>
+<td valign="top" style="white-space: pre;">SubObjectPropertyOf(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(TargetRel-ID) <span class="name">T</span>(Rel-ID))
+AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(union_intersection_of) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(TargetRel-ID))</td>
+</tr>
+<tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">holds_over_chain(Rel1-ID Rel2-ID Qualifiers)</td>
+<td valign="top" style="white-space: pre;">SubObjectPropertyOf(<span class="name">T</span>(Qualifiers) ObjectPropertyChain( <span class="name">T</span>(Rel1-ID) <span class="name">T</span>(Rel2-ID) ) <span class="name">T</span>(Rel-ID) )</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">equivalent_to_chain(Rel1-ID Rel2-ID Qualifiers)</td>
+<td valign="top" style="white-space: pre;">SubObjectPropertyOf(<span class="name">T</span>(Qualifiers) ObjectPropertyChain( <span class="name">T</span>(Rel1-ID) <span class="name">T</span>(Rel2-ID) ) <span class="name">T</span>(Rel-ID) )
+ AnnotationAssertion( TODO )</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">disjoint_over(OverRel-ID Qualifiers)</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(disjoint_over) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(OverRel-ID))</td>
+</tr>
+<tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">expand_expression_to(String Xrefs Qualifiers)</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(expand_expression_to) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(OverRel-ID))</td>
+</tr>
+<tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">is_cyclic(true Qualifiers)</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(is_cyclic) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(true))</td>
+</tr>
+<tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">is_anti_symmetric(true Qualifiers)</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(is_anti_symmetric) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(true))</td>
+</tr>
+<tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">is_reflexive(true Qualifiers)</td>
+<td valign="top" style="white-space: pre;">ReflexiveObjectProperty(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Rel-ID))</td>
+</tr>
+<tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">is_symmetric(true Qualifiers)</td>
+<td valign="top" style="white-space: pre;">SymmetricObjectProperty(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Rel-ID))</td>
+</tr>
+<tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">is_asymmetric(true Qualifiers)</td>
+<td valign="top" style="white-space: pre;">AsymmetricObjectProperty(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Rel-ID))</td>
+</tr>
+<tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">is_functional(true Qualifiers)</td>
+<td valign="top" style="white-space: pre;">FunctionalObjectProperty(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Rel-ID))</td>
+</tr>
+<tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">is_inverse_functional(true Qualifiers)</td>
+<td valign="top" style="white-space: pre;">InverseFunctionalObjectProperty(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Rel-ID))</td>
+</tr>
+<tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">expand_assertion_to(String Xrefs Qualifiers)</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(expand_assertion_to) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(OverRel-ID))</td>
+</tr>
+
+</tbody>
+</table>
+
+<h3><a name="5.5"></a>5.5 Individual Axioms</h3>
+
+<table border="1" cellspacing="0">
+<caption><a id="translation-i" name="translationI" />
+	Translation of Instance frames to OWL</caption>
+
+<thead>
+<tr><th>Instance frame with id:Instance-ID</th>
+    <th>Translation - <span class="name">T</span>(S)</th></tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td valign="top" style="white-space: pre;">instance_of(Class-ID Qualifiers)</td>
+<td valign="top" style="white-space: pre;">ClassAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Class-ID) <span class="name">T</span>(Instance-ID))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">relationship(Rel-ID ID)</td>
+<td valign="top" style="white-space: pre;">PropertyAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(Instance-ID) <span class="name">T</span>(ID))</td>
+</tr>
+
+</tbody>
+</table>
+
+
+<h3><a name="5.6"></a>5.6 Common Elements to Annotation Properties</h3>
+
+<table border="1" cellspacing="0">
+<caption><a id="translation-ap" name="translationAP" />
+	Translation of common frame elements</caption>
+
+<thead>
+<tr><th>Frame with id:ID</th>
+    <th>Translation - <span class="name">T</span>(S)</th></tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td valign="top" style="white-space: pre;">name(String Qualifiers)</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(name) <span class="name">T</span>(ID) <span class="name">T</span>(String))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">def(String Xrefs Qualifiers)</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(ann(Xrefs Qualifiers)) <span class="name">T</span>(def) <span class="name">T</span>(ID) <span class="name">T</span>(String))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">synonym(String Scope Xrefs Qualifiers)</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(ann(Scope Xrefs Qualifiers)) <span class="name">T</span>(synonym) <span class="name">T</span>(ID) <span class="name">T</span>(String))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">synonym(String Scope Type Xrefs Qualifiers)</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(ann(Scope Type Xrefs Qualifiers)) <span class="name">T</span>(synonym) <span class="name">T</span>(ID) <span class="name">T</span>(String))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">creation_date(ISO-Date Qualifiers)</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(name) <span class="name">T</span>(ID) <span class="name">T</span>(ISO-Date))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">xref(X-ID Qualifiers)</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(xref) <span class="name">T</span>(ID) <span class="name">T</span>(X-ID))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">&lt;Tag&gt;(String Qualifiers)</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(&lt;Tag&gt;) <span class="name">T</span>(ID) <span class="name">T</span>(String))</td>
+</tr>
+</tbody>
+</table>
+
+<h3><a name="5.7"></a>5.7 Translation of OBO Qualifiers to Annotations</h3>
+
+<table border="1" cellspacing="0">
+<caption><a id="translation-q" name="translationQ" />
+	Translation of qualifier expressions</caption>
+
+<thead>
+<tr><th>Expression</th>
+    <th>Translation - <span class="name">T</span>(S)</th></tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td valign="top" style="white-space: pre;">Qualifier1 ... QualifierN</td>
+<td valign="top" style="white-space: pre;"><span class="name">T</span>(Qualifier1) ... <span class="name">T</span>(QualifierN)</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">Qualifier(Name,Value)</td>
+<td valign="top" style="white-space: pre;">Annotation( <span class="name">T</span>(Name) <span class="name">T</span>(Value))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">ann(Xref1...XrefN Qualifiers)</td>
+<td valign="top" style="white-space: pre;">Annotation( <span class="name">T</span>(xref) <span class="name">T</span>(Xref1)) .. Annotation( <span class="name">T</span>(xref) <span class="name">T</span>(Xref1)) <span class="name">T</span>(Qualifiers)</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">ann(Scope Xrefs Qualifiers)</td>
+<td valign="top" style="white-space: pre;">Annotation( <span class="name">T</span>(synonym-scope) <span class="name">T</span>(Scope)) <span class="name">T</span>(Xrefs Qualifiers)</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">ann(Scope Type Xrefs Qualifiers)</td>
+<td valign="top" style="white-space: pre;">Annotation( <span class="name">T</span>(synonym-type) <span class="name">T</span>(Type)) <span class="name">T</span>(Scope Xrefs Qualifiers)</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</tbody>
+</table>
+
+<h3><a name="5.8"></a>5.8 Translation of Annotation Vocabulary</h3>
+
+<table border="1" cellspacing="0">
+<caption><a id="translation-q" name="translationQ" />
+	Translation of identifiers - hardcoded values</caption>
+
+<thead>
+<tr><th>ID</th>
+    <th>Translation - <span class="name">T</span>(S)</th></tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td valign="top" style="white-space: pre;">name</td>
+<td valign="top" style="white-space: pre;">rdfs:label</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">comment</td>
+<td valign="top" style="white-space: pre;">rdfs:comment</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">date</td>
+<td valign="top" style="white-space: pre;">dc:date</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">expand_expression_to</td>
+<td valign="top" style="white-space: pre;">obo:IAO_0000424</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">expand_assertion_to</td>
+<td valign="top" style="white-space: pre;">obo:IAO_0000425</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">definition</td>
+<td valign="top" style="white-space: pre;">obo:IAO_0000115</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">synonym</td>
+<td valign="top" style="white-space: pre;">obo:IAO_0000118</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">is_anti_symmetric</td>
+<td valign="top" style="white-space: pre;">obo:IAO_0000427</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">replaced_by</td>
+<td valign="top" style="white-space: pre;">obo:IAO_0100001</td>
+</tr>
+
+</tbody>
+</table>
+
+<p>
+Note we have no cognate of IAO:definition_source - we would have a generic xref annotation on the definition annotation assertion
+</p>
+
+<h3><a name="5.9"></a>5.9 Translation of Identifiers</h3>
+
+TODO - see googledocs for now
+
+<h3><a name="5.n"></a>5.n Post-Processing OWL DL</h3>
+
+<table border="1" cellspacing="0">
+<caption><a id="postProcessing" name="postProcessing" />
+  Post-processing OWL2 DL
+</caption>  
+<thead>
+  <tr><th>Axiom to be Replaced</th>
+  <th>If Ontology Contains</th>
+    <th>Replace With</th></tr>
+</thead>
+
+<tbody>
+<tr>
+  <td>
+    <td>
+      ObjectExactCardinality(n P CE), n>0
+    </td>
+    <td>
+      TransitiveProperty(P)
+    </td>
+    <td>
+      SomeValuesFrom(P CE)
+    </td>
+</tr>
+<tr>
+    <td>
+      ObjectMinCardinality(n P CE), n>0
+    </td>
+    <td>
+      TransitiveProperty(P)
+    </td>
+    <td>
+      SomeValuesFrom(P CE)
+    </td>
+</tr>
+<tr>
+    <td>
+      ObjectMaxCardinality(n P CE)
+    </td>
+    <td>
+      TransitiveProperty(P)
+    </td>
+    <td>
+      -
+    </td>
+</tr>
+</tbody>
+</table>
+
+<p>
+</p>
+
+<h2><a name="6"></a>6 OWL to OBO</h2>
+
+<ul>
+  <li>If a Frame has more than one name after translation, an arbitrary one is selected, and a warning is fired</li>
+  <li>If a Frame has more than one comment after translation, the set of distinct comments for that frame is concatenated using the \n escape character</li>
+  <li>If an expression cannot be translated, it is dropped OR converted into an OWL Macro, see below</li>
+</ul>
+
+
+<h2><a name="7"></a>7 OWL Macros</h2>
+
+<p>
+  This section can also be considered in isolation from OBO Format altogether
+</p>
+
+<table border="1" cellspacing="0">
+<caption><a id="postProcessing" name="postProcessing" />
+  OWL Macro Expansion
+</caption>  
+<thead>
+  <tr><th>Expression or Axiom to be Replaced</th>
+  <th>Condition</th>
+    <th>Replace With</th></tr>
+</thead>
+
+<tbody>
+
+<tr>
+    <td>
+      ObjectSomeValuesFrom(P CE)
+    </td>
+    <td>
+      AnnotationAssertion(expand_expression_to P Template)
+    </td>
+    <td>
+      <span class="name">T</span>(Template)[CE]
+    </td>
+</tr>
+
+<tr>
+    <td>
+      ObjectAllValuesFrom(P CE)
+    </td>
+    <td>
+      AnnotationAssertion(expand_expression_to P Template)
+    </td>
+    <td>
+      <span class="name">T</span>(Template)[CE]
+    </td>
+</tr>
+
+<tr>
+    <td>
+      AnnotationAssertion(P A B)
+    </td>
+    <td>
+      AnnotationAssertion(expand_assertion_to P Template)
+    </td>
+    <td>
+      <span class="name">T</span>(Template)[CE]
+    </td>
+</tr>
+
+</tbody>
+</table>
+
+</body>
+</html>
