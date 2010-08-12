@@ -1,29 +1,127 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-  <title>OBO Flat File Format 1.4 Syntax and Semantics</title>
+  <title>OBO Flat File Format 1.4 Syntax and Semantics [DRAFT]</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-  <link href="css/W3C-Member-SUBM.css" type="text/css" rel="stylesheet">
   <style type="text/css">
+/* Style for a "Working Group Note" */
+
+/*
+   Copyright 1997-2003 W3C (MIT, ERCIM, Keio). All Rights Reserved.
+   The following software licensing rules apply:
+   http://www.w3.org/Consortium/Legal/copyright-software */
+
+/* $Id: base.css,v 1.25 2006/04/18 08:42:53 bbos Exp $ */
+
+body {
+  padding: 2em 1em 2em 70px;
+  margin: 0;
+  font-family: sans-serif;
+  color: black;
+  background: white;
+  background-position: top left;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+:link { color: #00C; background: transparent }
+:visited { color: #609; background: transparent }
+a:active { color: #C00; background: transparent }
+
+a:link img, a:visited img { border-style: none } /* no border on img links */
+
+a img { color: white; }        /* trick to hide the border in Netscape 4 */
+@media all {                   /* hide the next rule from Netscape 4 */
+  a img { color: inherit; }    /* undo the color change above */
+}
+
+th, td { /* ns 4 */
+  font-family: sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 { text-align: left }
+/* background should be transparent, but WebTV has a bug */
+h1, h2, h3 { color: #005A9C; background: white }
+h1 { font: 170% sans-serif }
+h2 { font: 140% sans-serif }
+h3 { font: 120% sans-serif }
+h4 { font: bold 100% sans-serif }
+h5 { font: italic 100% sans-serif }
+h6 { font: small-caps 100% sans-serif }
+
+.hide { display: none }
+
+div.head { margin-bottom: 1em }
+div.head h1 { margin-top: 2em; clear: both }
+div.head table { margin-left: 2em; margin-top: 2em }
+
+p.copyright { font-size: small }
+p.copyright small { font-size: small }
+
+@media screen {  /* hide from IE3 */
+a[href]:hover { background: #ffa }
+}
+
+pre { margin-left: 2em }
+/*
+p {
+  margin-top: 0.6em;
+  margin-bottom: 0.6em;
+}
+*/
+dt, dd { margin-top: 0; margin-bottom: 0 } /* opera 3.50 */
+dt { font-weight: bold }
+
+pre, code { font-family: monospace } /* navigator 4 requires this */
+
+ul.toc, ol.toc {
+  list-style: disc;		/* Mac NS has problem with 'none' */
+  list-style: none;
+}
+
+@media aural {  
+  h1, h2, h3 { stress: 20; richness: 90 }
+  .hide { speak: none }
+  p.copyright { volume: x-soft; speech-rate: x-fast }
+  dt { pause-before: 20% }
+  pre { speak-punctuation: code } 
+}
+
+
+
+/* Copyright 1997-2003 W3C (MIT, ERCIM, Keio). All Rights Reserved.
+   The following software licensing rules apply:
+   http://www.w3.org/Consortium/Legal/copyright-software */
+
+body {
+//  background-image: url(http://www.w3.org/StyleSheets/TR/logo-WG-Note);
+//background-image: url(http://www.obofoundry.org/images/foundrylogo.gif);
+}
+
+
   </style>
   <link href="owl.css" rel="stylesheet" type="text/css" />
-  <link href="http://www.w3.org/StyleSheets/TR/W3C-WG-NOTE" rel="stylesheet" type="text/css" />
 
 <body>
 
 <div class="head">
+<a class="image" style="float:right" href="/"
+     title="The Open Biological and Biomedical Ontologies"><img class="middle"
+						 src="http://www.obofoundry.org/images/foundrylogo.gif"
+						 width="64"
+						 alt="The Open Biological and Biomedical Ontology Foundry" /></a>
 <h1 class="mainTitle">
-OBO Flat File Format 1.4 Syntax and Semantics</h1>
+OBO Flat File Format 1.4 Syntax and Semantics [DRAFT]</h1>
 <h2><a id="editordraft" name="editordraft"></a>Editor's Draft of Sept 2010</h2>
 <dl>
   <dt>This version: </dt>
-  <dd><a href="http://yuri.lbl.gov/obo2owl/obo-syntax.html">http://yuri.lbl.gov/obo2owl/obo-syntax.html</a></dd>
+  <dd><a href="http://berkeleybop.org/~cjm/obo2owl/obo-syntax.html">http://berkeleybop.org/~cjm/obo2owl/obo-syntax.html</a></dd>
   <dt>Latest version: </dt>
-  <dd><a href="http://yuri.lbl.gov/obo2owl/obo-syntax.html">http://yuri.lbl.gov/obo2owl/obo-syntax.html</a></dd>
+  <dd><a href="http://berkeleybop.org/~cjm/obo2owl/obo-syntax.html">http://berkeleybop.org/~cjm/obo2owl/obo-syntax.html</a></dd>
 <dt>Previous version: </dt>
-  <dd><a href="http://www.cs.man.ac.uk/~horrocks/obo/syntax-20070126.html">http://www.cs.man.ac.uk/~horrocks/obo/syntax-20070126.html</a></dd>
-  <dt>Author: </dt>
+  <dd><a href="http://www.cs.man.ac.uk/~horrocks/obo/syntax.html">http://www.cs.man.ac.uk/~horrocks/obo/syntax.html</a></dd>
+  <dt>Editors: </dt>
   <dd>Chris Mungall, Lawrence Berkeley National Laboratory</dd>
+  <dd>YOUR NAME HERE</dd>
 <!--  <dt>Contributors: </dt>
   <dd><a href="person-URL">person-URL </a>, Affiliation</dd>
 -->
@@ -33,7 +131,7 @@ OBO Flat File Format 1.4 Syntax and Semantics</h1>
 
 <h2 class="notoc"><a id="abstract" name="abstract">Abstract</a></h2>
 <div class="abstract">
-<p>This document provides a BNF specification of
+<p>This document provides a BNF specification and mapping to OWL2 of
   the <a href="http://www.geneontology.org/GO.format.obo-1_4.shtml">OBO
     Flat File Format, version 1.4</a></p>
 </div>
@@ -74,17 +172,87 @@ to ensure wide visibility. </p>
 
 <h2><a name="1"></a>1 Introduction</h2>
 
-<p>This document provides a formalisation (using BNF) of the <a
-href="http://www.godatabase.org/dev/doc/obo_format_spec.html">OBO Flat
-File Format Specification, version 1.4</a> (which we will refer to
-from now on as OBOF), and a semantics for (part of) the language
-defined via a translation to the OWL DL abstract syntax</p>
+<p>On completion, this document will provide a formalisation (using
+BNF) of
+the <a href="http://www.godatabase.org/dev/doc/obo_format_spec.html">OBO
+Flat File Format Specification, version 1.4</a> (which we will refer
+to from now on as OBOF), and a semantics for the language defined via
+a translation to the OWL DL abstract syntax.</p>
 
 <p>
-  This document is derived from a document by Ian Horrocks. The status
-  is still pre-alpha, mistakes may have been introduced that are not
-  due to the original author
+  The first part of this document describes the syntax of OBO Format
+  using BNF. OBO Files are parsed into abstract OBO documents. A
+  mapping is provided between abstract OBO documents and OWL2 and the
+  IAO ontology-metadata ontology.
 </p>
+
+<h2><a name="1.1"></a>1.1 Relationship to previous translations</h2>
+
+<p>
+  This document is derived from and indebted to a previous document by
+  Ian Horrocks [<cite><a href="#obo-owl-horrocks" title="">OBO-OWL
+  Horrocks</a></cite>], later described in an accompanying paper
+  [<cite><a href="#obo-owl-golbreich" title="">OBO-OWL
+  Golbreich</a></cite>]. This document provided a semantics for OBO
+  Format in terms of OWL-DL and what was then OWL1.1. The syntax was
+  underspecified and the mapping was incomplete as there was no
+  treatment of annotation properties.
+</p>
+
+<p>
+  The NCBO OboInOwl vocabulary attempted to fill in the gaps in the
+  Horrocks translation by providing a full translation of all of
+  obof1.2, including synonyms and definitions using the n-ary
+  relations pattern. [<cite><a href="#obo-owl-ncbo" title="">OBO-OWL
+  NCBO</a></cite>]. This vocabulary has been implemented in many
+  tools, including OboEdit2.1 and the Berkeley OBO converter. This
+  vocabulary is also currently (Aug 2010) used in the official OBO
+  Foundry conversions available from the Berkeley ontologies download
+  site and the accompanying Neurocommons triplestore. However, whilst
+  the n-ary relations pattern represented OBO metadata correctly, the
+  mapping has undesirable side-effects, such as introducing modeling
+  classes and individuals into an ontology, affecting both reasoning
+  and usability. The mapping was never adopted by Protege4.
+</p>
+
+
+<p>
+  OBO Format 1.3 was accompanied by a grammar and mapping to FOL
+  [<cite><a href="#obolog" title="">Obolog</a></cite>]. This mapping
+  was based on the 2005 version of the OBO Relation Ontology and
+  OBOF1.3/Obolog attempted to do justice to dual instance/type level
+  relations and ternary temporally-qualified instance-level
+  relations. However, this introduced too large an impedance mismatch
+  between OBOF and OWL, and as a consequence OBOF1.3 and Obolog have
+  been deprecated.
+</p>
+
+<p>
+  More recent work by Tirmizi provides an implementation of a fully
+  roundtrippable mapping between OBO to OWL and back
+  [<cite><a href="#obo-owl-swat4ls" title="">OBO-OWL
+  SWAT4LS</a></cite>] [<cite><a href="#obo-owl-jbms" title="">OBO-OWL
+  JBMS</a></cite>]. This did not attempt to provide a full grammar,
+  and relied on previous efforts for defining the semantics. 
+</p>
+
+<p>
+  This document supersedes previous efforts. It is based on OBO-Format
+  1.4 which introduces extra constructs and is intended to be closely
+  aligned to OWL and the IAO ontology metadata ontology. The grammar
+  provided here is intended to be complete, formally specifying the
+  syntax of an OBO format file at the character level. The semantics
+  are also complete, and a translation is provided for all OBOF
+  constructs, including new constructs which allow a wider range of
+  expressivity within OWL2. The NCBO oboInOwl vocabulary and n-ary
+  relations approach has been deprecated, and the intention is to use
+  IAO in its place (although the mapping of all vocabulary elements is
+  not complete), with OWL2 axiom annotations replacing the n-ary
+  relations pattern. An additional section on OWL macros describes how
+  to effectively increase the expressivity of OBOF whilst remaining
+  within a simple OBOF environment.
+</p>
+
 
 <a name="Preliminary_Definitions"></a><h2> <span class="mw-headline">2  Preliminary Definitions </span></h2>
 
@@ -104,38 +272,39 @@ defined via a translation to the OWL DL abstract syntax</p>
 <tr>
 <td> non-terminal symbols
 </td><td> boldface
-</td><td> <span class="nonterminal">ClassExpression</span>
+</td><td> <span class="nonterminal">QuotedString</span>
 </td></tr>
 <tr>
 <td> terminal symbols
 </td><td> single quoted
-</td><td> <span class="name">'PropertyRange'</span>
+</td><td> <span class="name">'Term'</span>
 </td></tr>
 <tr>
 <td> zero or more
 </td><td> curly braces
-</td><td> <span class="name">{ </span><span class="nonterminal">ClassExpression</span><span class="name"> }</span>
+</td><td> <span class="name">{ </span><span class="nonterminal">entity-frame</span><span class="name"> }</span>
 </td></tr>
 <tr>
 <td> zero or one
 </td><td> square brackets
-</td><td> <span class="name">[ </span><span class="nonterminal">ClassExpression</span><span class="name"> ]</span>
+</td><td> <span class="name">[ </span><span class="nonterminal">ws SynonymType-ID</span><span class="name"> ]</span>
 </td></tr>
 <tr>
 <td> alternative
 </td><td> vertical bar
-</td><td> <span class="nonterminal">Assertion</span><span class="name"> | </span><span class="nonterminal">Declaration</span>
+</td><td> <span class="nonterminal">Class-ID</span><span class="name"> | </span><span class="nonterminal">Relation-ID</span>
 </td></tr>
 <tr>
 <td> grouping
 </td><td> parentheses
-</td><td> <span class="nonterminal">dataPropertyExpression</span> )
-</td></tr></table>
-<tr>
-<td> complementation
-</td><td> minus symbol
-</td><td> <span class="nonterminal">character</span><span class="name"> - </span><span class="terminal">\n</span>
+</td><td> ( <span class="nonterminal"></span> )
 </td></tr>
+<tr>
+<td> complementation</td>
+<td> minus symbol</td>
+<td> ( <span class="nonterminal">character</span><span class="name"> - </span><span class="nonterminal">NewLineChar</span> )
+</td></tr>
+</table>
 </div>
 
 <p>Because generic tag-value pairs occur in very many places in the syntax,
@@ -153,11 +322,15 @@ Documents in the obo-format consist of sequences of Unicode characters
 
 <h3><a name="2.2"></a>2.2 Spacing Characters</h3>
 
+INCOMPLETE
+
 <p class="grammar" style="white-space: pre;">
 <span class="nonterminal">WhiteSpaceChar</span> ::= ' ' | \t | U+0020 | U+0009
 <span class="nonterminal">ws</span> ::= { <span class="nonterminal">WhiteSpaceChar</span> }
 <span class="nonterminal">NewlineChar</span> ::= \r | \n | U+000A | U+000C | U+000D
-<span class="nonterminal">nl</span> ::= { <span class="nonterminal">ws</span> <span class="nonterminal">NewLineChar</span> }
+<span class="nonterminal">nl</span> ::= <span class="nonterminal">ws</span> <span class="nonterminal">NewLineChar</span>
+<span class="nonterminal">nl*</span> ::= { <span class="nonterminal">nl</span> }
+<span class="nonterminal">nl+</span> ::= <span class="nonterminal">nl</span>  { <span class="nonterminal">ws</span> <span class="nonterminal">NewLineChar</span> }
 <span class="nonterminal">OBOChar</span> ::= '\' <span class="nonterminal">Letter</span> | ( <span class="nonterminal">Char</span> - (<span class="nonterminal">NewLineChar</span> | '\') )
 </p>
 
@@ -173,7 +346,7 @@ tag-value qualifiers.
 <p class="grammar" style="white-space: pre;">
 <span class="nonterminal">EOL</span> ::=  <span class="nonterminal">ws*</span> [ <span class="nonterminal">QualifierBlock</span> ] <span class="nonterminal">ws*</span> [ <span class="nonterminal">HiddenComment</span> ] <span class="nonterminal">ws*</span> <span class="nonterminal">NewLineChar</span>
 <span class="nonterminal">QualifierBlock</span> ::= '{' <span class="nonterminal">QualifierList</span> } 
-<span class="nonterminal">HiddenComment</span> ::= '!' { ( <span class="nonterminal">Char</span> - <span class="nonterminal">NewlineChar</span> } 
+<span class="nonterminal">HiddenComment</span> ::= '!' { ( <span class="nonterminal">Char</span> - <span class="nonterminal">NewlineChar</span> ) } 
 </p>
 
 <h3><a name="2.4"></a>2.4 Tokens</h3>
@@ -192,18 +365,28 @@ tag-value qualifiers.
 <h2><a name="3"></a>3 OBO Grammar</h3>
 <h3><a name="3.1"></a>3.1 OBO Document Structure</h3>
 
-<p>An OBO document (file) consists of a series of header lines followed by zero or more frames.</p>
+<p>An OBO document consists of a series of header frame followed by
+zero or more entity frames. Each frame has a set of clauses, or
+&lt;tag,value&gt; pairs. A tag is a token which may be drawn from the
+set of defined OBOF tags. The value can be atomic or multi-values. In
+the OBO Abstract syntax a clause is written
+&lt;Tag&gt;(&lt;V1&gt;...&lt;Vn&gt;).</p>
+
+<p>Each frame should by convention be separated by an empty line, but this is not enforced in the syntax</p>
+
+<p>Note that the term "frame" replaces the previously used "stanza" in
+order to be more consistent with Manchester Syntax.</p>
 
 <p class="grammar" style="white-space: pre;">
-  <span class="nonterminal">OBO-Doc</span> := { <span class="nonterminal">header-line</span> } { <span class="nonterminal">frame</span> } [ <span class="nonterminal">nl</span> ]
+  <span class="nonterminal">OBO-Doc</span> := <span class="nonterminal">header-frame</span> { <span class="nonterminal">entity-frame</span> } <span class="nonterminal">nl*</span>
 </p>
 
 
 <h3><a name="3.2"></a>3.2 OBO Headers</h3>
 
 <p class="grammar" style="white-space: pre;">
-<span class="nonterminal">header-line</span> ::= <span class="nonterminal">header-stmt</span> <span class="nonterminal">nl</span>
-<span class="nonterminal">header-stmt</span> ::= <span class="nonterminal">format-version-TVP</span>
+<span class="nonterminal">header-frame</span> ::= { <span class="nonterminal">header-clause</span> <span class="nonterminal">nl*</span> }
+<span class="nonterminal">header-clause</span> ::= <span class="nonterminal">format-version-TVP</span>
         | <span class="nonterminal">data-version-TVP</span>
         | data-Tag  <span class="nonterminal">DD-MM-YYYY</span> <span class="nonterminal">sp</span> <span class="nonterminal">hh-mm</span>
         | <span class="nonterminal">saved-by-TVP</span>
@@ -220,8 +403,8 @@ tag-value qualifiers.
         | treat-xrefs-as-relationship-Tag <span class="nonterminal">IDPrefix</span>
         | treat-xrefs-as-is_a-Tag <span class="nonterminal">IDPrefix</span>
         | remark-TVP
-        | <span class="nonterminal">UnreservedToken</span> ':'  [  <span class="nonterminal">ws</span> ] <span class="nonterminal">UnuotedString</span>
-<span class="nonterminal">frame</span> ::= <span class="nonterminal">term-frame</span> | <span class="nonterminal">typedef-frame</span> | <span class="nonterminal">instance-frame</span> | <span class="nonterminal">annotation-frame</span>
+        | <span class="nonterminal">UnreservedToken</span> ':'  [  <span class="nonterminal">ws</span> ] <span class="nonterminal">UnquotedString</span>
+<span class="nonterminal">entity-frame</span> ::= <span class="nonterminal">term-frame</span> | <span class="nonterminal">typedef-frame</span> | <span class="nonterminal">instance-frame</span> | <span class="nonterminal">annotation-frame</span>
 </p>
 
 
@@ -231,12 +414,12 @@ tag-value qualifiers.
 classes).</p >
 
 <p class="grammar" style="white-space: pre;">
-<span class="nonterminal">term-frame</span> ::= [ <span class="nonterminal">nl</span> ]
+<span class="nonterminal">term-frame</span> ::= <span class="nonterminal">nl*</span>
         '[Term]' <span class="nonterminal">nl</span>
         id-Tag <span class="nonterminal">Class-ID</span> <span class="nonterminal">EOL</span>
-        { <span class="nonterminal">term-frame-stmt</span> <span class="nonterminal">EOL</span> }
+        { <span class="nonterminal">term-frame-clause</span> <span class="nonterminal">EOL</span> }
 
-<span class="nonterminal">term-frame-stmt</span> ::= 
+<span class="nonterminal">term-frame-clause</span> ::= 
         is_anonymous-BT
         | name-TVP
         | namespace-Tag <span class="nonterminal">OBONamespace</span> 
@@ -272,9 +455,9 @@ classes).</p >
 <span class="nonterminal">typedef-frame</span> ::= [ <span class="nonterminal">nl</span> ]
         '[Typedef]' <span class="nonterminal">nl</span>
         id-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">EOL</span>
-        { <span class="nonterminal">typedef-frame-stmt</span> <span class="nonterminal">EOL</span> }
+        { <span class="nonterminal">typedef-frame-clause</span> <span class="nonterminal">EOL</span> }
 
-<span class="nonterminal">typedef-frame-stmt</span> ::= 
+<span class="nonterminal">typedef-frame-clause</span> ::= 
         is_anonymous-BT
         | name-TVP
         | namespace-Tag <span class="nonterminal">OBONamespace</span> 
@@ -322,9 +505,9 @@ classes).</p >
 <span class="nonterminal">instance-frame</span> ::= [ <span class="nonterminal">nl</span> ]
         '[Instance]' <span class="nonterminal">nl</span>
         id-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">EOL</span>
-        { <span class="nonterminal">instance-frame-stmt</span> <span class="nonterminal">EOL</span> }
+        { <span class="nonterminal">instance-frame-clause</span> <span class="nonterminal">EOL</span> }
 
-<span class="nonterminal">instance-frame-stmt</span> ::= 
+<span class="nonterminal">instance-frame-clause</span> ::= 
         is_anonymous-BT
         | name-TVP
         | namespace-Tag <span class="nonterminal">OBONamespace</span> 
@@ -355,9 +538,9 @@ which metadata can be conveniently attached</p >
 <p class="grammar" style="white-space: pre;">
 <span class="nonterminal">annotation-frame</span> ::= [ <span class="nonterminal">nl</span> ]
         '[Annotation]' <span class="nonterminal">nl</span>
-        { <span class="nonterminal">annotation-frame-stmt</span> <span class="nonterminal">EOL</span> }
+        { <span class="nonterminal">annotation-frame-clause</span> <span class="nonterminal">EOL</span> }
 
-<span class="nonterminal">instance-frame-stmt</span> ::= 
+<span class="nonterminal">instance-frame-clause</span> ::= 
         id-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">EOL</span>
         | is_anonymous-BT
         | name-TVP
@@ -382,8 +565,11 @@ which metadata can be conveniently attached</p >
         | is-obsolete-BT
         | replaced_by-Tag <span class="nonterminal">Rel-ID</span> 
         | consider-Tag <span class="nonterminal">ID</span> 
-</p >
+</p>
 
+<p>
+  Annotation frames were introduced in obof1.4. Semantics for them will be defined in a separate document.
+</p>
 
 <h2><a name="4"></a>4 OBO Document Structure</h2>
 
@@ -477,6 +663,9 @@ intersection_of(Rel-ID Class-ID) &isin; Frame[A]
     <td valign="top" style="white-space: pre;">relationship(Rel-ID X:B) &isin; Frame[A]</td>
   </tr>
 
+<p>
+  Every OBO-Doc is automatically populated with a treat-xrefs-as-equivalent(RO) clause
+</p>
 
 </tbody>
 </table>
@@ -793,7 +982,8 @@ union_of(UnionClassN QualifiersN)
 
 
 <p>
-  Mappings are listed in order of precedence - an expression cannot match twice, only the first match counts.
+  Mappings are listed in order of precedence - an expression cannot
+  match more than one production rule, only the first match counts.
 </p>
 
 <table border="1" cellspacing="0">
@@ -1211,6 +1401,67 @@ AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T
 <td valign="top" style="white-space: pre;">obo:IAO_0100001</td>
 </tr>
 
+
+<tr>
+<td valign="top" style="white-space: pre;">consider</td>
+<td valign="top" style="white-space: pre;">TBD</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">synonym-scope</td>
+<td valign="top" style="white-space: pre;">TBD</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">synonym-type</td>
+<td valign="top" style="white-space: pre;">TBD</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">scope-EXACT</td>
+<td valign="top" style="white-space: pre;">TBD</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">scope-NARROW</td>
+<td valign="top" style="white-space: pre;">TBD</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">scope-BROAD</td>
+<td valign="top" style="white-space: pre;">TBD</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">scope-RELATED</td>
+<td valign="top" style="white-space: pre;">TBD</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">synonymtypedef</td>
+<td valign="top" style="white-space: pre;">TBD</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">xref</td>
+<td valign="top" style="white-space: pre;">TBD</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">subsetdef</td>
+<td valign="top" style="white-space: pre;">TBD</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">subset</td>
+<td valign="top" style="white-space: pre;">TBD</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">alt_id</td>
+<td valign="top" style="white-space: pre;">TBD</td>
+</tr>
+
 </tbody>
 </table>
 
@@ -1220,7 +1471,9 @@ Note we have no cognate of IAO:definition_source - we would have a generic xref 
 
 <h3><a name="5.9"></a>5.9 Translation of Identifiers</h3>
 
-TODO - see googledocs for now
+<p>TODO - see googledocs for now</p>
+
+<p>Every OBO-Document is automatically populated with an idspace(RO "http://purl.obolibrary.org/obo/RO_") clause</p>
 
 <h3><a name="5.n"></a>5.n Post-Processing OWL DL</h3>
 
@@ -1300,6 +1553,10 @@ TODO - see googledocs for now
   classes or expressions (again serialized in Manchester Syntax) as
   part of a Template Substitution Operation, the resulting string must
   be valid Manchester Syntax.
+</p>
+
+<p>
+  Examples are provided in [<cite><a href="#owl-macros" title="">OWL Macros</a></cite>].
 </p>
 
 <table border="1" cellspacing="0">
@@ -1403,10 +1660,61 @@ TODO - see googledocs for now
 </dd><dt> <span id="ref-unicode">[UNICODE]</span>
 </dt><dd> <cite><a class="external text" href="http://www.unicode.org/unicode/standard/" title="http://www.unicode.org/unicode/standard/">The Unicode Standard</a></cite>. The Unicode Consortium, Version 5.1.0, ISBN 0-321-48091-0, as updated from time to time by the publication of new versions. (See <a class="external free" href="http://www.unicode.org/unicode/standard/versions/" title="http://www.unicode.org/unicode/standard/versions/">http://www.unicode.org/unicode/standard/versions/</a> for the latest version and additional information on versions of the standard and of the Unicode Character Database).
 </dd></dl>
-<a name="Non-normative_References"></a><h3> <span class="mw-headline">7.2  Non-normative References </span></h3>
-<dl><dt> <span id="ref-manchester-owl-dl">[Manchester OWL DL Syntax]</span>
-</dt><dd> <cite><a class="external text" href="http://www.w3.org/TR/owl2-manchester-syntax/" title="http://www.w3.org/TR/owl2-manchester-syntax/">OWL 2 Web Ontology Language
-Manchester Syntax</a></cite>. Matthew Horridge, Peter F. Patel-Schneider, October 2009, http://www.w3.org/TR/owl2-manchester-syntax/
 
+<a name="Non-normative_References"></a><h3> <span class="mw-headline">7.2  Non-normative References </span></h3>
+
+<dl>
+
+  <dt> <span id="obo-owl-horrocks">[OBO-OWL Horrocks]</span>
+  </dt><dd> <cite><a class="external text" href="http://www.cs.man.ac.uk/~horrocks/obo/" title="http://www.cs.man.ac.uk/~horrocks/obo/">OBO Flat File Format Syntax and Semantics
+and Mapping to OWL Web Ontology Language</a></cite>. Ian Horrocks, March 2007. http://www.cs.man.ac.uk/~horrocks/obo/
+  </dd>
+
+  <dt> <span id="obo-owl-golbreich">[OBO-OWL Golbreich]</span>
+  </dt><dd> <cite><a class="external text" href="http://en.scientificcommons.org/43278282" title="http://en.scientificcommons.org/43278282">The OBO to OWL mapping, GO to OWL 1.1</a></cite>. Christine Golbreich, Ian Horrocks, 2007. http://en.scientificcommons.org/43278282
+  </dd>
+
+  <dt> <span id="obo-owl-ncbo">[OBO-OWL NCBO]</span>
+  </dt><dd> <cite><a class="external text" href="http://www.bioontology.org/wiki/index.php/OboInOwl:Main_Page" title="http://www.bioontology.org/wiki/index.php/OboInOwl:Main_Page">NCBO Mapping OBO to OWL</a></cite>. Dilvan Moreira, John Day-Richter, Chris Mungall, Nigam H. Shah 2007, http://www.bioontology.org/wiki/index.php/OboInOwl:Main_Page
+  </dd>
+
+  <dt> <span id="obolog">[Obolog]</span>
+  </dt><dd> <cite><a class="external text" href="http://oboedit.org/obolog/spec/obolog-spec.pdf" title="http://oboedit.org/obolog/spec/obolog-spec.pdf">NCBO Mapping OBO to OWL</a></cite>. Chris Mungall. Aug 2008, http://oboedit.org/obolog/spec/obolog-spec.pdf
+  </dd>
+
+  <dt> <span id="obo-owl">[OBO-OWL WG]</span>
+  </dt><dd> <cite><a class="external text" href="http://www.obofoundry.org/wiki/index.php/Working_Group_on_OBO-OWL_interconversion" title="http://www.obofoundry.org/wiki/index.php/Working_Group_on_OBO-OWL_interconversion">Working Group on OBO-OWL interconversion</a></cite>. http://www.obofoundry.org/wiki/index.php/Working_Group_on_OBO-OWL_interconversion
+  </dd>
+
+  <dt> <span id="obo-owl-jbms">[OBO OWL JBMS]</span>
+  </dt><dd> <cite><a class="external text" href="http://userweb.cs.utexas.edu/~hamid/oboowl.html" title="http://userweb.cs.utexas.edu/~hamid/oboowl.html">Mapping between the OBO and OWL ontology languages.</a></cite>. Syed Hamid Tirmizi, Stuart Aitken, Dilvan Moreira, Chris Mungall, Juan Sequeda, Nigam H. Shah and Daniel P. Miranker. In: Proceedings of Semantic Web Applications and Tools for Life Sciences Workshop, Amsterdam, The Netherlands,
+  </dd>
+
+  <dt> <span id="obo-owl-swat4ls">[OBO OWL SWAT4LS]</span>
+  </dt><dd> <cite><a class="external text" href="http://userweb.cs.utexas.edu/~hamid/oboowl.html" title="http://userweb.cs.utexas.edu/~hamid/oboowl.html">OBO & OWL: Roundtrip Ontology Transformations.</a></cite>. Syed Hamid Tirmizi, Stuart Aitken, Dilvan Moreira, Chris Mungall, Juan Sequeda, Nigam H. Shah and Daniel P. Miranker. In: Proceedings of Semantic Web Applications and Tools for Life Sciences Workshop, Amsterdam, The Netherlands,
+  </dd>
+
+  <dt> <span id="obo-1-4">[OBO Format 1.4 Guide]</span>
+  </dt><dd> <cite><a class="external text" href="http://www.geneontology.org/GO.format.obo-1_4.shtml" title="http://www.geneontology.org/GO.format.obo-1_4.shtml">OBO Format 1.4 Guide</a></cite>. Chris Mungall, August 2010, http://www.geneontology.org/GO.format.obo-1_4.shtml
+  </dd>
+
+  <dt> <span id="ref-manchester-owl-dl">[Manchester OWL DL Syntax]</span>
+  </dt><dd> <cite><a class="external text" href="http://www.w3.org/TR/owl2-manchester-syntax/" title="http://www.w3.org/TR/owl2-manchester-syntax/">OWL 2 Web Ontology Language
+Manchester Syntax</a></cite>. Matthew Horridge, Peter F. Patel-Schneider, October 2009, http://www.w3.org/TR/owl2-manchester-syntax/
+  </dd>
+
+  <dt> <span id="ref-owl-macros">[OWL Macros]</span>
+  </dt><dd> <cite><a class="external text" href="http://github.com/cmungall/obo2owl/raw/master/papers/shortcuts-submitted-owled2010.pdf" title="http://github.com/cmungall/obo2owl/raw/master/papers/shortcuts-submitted-owled2010.pdf">OWL 2 Macros</a></cite>. Chris Mungall, David Osumi-Sutherland, Alan Ruttenberg, June 2010, http://github.com/cmungall/obo2owl/raw/master/papers/shortcuts-submitted-owled2010.pdf
+  </dd>
+
+  <dt> <span id="owldef">[OWLDEF]</span>
+  </dt><dd> <cite><a class="external text" href="http://leechuck.de/pub/or-sig.pdf" title="http://leechuck.de/pub/or-sig.pdf">OWLDEF: Integrating OBO and OWL</a></cite>. R Hoehndorf, A Oellrich, M Dumontier, J Kelso, H Herre, http://leechuck.de/pub/or-sig.pdf
+  </dd>
+
+  <dt> <span id="rel-patterns">[Relational Patterns]</span>
+  </dt><dd> <cite><a class="external text" href="http://www.webont.org/owled/2010/papers/owled2010_submission_3.pdf" title="http://www.webont.org/owled/2010/papers/owled2010_submission_3.pdf">Relational patterns in OWL and their application to OBO</a></cite>. R Hoehndorf, A Oellrich, M Dumontier, J Kelso, H Herre, "http://www.webont.org/owled/2010/papers/owled2010_submission_3.pdf
+  </dd>
+
+</dl>
 </body>
 </html>
