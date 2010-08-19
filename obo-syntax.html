@@ -319,6 +319,7 @@ Documents in the obo-format consist of sequences of Unicode characters
 [<cite><a href="#ref-unicode" title="">UNICODE</a></cite>] and are encoded in UTF-8
 [<cite><a href="#ref-rfc-3629" title="">RFC 3629</a></cite>].
 
+TODO - language tags
 
 <h3><a name="2.2"></a>2.2 Spacing Characters</h3>
 
@@ -388,7 +389,7 @@ order to be more consistent with Manchester Syntax.</p>
 <span class="nonterminal">header-frame</span> ::= { <span class="nonterminal">header-clause</span> <span class="nonterminal">nl*</span> }
 <span class="nonterminal">header-clause</span> ::= <span class="nonterminal">format-version-TVP</span>
         | <span class="nonterminal">data-version-TVP</span>
-        | data-Tag  <span class="nonterminal">DD-MM-YYYY</span> <span class="nonterminal">sp</span> <span class="nonterminal">hh-mm</span>
+        | date-Tag  <span class="nonterminal">DD-MM-YYYY</span> <span class="nonterminal">sp</span> <span class="nonterminal">hh-mm</span>
         | <span class="nonterminal">saved-by-TVP</span>
         | <span class="nonterminal">auto-generated-by-TVP</span>
         | import-Tag  <span class="nonterminal">IRI</span> | <span class="nonterminal">filepath</span>
@@ -428,7 +429,9 @@ classes).</p >
         | comment-TVP
         | subset-Tag <span class="nonterminal">Subset-ID</span> 
         | synonym-Tag <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">SynonymScope</span> [ <span class="nonterminal">ws</span> <span class="nonterminal">SynonymType-ID</span> ] <span class="nonterminal">XrefList</span> 
-        | xref-Tag <span class="nonterminal">ID</span> 
+        | xref-Tag <span class="nonterminal">Xref</span> 
+        | builtin-BT
+        | property_value-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">ID</span> 
         | is_a-Tag <span class="nonterminal">Class-ID</span> 
         | intersection_of-Tag <span class="nonterminal">Class-ID</span> 
         | intersection_of-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">Class-ID</span> 
@@ -441,8 +444,6 @@ classes).</p >
         | is_obsolete-BT
         | replaced_by-Tag <span class="nonterminal">Class-ID</span> 
         | consider-Tag <span class="nonterminal">ID</span> 
-        | is_metadata_tag-BT
-        | is_class_level_tag-BT
 </p >
 
 
@@ -466,9 +467,11 @@ classes).</p >
         | comment-TVP
         | subset-Tag <span class="nonterminal">Subset-ID</span> 
         | synonym-Tag <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">SynonymScope</span> [ <span class="nonterminal">ws</span> <span class="nonterminal">SynonymType-ID</span> ] <span class="nonterminal">XrefList</span> 
-        | xref-Tag <span class="nonterminal">ID</span> 
+        | xref-Tag <span class="nonterminal">Xref</span> 
+        | property_value-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">ID</span> 
         | domain-Tag <span class="nonterminal">Class-ID</span> 
         | range-Tag <span class="nonterminal">Class-ID</span> 
+        | builtin-BT
         | is_anti_symmetric-BT
         | is_cyclic-BT
         | is_reflexive-BT
@@ -493,6 +496,8 @@ classes).</p >
         | consider-Tag <span class="nonterminal">ID</span> 
         | expand_assertion_to-Tag <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">XrefList</span> 
         | expand_expression_to-Tag <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">XrefList</span> 
+        | is_metadata_tag-BT
+        | is_class_level_tag-BT
 </p >
 
 
@@ -517,6 +522,7 @@ classes).</p >
         | subset-Tag <span class="nonterminal">Subset-ID</span> 
         | synonym-Tag <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">SynonymScope</span> [ <span class="nonterminal">ws</span> <span class="nonterminal">SynonymType-ID</span> ] <span class="nonterminal">XrefList</span> 
         | xref-Tag <span class="nonterminal">ID</span> 
+        | property_value-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">ID</span> 
         | instance_of-Tag <span class="nonterminal">Class-ID</span> 
         | <span class="nonterminal">PropertyValueTagValue</span> 
         | relationship-Tag <span class="nonterminal">Rel-ID</span> <span class="nonterminal">ID</span> 
@@ -699,7 +705,7 @@ intersection_of(Rel-ID Class-ID) &isin; Frame[A]
   <tr><td>saved-by</td><td>Ontology</td><td>zero or one</td><td>-</td></tr>
   <tr><td>auto-generated-by</td><td>Ontology</td><td>zero or one</td><td>-</td></tr>
   <tr><td>is_anonymous</td><td>*</td><td>zero or one</td><td>-</td></tr>
-  <tr><td>name</td><td>*</td><td>zero or one</td><td>names are recommended for all tags</td></tr>
+  <tr><td>name</td><td>*</td><td>zero or one</td><td>names are recommended for all frames</td></tr>
   <tr><td>namespace</td><td>*</td><td>one</td><td>-</td></tr>
   <tr><td>def</td><td>*</td><td>zero or one</td><td>-</td></tr>
   <tr><td>comment</td><td>*</td><td>zero or one</td><td>-</td></tr>
@@ -839,7 +845,6 @@ AnnotationAssertion(<span class="name">T</span>(scope) <span class="name">T</spa
 
 <h3><a name="5.1"></a>5.1 Declarations</h3>
 
-
 <table border="1" cellspacing="0">
 <caption><a id="decl" name="decl" />
 	Mapping of declarations to OWL</caption>
@@ -870,7 +875,6 @@ is_class_level(true)
 <td valign="top" style="white-space: pre;">AnnotationProperty(<span class="name">T</span>(Rel-id))
 </td>
 </tr>
-
 
 <tr>
 <td valign="top" style="white-space: pre;">Typedef(Rel-id)
@@ -1166,14 +1170,15 @@ AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T
 <tr>
 
 <tr>
-<td valign="top" style="white-space: pre;">expand_expression_to(String Xrefs Qualifiers)</td>
-<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(expand_expression_to) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(OverRel-ID))</td>
+<td valign="top" style="white-space: pre;">is_cyclic(true Qualifiers)</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(is_cyclic) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(true))</td>
 </tr>
 <tr>
 
+
 <tr>
-<td valign="top" style="white-space: pre;">is_cyclic(true Qualifiers)</td>
-<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(is_cyclic) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(true))</td>
+<td valign="top" style="white-space: pre;">is_transitive(true Qualifiers)</td>
+<td valign="top" style="white-space: pre;">TransitiveObjectProperty(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Rel-ID))</td>
 </tr>
 <tr>
 
@@ -1214,8 +1219,13 @@ AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T
 <tr>
 
 <tr>
+<td valign="top" style="white-space: pre;">expand_expression_to(String Xrefs Qualifiers)</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(expand_expression_to) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(String))</td>
+</tr>
+<tr>
+<tr>
 <td valign="top" style="white-space: pre;">expand_assertion_to(String Xrefs Qualifiers)</td>
-<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(expand_assertion_to) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(OverRel-ID))</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(expand_assertion_to) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(String))</td>
 </tr>
 
 </tbody>
@@ -1292,6 +1302,11 @@ AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T
 </tr>
 
 <tr>
+<td valign="top" style="white-space: pre;">property_value(Rel-ID Entity-ID Qualifiers)</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(ID) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(Entity-ID))</td>
+</tr>
+
+<tr>
 <td valign="top" style="white-space: pre;">&lt;Tag&gt;(String Qualifiers)</td>
 <td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(&lt;Tag&gt;) <span class="name">T</span>(ID) <span class="name">T</span>(String))</td>
 </tr>
@@ -1355,6 +1370,11 @@ AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T
 </thead>
 
 <tbody>
+
+<tr>
+<td valign="top" style="white-space: pre;">is_obsolete</td>
+<td valign="top" style="white-space: pre;">owl:deprecated</td>
+</tr>
 
 <tr>
 <td valign="top" style="white-space: pre;">name</td>
@@ -1536,6 +1556,9 @@ Note we have no cognate of IAO:definition_source - we would have a generic xref 
   <li>If an expression cannot be translated, it is dropped OR converted into an OWL Macro, see below</li>
 </ul>
 
+<p>
+  TODO - some owl to obo translations may introduce owl:Thing - give this special status in OBO?
+</p>
 
 <h2><a name="7"></a>7 OWL Macros</h2>
 
