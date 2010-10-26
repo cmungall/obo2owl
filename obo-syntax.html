@@ -355,12 +355,39 @@ tag-value qualifiers.
 <p class="grammar" style="white-space: pre;">
 <span class="nonterminal">QuotedString</span> ::=  <span class="nonterminal">DblQuote</span> { ( <span class="nonterminal">OBOChar</span> - <span class="nonterminal">DblQuote</span> ) } <span class="nonterminal">DblQuote</span>
 <span class="nonterminal">UnquotedString</span> ::=  { <span class="nonterminal">OBOChar</span>  }
-<span class="nonterminal">OBOToken</span> ::=  { ( <span class="nonterminal">OBOChar</span> - <span class="nonterminal">WhiteSpaceChar</span> )  }
-<span class="nonterminal">ID</span> ::=  <span class="nonterminal">Class-ID</span> | <span class="nonterminal">Rel-ID</span>  | <span class="nonterminal">Instance-ID</span>  | <span class="nonterminal">Other-ID</span> 
-<span class="nonterminal">Class-ID</span> ::=  <span class="nonterminal">OBOToken</span>
-<span class="nonterminal">Rel-ID</span> ::=  <span class="nonterminal">OBOToken</span>
-<span class="nonterminal">Instance-ID</span> ::=  <span class="nonterminal">OBOToken</span>
-<span class="nonterminal">Other-ID</span> ::=  <span class="nonterminal">OBOToken</span>
+</p>
+
+<h3><a name="2.5"></a>2.5 Identifiers</h3>
+
+<p class="grammar" style="white-space: pre;">
+<span class="nonterminal">NonWsChar</span> ::=  ( <span class="nonterminal">OBOChar</span> - <span class="nonterminal">WhiteSpaceChar</span> ) 
+<span class="nonterminal">Class-ID</span> ::=  <span class="nonterminal">ID</span>
+<span class="nonterminal">Rel-ID</span> ::=  <span class="nonterminal">ID</span>
+<span class="nonterminal">Instance-ID</span> ::=  <span class="nonterminal">ID</span>
+<span class="nonterminal">ID</span> ::=  <span class="nonterminal">Prefixed-ID</span> | <span class="nonterminal">Unprefixed-ID</span>
+
+<span class="nonterminal">Unprefixed-ID</span> ::=  { ( <span class="nonterminal">NonWsChar</span> - <span class="nonterminal">':'</span> ) }
+<span class="nonterminal">Prefixed-ID</span> ::=  <span class="nonterminal">Canonical-Prefixed-ID</span> | <span class="nonterminal">NonCanonical-Prefixed-ID</span> 
+</p>
+
+<p class="grammar" style="white-space: pre;">
+
+<span class="nonterminal">Canonical-Prefixed-ID</span> ::=  <span class="nonterminal">Canonical-IDPrefix</span> ':' <span class="nonterminal">Canonical-LocalID</span> 
+<span class="nonterminal">Alpha-Char</span> ::=  <span class="nonterminal">a</span> |<span class="nonterminal">b</span> |<span class="nonterminal">c</span> |<span class="nonterminal">d</span> |<span class="nonterminal">e</span> |<span class="nonterminal">f</span> |<span class="nonterminal">g</span> |<span class="nonterminal">h</span> |<span class="nonterminal">i</span> |<span class="nonterminal">j</span> |<span class="nonterminal">k</span> |<span class="nonterminal">l</span> |<span class="nonterminal">m</span> |<span class="nonterminal">n</span> |<span class="nonterminal">o</span> |<span class="nonterminal">p</span> |<span class="nonterminal">q</span> |<span class="nonterminal">r</span> |<span class="nonterminal">s</span> |<span class="nonterminal">t</span> |<span class="nonterminal">u</span> |<span class="nonterminal">v</span> |<span class="nonterminal">w</span> |<span class="nonterminal">x</span> |<span class="nonterminal">y</span> |<span class="nonterminal">z</span> | <span class="nonterminal">A</span> |<span class="nonterminal">B</span> |<span class="nonterminal">C</span> |<span class="nonterminal">D</span> |<span class="nonterminal">E</span> |<span class="nonterminal">F</span> |<span class="nonterminal">G</span> |<span class="nonterminal">H</span> |<span class="nonterminal">I</span> |<span class="nonterminal">J</span> |<span class="nonterminal">K</span> |<span class="nonterminal">L</span> |<span class="nonterminal">M</span> |<span class="nonterminal">N</span> |<span class="nonterminal">O</span> |<span class="nonterminal">P</span> |<span class="nonterminal">Q</span> |<span class="nonterminal">R</span> |<span class="nonterminal">S</span> |<span class="nonterminal">T</span> |<span class="nonterminal">U</span> |<span class="nonterminal">V</span> |<span class="nonterminal">W</span> |<span class="nonterminal">X</span> |<span class="nonterminal">Y</span> |<span class="nonterminal">Z</span>
+<span class="nonterminal">Digit</span> ::= <span class="nonterminal">0</span> |<span class="nonterminal">1</span> |<span class="nonterminal">2</span> |<span class="nonterminal">3</span> |<span class="nonterminal">4</span> |<span class="nonterminal">5</span> |<span class="nonterminal">6</span> |<span class="nonterminal">7</span> |<span class="nonterminal">8</span> |<span class="nonterminal">9</span> 
+<span class="nonterminal">Canonical-IDPrefix</span> ::=  <span class="nonterminal">Alpha-Char</span> { ( '_' | <span class="nonterminal">Alpha-Char</span> ) }
+<span class="nonterminal">Canonical-LocalID</span> ::=  { <span class="nonterminal">Digit</span> }
+
+</p>
+
+<p class="grammar" style="white-space: pre;">
+
+<span class="nonterminal">NonCanonical-Prefixed-ID</span> ::=  <span class="nonterminal">Any-IDPrefix</span> ':' <span class="nonterminal">Any-LocalID</span>
+<span class="nonterminal">Any-IDPrefix</span> ::=  { ( <span class="nonterminal">NonWsChar</span> - <span class="nonterminal">':'</span> ) } ':' 
+<span class="nonterminal">Any-LocalID</span> ::=  { <span class="nonterminal">NonWsChar</span> }
+
+(note: TODO - this grammar rule subsumes the Canonical-Prefixed-ID rule. Is there a standard way to denote the former is a "greedy" rule, analagous to cut in LP?)
+
 </p>
 
 <h2><a name="3"></a>3 OBO Grammar</h3>
@@ -388,6 +415,7 @@ order to be more consistent with Manchester Syntax.</p>
 <p class="grammar" style="white-space: pre;">
 <span class="nonterminal">header-frame</span> ::= { <span class="nonterminal">header-clause</span> <span class="nonterminal">nl*</span> }
 <span class="nonterminal">header-clause</span> ::= <span class="nonterminal">format-version-TVP</span>
+        | <span class="nonterminal">ontology-TVP</span>
         | <span class="nonterminal">data-version-TVP</span>
         | date-Tag  <span class="nonterminal">DD-MM-YYYY</span> <span class="nonterminal">sp</span> <span class="nonterminal">hh-mm</span>
         | <span class="nonterminal">saved-by-TVP</span>
@@ -536,45 +564,9 @@ classes).</p >
 
 <h3><a name="3.5"></a>3.5 Annotation Frames</h3>
 
-<p >Annotation frames declares
-<i>annotations</i> (Note that these do not directly correspond to OWL
-annotations). An annotation is a statement relating two entities for
-which metadata can be conveniently attached</p >
-
-<p class="grammar" style="white-space: pre;">
-<span class="nonterminal">annotation-frame</span> ::= [ <span class="nonterminal">nl</span> ]
-        '[Annotation]' <span class="nonterminal">nl</span>
-        { <span class="nonterminal">annotation-frame-clause</span> <span class="nonterminal">EOL</span> }
-
-<span class="nonterminal">instance-frame-clause</span> ::= 
-        id-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">EOL</span>
-        | is_anonymous-BT
-        | name-TVP
-        | namespace-Tag <span class="nonterminal">OBONamespace</span> 
-        | alt_id-Tag <span class="nonterminal">ID</span> 
-        | def-Tag <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">XrefList</span> 
-        | comment-TVP
-        | subset-Tag <span class="nonterminal">Subset-ID</span> 
-        | synonym-Tag <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">SynonymScope</span> [ <span class="nonterminal">ws</span> <span class="nonterminal">SynonymType-ID</span> ] <span class="nonterminal">XrefList</span> 
-        | xref-Tag <span class="nonterminal">ID</span> 
-        | instance_of-Tag <span class="nonterminal">Class-ID</span> 
-        | subject-Tag <span class="nonterminal">ID</span> 
-        | relation-Tag <span class="nonterminal">ID</span> 
-        | is_negated-BT
-        | object-Tag <span class="nonterminal">ID</span> 
-        | source-Tag <span class="nonterminal">ID</span> 
-        | assigned_by-Tag <span class="nonterminal">ID</span> 
-        | evidence-Tag <span class="nonterminal">ID</span> 
-        | relationship-Tag <span class="nonterminal">Rel-ID</span> <span class="nonterminal">ID</span> 
-        | created_by-Tag <span class="nonterminal">Person-ID</span> 
-        | creation_date-Tag <span class="nonterminal">ISO-8601-DateTime</span> 
-        | is-obsolete-BT
-        | replaced_by-Tag <span class="nonterminal">Rel-ID</span> 
-        | consider-Tag <span class="nonterminal">ID</span> 
-</p>
 
 <p>
-  Annotation frames were introduced in obof1.4. Semantics for them will be defined in a separate document.
+  Deprecated
 </p>
 
 <h2><a name="4"></a>4 OBO Document Structure</h2>
@@ -607,7 +599,7 @@ Document - the result of parsing a physical OBO document file.</p>
   tag-value.
 </p>
 
-<h3><a name="4.2"></a>4.2 Assigning OBO namespaces</h3>
+<h3><a name="4.2"></a>4.2 OBO namespaces and ontology name</h3>
 
 <p>
   Note that OBO namespaces are not the same as OWL namespaces - the
@@ -625,6 +617,13 @@ Document - the result of parsing a physical OBO document file.</p>
   assigns a namespace arbitrarily. It is recommended this is
   equivalent to the URL or file path from which the document was
   retrieved.
+</p>
+
+<p>
+  Every OBODoc should have an "ontology" tag specified in the
+  header. If this is not specified, then the parser should supply a
+  default value. This value should be derived from the URL of the
+  source of the ontology (typically using http or file schemes).
 </p>
 
 <h3><a name="4.3"></a>4.4 Processing Header Macros</h3>
@@ -692,18 +691,19 @@ intersection_of(Rel-ID Class-ID) &isin; Frame[A]
 <thead>
 <tr><th>Tag</th>
     <th>Frame</th>
-    <th>Cardinality</th>
-    <th>Notes</th>
+    <th>Cardinality (Normative)</th>
+    <th>Informative Notes</th>
 </tr>
 </thead>
 
 <tbody>
 
-  <tr><td>format_version</td><td>Ontology</td><td>zero or one</td><td>-</td></tr>
-  <tr><td>date</td><td>Ontology</td><td>zero or one</td><td>-</td></tr>
-  <tr><td>default-namespace</td><td>Ontology</td><td>zero or one</td><td>-</td></tr>
-  <tr><td>saved-by</td><td>Ontology</td><td>zero or one</td><td>-</td></tr>
-  <tr><td>auto-generated-by</td><td>Ontology</td><td>zero or one</td><td>-</td></tr>
+  <tr><td>ontology</td><td>Header</td><td>zero or one</td><td>-</td>recommended for all docs</tr>
+  <tr><td>format_version</td><td>Header</td><td>zero or one</td><td>-</td></tr>
+  <tr><td>date</td><td>Header</td><td>zero or one</td><td>-</td></tr>
+  <tr><td>default-namespace</td><td>Header</td><td>zero or one</td><td>-</td></tr>
+  <tr><td>saved-by</td><td>Header</td><td>zero or one</td><td>-</td></tr>
+  <tr><td>auto-generated-by</td><td>Header</td><td>zero or one</td><td>-</td></tr>
   <tr><td>is_anonymous</td><td>*</td><td>zero or one</td><td>-</td></tr>
   <tr><td>name</td><td>*</td><td>zero or one</td><td>names are recommended for all frames</td></tr>
   <tr><td>namespace</td><td>*</td><td>one</td><td>-</td></tr>
@@ -754,7 +754,10 @@ but it will eventually "ground out" in (a fragment of) OWL DL.</p>
 
 <h3><a name="5.0"></a>5.0 Ontologies</h3>
 
-Generation of Ontology IRI - TODO
+<p>
+  An OBO-Doc translates to an owl Ontology. The Ontology IRI is
+  generated by extracting the value of the "ontology" tag in the header frame
+</p>
 
 <table border="1" cellspacing="0">
 <caption><a id="decl" name="decl" />
@@ -770,7 +773,7 @@ Generation of Ontology IRI - TODO
 <tr>
 <td valign="top" style="white-space: pre;">OBO-Doc(Header1...HeaderN Frame1..FrameM)
 </td>
-<td valign="top" style="white-space: pre;">Ontology(Ont-IRI 
+<td valign="top" style="white-space: pre;">Ontology(<span class="name">T</span>(Header[@ontology])
     <span class="name">T</span>(Header-1)...<span class="name">T</span>(Header-1)
     <span class="name">T</span>(Frame1)...<span class="name">T</span>(FrameM) )
 </td>
@@ -1491,9 +1494,59 @@ Note we have no cognate of IAO:definition_source - we would have a generic xref 
 
 <h3><a name="5.9"></a>5.9 Translation of Identifiers</h3>
 
-<p>TODO - see googledocs for now</p>
+<p>
+  Based on: <a href="https://docs.google.com/View?docID=0Acx6Blq96uycZHpwcm5td18wZGtkMmdiZ3Y&revision=_latest">OBO ID Policy</a>
+</p>
 
+<h4>Pre-processing</h4>
 <p>Every OBO-Document is automatically populated with an idspace(RO "http://purl.obolibrary.org/obo/RO_") clause</p>
+
+
+<h4>Translation of canonical OBO identifiers</h4>
+
+<table border="1" cellspacing="0">
+<caption><a id="translation-id" name="translationID" />
+	Translation of identifiers</caption>
+
+<thead>
+<tr><th>ID</th>
+    <th>Translation - <span class="name">T</span>(S)</th></tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td valign="top" style="white-space: pre;">Canonical-Prefixed-ID</td>
+<td valign="top" style="white-space: pre;"><span class="name">T<sup>prefix</sup></span>(Canonical-IDPrefix) <b>'_' Canonical-LocalID</b></td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">NonCanonical-Prefixed-ID</td>
+<td valign="top" style="white-space: pre;"><span class="name">T<sup>prefix</sup></span>(Any-IDPrefix) <b>'_' Any-LocalID</b></td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">Unprefixed-ID</td>
+<td valign="top" style="white-space: pre;"><span class="name">T<sup>prefix</sup></span>('unprefixed') <b>'_' Unprefixed-ID</b></td>
+</tr>
+
+</tbody>
+</table>
+
+<h4>Mapping ID Prefixes</h4>
+
+<ul>
+  <li>
+    If the OBODoc header tag contains an idspace clause <b>idspace(IDPrefix URIPrefix)</b>, then the value of <span class="name">T<sup>prefix</sup></span>(IDPrefix) is URIPrefix
+  </li>
+  <li>
+    If the OBODoc header tag contains no matching idspace clause then the value of of <span class="name">T<sup>prefix</sup></span>(prefix) is 'http://purl.obolibrary.org/obo/'
+  </li>
+</ul>
+
+<h4>Examples (informative)</h4>
+
+
 
 <h3><a name="5.n"></a>5.n Post-Processing OWL DL</h3>
 
