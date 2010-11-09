@@ -3,12 +3,13 @@ formulas(sos).
 all r all r1 all r2 (holds_over_chain(r,r1,r2) <->
                      (   all a all b all c (propertyAssertion(a,r1,b) & propertyAssertion(b,r2,c) -> propertyAssertion(a,r,c)))).
 
-all r all r1 all r2 (equivalent_to_chain(r,r1,r2) ->
-                     (   all a all b all c (propertyAssertion(a,r1,b) & propertyAssertion(b,r2,c) -> propertyAssertion(a,r,c)))).
-
-all r all r1 all r2  (equivalent_to_chain(r,r1,r2) ->
+all r all r1 all r2 (equivalent_to_chain(r,r1,r2) <->
+                     (   
+                         (   all a all b all c (propertyAssertion(a,r1,b) & propertyAssertion(b,r2,c) -> propertyAssertion(a,r,c))))
+                    &
                       (   all a all c (propertyAssertion(a,r,c)
                                       ->  (   exists b ( propertyAssertion(a,r1,b) & propertyAssertion(b,r2,c)))))).
+
 
 all r (transitive(r) <->
        (   all a all b all c (propertyAssertion(a,r,b) & propertyAssertion(b,r,c) -> propertyAssertion(a,r,c)))).
