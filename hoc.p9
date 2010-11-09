@@ -1,0 +1,42 @@
+formulas(sos).
+
+%all r all r1 all r2 all a all b all c (holds_over_chain(r,r1,r2) & propertyAssertion(a,r1,b) & propertyAssertion(b,r2,c) -> propertyAssertion(a,r,c)).
+all r all r1 all r2 (holds_over_chain(r,r1,r2) ->
+                     (   all a all b all c (propertyAssertion(a,r1,b) & propertyAssertion(b,r2,c) -> propertyAssertion(a,r,c)))).
+all r all r1 all r2 all a all b all c (equivalent_to_chain(r,r1,r2) & propertyAssertion(a,r1,b) & propertyAssertion(b,r2,c) -> propertyAssertion(a,r,c)).
+
+all r all r1 all r2 all a all c ( (equivalent_to_chain(r,r1,r2) & propertyAssertion(a,r,c))
+                                ->  (   exists b ( propertyAssertion(a,r1,b) & propertyAssertion(b,r2,c)))).
+
+all a all r all b all c (transitive(r) & propertyAssertion(a,r,b) & propertyAssertion(b,r,c) -> propertyAssertion(a,r,c)).
+
+equivalent_to_chain(OVERLAPS,HAS_PART,PART_OF).
+transitive(PART_OF).
+transitive(HAS_PART).
+
+propertyAssertion(HEAD,HAS_PART,BRAIN).
+propertyAssertion(BRAIN,PART_OF,CNS).
+propertyAssertion(CNS,PART_OF,NS).
+
+propertyAssertion(AXON,OVERLAPS,CELL).
+propertyAssertion(CELL,PART_OF,ORGANISM).
+
+
+end_of_list.
+
+formulas(goals).
+
+%propertyAssertion(AXON,OVERLAPS,CELL) & propertyAssertion(AXON,OVERLAPS,ORGANISM).
+%holds_over_chain(OVERLAPS,OVERLAPS,PART_OF).
+
+equivalent_to_chain(r,r1,r2) -> holds_over_chain(r,r1,r2).
+
+
+% propertyAssertion(HEAD,OVERLAPS,NS) & propertyAssertion(HEAD,HAS_PART,BRAIN) & propertyAssertion(BRAIN,PART_OF,NS).
+
+%exists z (propertyAssertion(AXON,HAS_PART,z) & propertyAssertion(z,PART_OF,CELL)).
+
+
+% all r all r1 all r2 ((equivalent_to_chain(r,r1,r2) & transitive(r2)) -> holds_over_chain(r,r,r2)).
+
+end_of_list.
