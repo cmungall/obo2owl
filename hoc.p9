@@ -34,14 +34,15 @@ formulas(goals).
 %propertyAssertion(AXON,OVERLAPS,CELL) & propertyAssertion(AXON,OVERLAPS,ORGANISM).
 %holds_over_chain(OVERLAPS,OVERLAPS,PART_OF).
 
-%all r all r1 all r2 (equivalent_to_chain(r,r1,r2) -> holds_over_chain(r,r1,r2)).
+% all r all r1 all r2 (equivalent_to_chain(r,r1,r2) -> holds_over_chain(r,r1,r2)).
 
 % propertyAssertion(HEAD,OVERLAPS,NS) & propertyAssertion(HEAD,HAS_PART,BRAIN) & propertyAssertion(BRAIN,PART_OF,NS).
 
 %exists z (propertyAssertion(AXON,HAS_PART,z) & propertyAssertion(z,PART_OF,CELL)).
 
 
- all r all r1 all r2 ((equivalent_to_chain(r,r1,r2) & transitive(r2)) -> holds_over_chain(r,r,r2)).
+all r all r1 all r2 ((equivalent_to_chain(r,r1,r2) & transitive(r2)) -> holds_over_chain(r,r,r2)).
+% all r all r1 all r2 ((equivalent_to_chain(r,r1,r2) & transitive(r2)) -> equivalent_to_chain(r,r,r2)).
 
 
 end_of_list.
