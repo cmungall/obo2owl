@@ -10,12 +10,10 @@ all r all r1 all r2  (equivalent_to_chain(r,r1,r2) ->
                       (   all a all c (propertyAssertion(a,r,c)
                                       ->  (   exists b ( propertyAssertion(a,r1,b) & propertyAssertion(b,r2,c)))))).
 
-%all r all r1 all r2 (equivalent_to_chain(r,r1,r2) -> holds_over_chain(r,r1,r2)).
-
-all a all r all b all c (transitive(r) & propertyAssertion(a,r,b) & propertyAssertion(b,r,c) -> propertyAssertion(a,r,c)).
+all r (transitive(r) <->
+       (   all a all b all c (propertyAssertion(a,r,b) & propertyAssertion(b,r,c) -> propertyAssertion(a,r,c)))).
 
 equivalent_to_chain(OVERLAPS,HAS_PART,PART_OF).
-%holds_over_chain(OVERLAPS,HAS_PART,PART_OF).
 transitive(PART_OF).
 transitive(HAS_PART).
 
@@ -43,5 +41,6 @@ formulas(goals).
 
 
  all r all r1 all r2 ((equivalent_to_chain(r,r1,r2) & transitive(r2)) -> holds_over_chain(r,r,r2)).
+
 
 end_of_list.
