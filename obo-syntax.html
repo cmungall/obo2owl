@@ -121,7 +121,6 @@ OBO Flat File Format 1.4 Syntax and Semantics [DRAFT]</h1>
   <dd><a href="http://www.cs.man.ac.uk/~horrocks/obo/syntax.html">http://www.cs.man.ac.uk/~horrocks/obo/syntax.html</a></dd>
   <dt>Editors: </dt>
   <dd>Chris Mungall, Lawrence Berkeley National Laboratory</dd>
-  <dd>YOUR NAME HERE</dd>
 <!--  <dt>Contributors: </dt>
   <dd><a href="person-URL">person-URL </a>, Affiliation</dd>
 -->
@@ -423,7 +422,7 @@ order to be more consistent with Manchester Syntax.</p>
         | import-Tag  <span class="nonterminal">IRI</span> | <span class="nonterminal">filepath</span>
         | subsetdef-Tag  <span class="nonterminal">ID</span> <span class="nonterminal">sp</span> <span class="nonterminal">QuotedString</span>
         | synonymtypedef-Tag  <span class="nonterminal">ID</span> <span class="nonterminal">sp</span> <span class="nonterminal">QuotedString</span>
-             [  <span class="nonterminal">ID</span> ]
+             [  <span class="nonterminal">SynonymScope</span> ]
         | default-namespace-Tag  <span class="nonterminal">OBONamespace</span>
         | idspace-Tag <span class="nonterminal">IDPrefix</span> <span class="nonterminal">sp</span> <span class="nonterminal">IRI</span>
             [ <span class="nonterminal">sp</span> <span class="nonterminal">QuotedString</span> ]
@@ -512,6 +511,7 @@ classes).</p >
         | union_of-Tag <span class="nonterminal">Rel-ID</span> 
         | equivalent_to-Tag <span class="nonterminal">Rel-ID</span> 
         | disjoint_from-Tag <span class="nonterminal">Rel-ID</span> 
+        | inverse_of-Tag <span class="nonterminal">Rel-ID</span> 
         | transitive_over-Tag <span class="nonterminal">Relation-ID</span>
         | holds_over_chain-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">Relation-ID</span>
         | equivalent_to_chain-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">Relation-ID</span>
@@ -562,12 +562,13 @@ classes).</p >
 </p >
 
 
-<h3><a name="3.5"></a>3.5 Annotation Frames</h3>
-
+<h3><a name="3.5"></a>3.5 Synonym Scopes</h3>
 
 <p>
-  Deprecated
+<span class="nonterminal">SynonymScope</span> ::= 
+        'EXACT' | 'BROAD' | 'NARROW' | 'RELATED'
 </p>
+
 
 <h2><a name="4"></a>4 OBO Document Structure</h2>
 
@@ -725,7 +726,8 @@ intersection_of(Rel-ID Class-ID) &isin; Frame[A]
   <tr><td>created_by</td><td>*</td><td>zero or one</td><td>-</td></tr>
   <tr><td>creation_date</td><td>*</td><td>zero or one</td><td>-</td></tr>
   <tr><td>is_obsolete</td><td>*</td><td>zero or one</td><td>-</td></tr>
-  <tr><td>is_metadata_tag</td><td>Term or Typedef</td><td>zero or one</td></tr>
+  <tr><td>is_metadata_tag</td><td>Typedef</td><td>zero or one</td><td>-</td></tr>
+  <tr><td>is_class_level</td><td>Typedef</td><td>zero or one</td><td>-</td></tr>
 
 </tbody>
 </table>
@@ -773,9 +775,9 @@ but it will eventually "ground out" in (a fragment of) OWL DL.</p>
 <tr>
 <td valign="top" style="white-space: pre;">OBO-Doc(Header1...HeaderN Frame1..FrameM)
 </td>
-<td valign="top" style="white-space: pre;">Ontology(<span class="name">T</span>(Header[@ontology])
-    <span class="name">T</span>(Header-1)...<span class="name">T</span>(Header-1)
-    <span class="name">T</span>(Frame1)...<span class="name">T</span>(FrameM) )
+<td valign="top" style="white-space: pre;">Ontology(<span class="name">T<sup>OntID</sup></span>(Header[@ontology],Header[@data-version])
+    <span class="name">T<sup>H</sup></span>(Header-1)...<span class="name">T<sup>H</sup></span>(Header-1)
+    <span class="name">T<sup>F</sup></span>(Frame1)...<span class="name">T<sup>F</sup></span>(FrameM) )
 </td>
 </tr>
 </tbody>
@@ -791,7 +793,7 @@ but it will eventually "ground out" in (a fragment of) OWL DL.</p>
 
 <thead>
 <tr><th>OBO</th>
-   <th>Translation - <span class="name">T</span>(S)</th></tr>
+   <th>Translation - <span class="name">T<sup>H</sup></span>(S)</th></tr>
 </thead>
 
 <tbody>
@@ -799,7 +801,7 @@ but it will eventually "ground out" in (a fragment of) OWL DL.</p>
 <tr>
 <td valign="top" style="white-space: pre;">data-version(String)
 </td>
-<td valign="top" style="white-space: pre;"><span class="name">T</span>(remark) <span class="name">T</span>(String)</td>
+<td valign="top" style="white-space: pre;">-
 </td>
 </tr>
 
@@ -850,22 +852,22 @@ AnnotationAssertion(<span class="name">T</span>(scope) <span class="name">T</spa
 
 <table border="1" cellspacing="0">
 <caption><a id="decl" name="decl" />
-	Mapping of declarations to OWL</caption>
+	Mapping of frames/stanzas to OWL</caption>
 
 <thead>
-<tr><th>Frame</th>
+<tr><th>OBO</th>
   <th>Conditions</th>
-    <th>Translation - <span class="name">T</span>(S)</th></tr>
+  <th>Translation - <span class="name">T<sup>F</sup></span>(S)</th></tr>
 </thead>
 
 <tbody>
 
 <tr>
-<td valign="top" style="white-space: pre;">Term(Class-id)
+<td valign="top" style="white-space: pre;">Term(Class-id Clause-1..Clause-n)
 </td>
 <td>
 </td>
-<td valign="top" style="white-space: pre;">Class(<span class="name">T</span>(Class-id))
+<td valign="top" style="white-space: pre;">Class(<span class="name">T</span>(Class-id)) <span class="name">T<sup>C</sup></span>(Clause-1)..<span class="name">T<sup>C</sup></span>(Clause-n)
 </td>
 </tr>
 
@@ -875,16 +877,18 @@ AnnotationAssertion(<span class="name">T</span>(scope) <span class="name">T</spa
 <td>is_metadata_tag(true) OR
 is_class_level(true)
 </td>
-<td valign="top" style="white-space: pre;">AnnotationProperty(<span class="name">T</span>(Rel-id))
+<td valign="top" style="white-space: pre;">AnnotationProperty(<span class="name">T</span>(Rel-id)) <span class="name">T<sup>P</sup></span>(Clause-1)..<span class="name">P<sup>C</sup></span>(Clause-n)
 </td>
 </tr>
 
 <tr>
 <td valign="top" style="white-space: pre;">Typedef(Rel-id)
 </td>
-<td>
+<td>NOT (is_metadata_tag(true) OR
+is_class_level(true) )
 </td>
-<td valign="top" style="white-space: pre;">ObjectProperty(<span class="name">T</span>(Rel-id))
+
+<td valign="top" style="white-space: pre;">ObjectProperty(<span class="name">T</span>(Rel-id)) <span class="name">T<sup>P</sup></span>(Clause-1)..<span class="name">P<sup>C</sup></span>(Clause-n)
 </td>
 </tr>
 
@@ -893,7 +897,7 @@ is_class_level(true)
 </td>
 <td>
 </td>
-<td valign="top" style="white-space: pre;">NamedIndividual(<span class="name">T</span>(Instance-id))
+<td valign="top" style="white-space: pre;">NamedIndividual(<span class="name">T</span>(Instance-id)) <span class="name">T<sup>I</sup></span>(Clause-1)..<span class="name">I<sup>C</sup></span>(Clause-n)
 </td>
 </tr>
 </tbody>
@@ -915,7 +919,7 @@ is_class_level(true)
 
 <thead>
 <tr><th>Term frame with id:Class-ID</th>
-    <th>Translation - <span class="name">T</span>(S)</th></tr>
+  <th>Translation - <span class="name">T<sup>C</sup></span>(S)</th></tr>
 </thead>
 
 <tbody>
@@ -1101,7 +1105,7 @@ all_some(true) &isin; Qualifiers
 
 <thead>
 <tr><th>Typedef frame with id:Rel-ID</th>
-    <th>Translation - <span class="name">T</span>(S)</th></tr>
+    <th>Translation - <span class="name">T<sup>P</sup></span>(S)</th></tr>
 </thead>
 
 <tbody>
@@ -1131,6 +1135,12 @@ all_some(true) &isin; Qualifiers
 </tr>
 
 <tr>
+<td valign="top" style="white-space: pre;">inverse_of(TargetRel-ID Qualifiers))
+</td>
+<td valign="top" style="white-space: pre;">InverseProperties(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(TargetRel-ID))</td>
+</tr>
+
+<tr>
 <td valign="top" style="white-space: pre;">equivalent_to(TargetRel-ID Qualifiers))
 </td>
 <td valign="top" style="white-space: pre;">EquivalentObjectProperties(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(TargetRel-ID))</td>
@@ -1154,6 +1164,11 @@ AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T
 AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(union_intersection_of) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(TargetRel-ID))</td>
 </tr>
 <tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">transitive_over(Rel2-ID Qualifiers)</td>
+<td valign="top" style="white-space: pre;">SubObjectPropertyOf(<span class="name">T</span>(Qualifiers) ObjectPropertyChain( <span class="name">T</span>(Rel-ID) <span class="name">T</span>(Rel2-ID) ) <span class="name">T</span>(Rel-ID) )</td>
+</tr>
 
 <tr>
 <td valign="top" style="white-space: pre;">holds_over_chain(Rel1-ID Rel2-ID Qualifiers)</td>
@@ -1234,6 +1249,36 @@ AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T
 </tbody>
 </table>
 
+<h4>Inferred Axioms</h4>
+
+              <p>
+                The OBO Format equivalent_to_chain clause can only be
+                partially expressed in OWL2. We can do some inference
+                as part of translation -
+                see <a href="https://github.com/cmungall/obo2owl/blob/master/hoc.p9">this
+                prover9 file</a> for a proof.
+              </p>
+              
+<table border="1" cellspacing="0">
+<caption><a id="translation-i" name="translationI" />
+	Translation of Instance frames to OWL</caption>
+
+<thead>
+<tr><th>Typedef frame with id:Rel-ID</th>
+    <th>Translation - <span class="name">T<sup>P</sup></span>(S)</th></tr>
+</thead>
+<tr>
+<td valign="top" style="white-space: pre;">equivalent_to_chain(Rel1-ID Rel2-ID Qualifiers)
+is_transitive(Rel2-ID)</td>
+<td valign="top" style="white-space: pre;">SubObjectPropertyOf(ObjectPropertyChain( <span class="name">T</span>(Rel-ID) <span class="name">T</span>(Rel2-ID) ) <span class="name">T</span>(Rel-ID) )</td>
+</tr>
+<tr>
+<td valign="top" style="white-space: pre;">equivalent_to_chain(Rel1-ID Rel2-ID Qualifiers)
+is_transitive(Rel1-ID)</td>
+<td valign="top" style="white-space: pre;">SubObjectPropertyOf(ObjectPropertyChain( <span class="name">T</span>(Rel-ID) <span class="name">T</span>(Rel1-ID) ) <span class="name">T</span>(Rel-ID) )</td>
+</tr>
+</table>
+
 <h3><a name="5.5"></a>5.5 Individual Axioms</h3>
 
 <table border="1" cellspacing="0">
@@ -1306,13 +1351,19 @@ AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T
 
 <tr>
 <td valign="top" style="white-space: pre;">property_value(Rel-ID Entity-ID Qualifiers)</td>
-<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(ID) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(Entity-ID))</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(ID) <span class="name">T</span>(Entity-ID))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">subset(Subsetdef-ID)</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(subset) <span class="name">T</span>(ID) <span class="name">T</span>(Subsetdef-ID))</td>
 </tr>
 
 <tr>
 <td valign="top" style="white-space: pre;">&lt;Tag&gt;(String Qualifiers)</td>
 <td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(&lt;Tag&gt;) <span class="name">T</span>(ID) <span class="name">T</span>(String))</td>
 </tr>
+
 </tbody>
 </table>
 
@@ -1492,6 +1543,51 @@ AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T
 Note we have no cognate of IAO:definition_source - we would have a generic xref annotation on the definition annotation assertion
 </p>
 
+<h4><a name="5.9.1"></a>5.9.1 Semantics of synonyms</h3>
+
+<p>
+  Mapping of OBO Format synonym clauses is described
+  in <a href="#5.6">5.6</a>. These map to annotation properties
+  without any semantics in OWL. This section provides semantics
+  external to OWL.
+</p>
+
+<h5>Informal Description (Informative)</h5>
+
+<p>
+In OBO Format, the term "synonym" is used loosely for any kind of
+alternative label for a class (the "name" tag is used for the
+community preferred label). A label is a synonym for a class if there
+exists some user or user community (existing or historic) for which
+this label unambiguously denotes the class.
+</p>
+
+<p>
+Synonyms are always scoped into one of four disjoint categories:
+EXACT, BROAD, NARROW, RELATED. A synonym is EXACT if it is a "true"
+synonym - most members of the community served by the ontology regard
+the exact synonym as substitutable for the primary label. If an
+ontology contains two classes which share either primary label (name)
+or exact synonym, then these classes are equivalent.  A synonym for a
+class C is BROAD if it denotes a broader class than C. Here, broader
+than is an informal notion that encompasses both subsumption and
+possibly mereological and temporal containment. For example, "skull"
+could conceivably be a BROAD synonym for the
+class <i>cranium</i>. Conversely a synonym for a class C is NARROW if
+C denotes a broader class than the synonym. If a synonym is neither
+EXACT, NARROW or BROAD, then it is RELATED.
+</p>
+
+<p>
+Scoping of synonyms has proven extremely useful for OBO format
+ontologies - most ontologies use this feature. The ability to
+designate a synonym as EXACT, in particular, is very useful for
+introducing additional terminological precision and reducing ambiguity
+in ontologies. These have also proven useful for NLP purposes.
+</p>
+
+
+
 <h3><a name="5.9"></a>5.9 Translation of Identifiers</h3>
 
 <p>
@@ -1548,6 +1644,7 @@ Note we have no cognate of IAO:definition_source - we would have a generic xref 
 
 
 
+
 <h3><a name="5.n"></a>5.n Post-Processing OWL DL</h3>
 
 <table border="1" cellspacing="0">
@@ -1555,14 +1652,13 @@ Note we have no cognate of IAO:definition_source - we would have a generic xref 
   Post-processing OWL2 DL
 </caption>  
 <thead>
-  <tr><th>Axiom to be Replaced</th>
+  <tr><th>Remove Axiom</th>
   <th>If Ontology Contains</th>
     <th>Replace With</th></tr>
 </thead>
 
 <tbody>
-<tr>
-  <td>
+  <tr>
     <td>
       ObjectExactCardinality(n P CE), n>0
     </td>
@@ -1572,8 +1668,8 @@ Note we have no cognate of IAO:definition_source - we would have a generic xref 
     <td>
       SomeValuesFrom(P CE)
     </td>
-</tr>
-<tr>
+  </tr>
+  <tr>
     <td>
       ObjectMinCardinality(n P CE), n>0
     </td>
@@ -1583,8 +1679,8 @@ Note we have no cognate of IAO:definition_source - we would have a generic xref 
     <td>
       SomeValuesFrom(P CE)
     </td>
-</tr>
-<tr>
+  </tr>
+  <tr>
     <td>
       ObjectMaxCardinality(n P CE)
     </td>
@@ -1594,7 +1690,7 @@ Note we have no cognate of IAO:definition_source - we would have a generic xref 
     <td>
       -
     </td>
-</tr>
+  </tr>
 </tbody>
 </table>
 
@@ -1779,7 +1875,7 @@ and Mapping to OWL Web Ontology Language</a></cite>. Ian Horrocks, March 2007. h
 Manchester Syntax</a></cite>. Matthew Horridge, Peter F. Patel-Schneider, October 2009, http://www.w3.org/TR/owl2-manchester-syntax/
   </dd>
 
-  <dt> <span id="ref-owl-macros">[OWL Macros]</span>
+  <dt> <span id="owl-macros">[OWL Macros]</span>
   </dt><dd> <cite><a class="external text" href="http://github.com/cmungall/obo2owl/raw/master/papers/shortcuts-submitted-owled2010.pdf" title="http://github.com/cmungall/obo2owl/raw/master/papers/shortcuts-submitted-owled2010.pdf">OWL 2 Macros</a></cite>. Chris Mungall, David Osumi-Sutherland, Alan Ruttenberg, June 2010, http://github.com/cmungall/obo2owl/raw/master/papers/shortcuts-submitted-owled2010.pdf
   </dd>
 
