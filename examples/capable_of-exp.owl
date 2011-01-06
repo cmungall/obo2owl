@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE rdf:RDF [
-    <!ENTITY oboInOwl 'http://www.geneontology.org/formats/oboInOwl#'>
+    <!ENTITY obo 'http://purl.obolibrary.org/obo/'>
     <!ENTITY owl 'http://www.w3.org/2002/07/owl#'>
     <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
     <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema#'>
@@ -8,118 +8,147 @@
 ]>
 
 <rdf:RDF
-    xmlns:oboInOwl="&oboInOwl;"
+    xmlns:obo="&obo;"
     xmlns:owl="&owl;"
     xmlns:rdf="&rdf;"
     xmlns:rdfs="&rdfs;"
     xmlns:xsd="&xsd;"
 >
-<owl:Ontology rdf:about="http://purl.org/obo/owl/capable_of"
-    rdfs:label="">
-  <rdfs:comment>          This is an OWL translation of an ontology whose native representational form is .obo. The translation was performed using the oboInOwl xslt library. For details, see http://www.berkeleybop.org/obo-conv.cgi
-        </rdfs:comment>
-</owl:Ontology>
+<owl:Ontology rdf:about="&obo;XX.owl"/>
 
-<owl:AnnotationProperty rdf:about="&oboInOwl;hasAlternativeId"/>
+<owl:AnnotationProperty rdf:about="&obo;IAO_xref"/>
 
-<owl:AnnotationProperty rdf:about="&oboInOwl;hasDate"/>
+<owl:AnnotationProperty rdf:about="&obo;IAO_0000424"/>
 
-<owl:AnnotationProperty rdf:about="&oboInOwl;hasVersion"/>
+<owl:AnnotationProperty rdf:about="&obo;IAO_namespace"/>
 
-<owl:AnnotationProperty rdf:about="&oboInOwl;hasDbXref"/>
+<owl:AnnotationProperty rdf:about="&rdfs;comment"/>
 
-<owl:AnnotationProperty rdf:about="&oboInOwl;hasDefaultNamespace"/>
+<owl:AnnotationProperty rdf:about="&obo;IAO_id"/>
 
-<owl:AnnotationProperty rdf:about="&oboInOwl;hasOBONamespace"/>
+<owl:AnnotationProperty rdf:about="&rdfs;label"/>
 
-<owl:AnnotationProperty rdf:about="&oboInOwl;hasDefinition"/>
+<owl:AnnotationProperty rdf:about="&obo;IAO_is_class_level"/>
 
-<owl:AnnotationProperty rdf:about="&oboInOwl;hasSynonym"/>
+<owl:Class rdf:about="&obo;CL_0000000">
+  <obo:IAO_id rdf:datatype="&xsd;string">CL:0000000</obo:IAO_id>
+  <obo:IAO_namespace rdf:datatype="&xsd;string">cell</obo:IAO_namespace>
+  <obo:IAO_xref rdf:datatype="&xsd;string">FMA:68646</obo:IAO_xref>
+  <rdfs:label rdf:datatype="&xsd;string">cell</rdfs:label>
+</owl:Class>
 
-<owl:AnnotationProperty rdf:about="&oboInOwl;hasExactSynonym"/>
-
-<owl:AnnotationProperty rdf:about="&oboInOwl;hasNarrowSynonym"/>
-
-<owl:AnnotationProperty rdf:about="&oboInOwl;hasBroadSynonym"/>
-
-<owl:AnnotationProperty rdf:about="&oboInOwl;hasRelatedSynonym"/>
-
-<owl:AnnotationProperty rdf:about="&oboInOwl;hasSynonymType"/>
-
-<owl:AnnotationProperty rdf:about="&oboInOwl;hasSubset"/>
-
-<owl:AnnotationProperty rdf:about="&oboInOwl;hasURI"/>
-
-<owl:AnnotationProperty rdf:about="&oboInOwl;isCyclic"/>
-
-<owl:AnnotationProperty rdf:about="&oboInOwl;inSubset"/>
-
-<owl:AnnotationProperty rdf:about="&oboInOwl;savedBy"/>
-
-<owl:AnnotationProperty rdf:about="&oboInOwl;replacedBy"/>
-
-<owl:AnnotationProperty rdf:about="&oboInOwl;consider"/>
-
-<owl:AnnotationProperty rdf:about="&oboInOwl;expandAssertionTo"/>
-
-<owl:AnnotationProperty rdf:about="&oboInOwl;expandExpressionTo"/>
-
-<owl:Class rdf:about="&oboInOwl;DbXref"/>
-
-<owl:Class rdf:about="&oboInOwl;Definition"/>
-
-<owl:Class rdf:about="&oboInOwl;Subset"/>
-
-<owl:Class rdf:about="&oboInOwl;Synonym"/>
-
-<owl:Class rdf:about="&oboInOwl;SynonymType"/>
-
-<owl:Class rdf:about="&oboInOwl;ObsoleteClass"/>
-
-<owl:Class rdf:about="http://purl.org/obo/owl/CL#CL_0000034"
-    oboInOwl:hasOBONamespace="cell">
-  <oboInOwl:hasDefinition>
-    <oboInOwl:Definition>
-      <oboInOwl:hasDbXref>
-        <oboInOwl:DbXref
-            rdfs:label="MESH:A.11.872">
-          <oboInOwl:hasURI rdf:datatype="&xsd;anyURI">http://purl.org/obo/owl/MESH#MESH_A.11.872</oboInOwl:hasURI>
-        </oboInOwl:DbXref>
-      </oboInOwl:hasDbXref>
-      <rdfs:label xml:lang="en">A relatively undifferentiated cell that retains the ability to divide and proliferate throughout life to provide progenitor cells that can differentiate into specialized cells.</rdfs:label>
-    </oboInOwl:Definition>
-  </oboInOwl:hasDefinition>
-  <rdfs:label xml:lang="en">stem cell</rdfs:label>
-  <rdfs:subClassOf rdf:resource="http://purl.org/obo/owl/CL#CL_0000012"/>
+<owl:Class rdf:about="&obo;CL_0000034">
+  <obo:IAO_id rdf:datatype="&xsd;string">CL:0000034</obo:IAO_id>
+  <obo:IAO_namespace rdf:datatype="&xsd;string">cell</obo:IAO_namespace>
+  <rdfs:label rdf:datatype="&xsd;string">stem cell</rdfs:label>
   <owl:equivalentClass>
-    <rdf:Description>
+    <owl:Class>
       <owl:intersectionOf rdf:parseType="Collection">
-        <rdf:Description rdf:about="http://purl.org/obo/owl/CL#CL_0000000"/>
+        <rdf:Description rdf:about="&obo;CL_0000000"/>
         <owl:Restriction>
-          <owl:onProperty rdf:resource="bearerOf"/>
+          <owl:onProperty rdf:resource="&obo;XX_bearerOf"/>
           <owl:someValuesFrom>
             <owl:Restriction>
-              <owl:allValuesFrom rdf:resource="http://purl.org/obo/owl/GO#GO_0017145"/>
-              <owl:onProperty rdf:resource="realizedBy"/>
+              <owl:allValuesFrom rdf:resource="&obo;GO_0017145"/>
+              <owl:onProperty rdf:resource="&obo;XX_realizedBy"/>
             </owl:Restriction>
           </owl:someValuesFrom>
         </owl:Restriction>
       </owl:intersectionOf>
-    </rdf:Description>
+    </owl:Class>
   </owl:equivalentClass>
 </owl:Class>
 
-<owl:Class rdf:about="http://purl.org/obo/owl/CL#CL_0000000"/>
+<owl:Class rdf:about="&obo;CL_9999995">
+  <rdfs:subClassOf>
+    <owl:Restriction rdf:nodeID="bn0">
+      <owl:onProperty rdf:resource="&obo;XX_develops_from"/>
+      <owl:someValuesFrom rdf:resource="&obo;CL_0000000"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf rdf:resource="&obo;CL_0000000"/>
+  <obo:IAO_id rdf:datatype="&xsd;string">CL:9999995</obo:IAO_id>
+  <obo:IAO_namespace rdf:datatype="&xsd;string">cell</obo:IAO_namespace>
+  <rdfs:label rdf:datatype="&xsd;string">test5</rdfs:label>
+</owl:Class>
 
-<owl:ObjectProperty rdf:about="&oboInOwl;ObsoleteProperty"/>
+<owl:Class rdf:about="&obo;CL_9999996">
+  <rdfs:subClassOf rdf:nodeID="bn0"/>
+  <rdfs:subClassOf rdf:resource="&obo;CL_0000000"/>
+  <obo:IAO_id rdf:datatype="&xsd;string">CL:9999996</obo:IAO_id>
+  <obo:IAO_namespace rdf:datatype="&xsd;string">cell</obo:IAO_namespace>
+  <rdfs:label rdf:datatype="&xsd;string">test4</rdfs:label>
+</owl:Class>
 
-<owl:ObjectProperty rdf:about="http://purl.org/obo/owl/obo#capable_of"
-    oboInOwl:expandExpressionTo="bearerOf some (realizedBy only ?Y)">
-  <rdfs:comment rdf:datatype="&xsd;string">note the difficulty in representing this one as a property chain on the instance level, because of the some-only pattern</rdfs:comment>
+<owl:Class rdf:about="&obo;CL_9999997">
+  <rdfs:subClassOf>
+    <owl:Restriction rdf:nodeID="bn1">
+      <owl:onProperty rdf:resource="&obo;XX_bearerOf"/>
+      <owl:someValuesFrom>
+        <owl:Restriction>
+          <owl:allValuesFrom rdf:resource="&obo;GO_0017145"/>
+          <owl:onProperty rdf:resource="&obo;XX_realizedBy"/>
+        </owl:Restriction>
+      </owl:someValuesFrom>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf rdf:resource="&obo;CL_0000000"/>
+  <obo:IAO_id rdf:datatype="&xsd;string">CL:9999997</obo:IAO_id>
+  <obo:IAO_namespace rdf:datatype="&xsd;string">cell</obo:IAO_namespace>
+  <rdfs:label rdf:datatype="&xsd;string">test3</rdfs:label>
+</owl:Class>
+
+<owl:Class rdf:about="&obo;CL_9999998">
+  <obo:IAO_id rdf:datatype="&xsd;string">CL:9999998</obo:IAO_id>
+  <obo:IAO_namespace rdf:datatype="&xsd;string">cell</obo:IAO_namespace>
+  <rdfs:label rdf:datatype="&xsd;string">test2</rdfs:label>
+  <rdfs:subClassOf rdf:nodeID="bn1"/>
+</owl:Class>
+
+<owl:Class rdf:about="&obo;CL_9999999">
+  <obo:IAO_id rdf:datatype="&xsd;string">CL:9999999</obo:IAO_id>
+  <obo:IAO_namespace rdf:datatype="&xsd;string">cell</obo:IAO_namespace>
+  <rdfs:label rdf:datatype="&xsd;string">test</rdfs:label>
+  <rdfs:subClassOf rdf:nodeID="bn1"/>
+</owl:Class>
+
+<owl:Class rdf:about="&obo;GO_0017145">
+  <obo:IAO_id rdf:datatype="&xsd;string">GO:0017145</obo:IAO_id>
+  <obo:IAO_namespace rdf:datatype="&xsd;string">biological_process</obo:IAO_namespace>
+  <rdf:type rdf:resource="&owl;NamedIndividual"/>
+  <rdfs:label rdf:datatype="&xsd;string">stem cell division</rdfs:label>
+</owl:Class>
+
+<owl:Class rdf:about="&obo;XX_1">
+  <obo:IAO_id rdf:datatype="&xsd;string">XX:1</obo:IAO_id>
+  <rdfs:label rdf:datatype="&xsd;string">a</rdfs:label>
+</owl:Class>
+
+<owl:ObjectProperty rdf:about="&obo;XX_bearerOf">
+  <obo:IAO_id rdf:datatype="&xsd;string">XX:bearerOf</obo:IAO_id>
+  <rdfs:label rdf:datatype="&xsd;string">bearer_of</rdfs:label>
 </owl:ObjectProperty>
 
-<owl:AnnotationProperty rdf:about="&rdfs;label"/>
+<owl:ObjectProperty rdf:about="&obo;XX_capable_of">
+  <obo:IAO_0000424 rdf:datatype="&xsd;string">http://purl.obolibrary.org/obo/XX_bearerOf some (http://purl.obolibrary.org/obo/XX_realizedBy only ?Y)</obo:IAO_0000424>
+  <obo:IAO_id rdf:datatype="&xsd;string">XX:capable_of</obo:IAO_id>
+  <obo:IAO_is_class_level rdf:datatype="&xsd;string">true</obo:IAO_is_class_level>
+  <rdfs:comment rdf:datatype="&xsd;string">note the difficulty in representing this one as a property chain on the instance level, because of the some-only pattern</rdfs:comment>
+  <rdfs:label rdf:datatype="&xsd;string">capable_of</rdfs:label>
+</owl:ObjectProperty>
 
-<owl:AnnotationProperty rdf:about="&rdfs;comment"/>
+<owl:ObjectProperty rdf:about="&obo;XX_develops_from">
+  <obo:IAO_id rdf:datatype="&xsd;string">XX:develops_from</obo:IAO_id>
+  <rdfs:label rdf:datatype="&xsd;string">develops_from</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="&obo;XX_realizedBy">
+  <obo:IAO_id rdf:datatype="&xsd;string">XX:realizedBy</obo:IAO_id>
+  <rdfs:label rdf:datatype="&xsd;string">realized_by</rdfs:label>
+</owl:ObjectProperty>
+
+<rdf:Description>
+  <obo:IAO_xref rdf:datatype="&xsd;string"></obo:IAO_xref>
+</rdf:Description>
 
 </rdf:RDF>

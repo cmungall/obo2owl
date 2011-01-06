@@ -1595,8 +1595,12 @@ in ontologies. These have also proven useful for NLP purposes.
 </p>
 
 <h4>Pre-processing</h4>
-<p>Every OBO-Document is automatically populated with an idspace(RO "http://purl.obolibrary.org/obo/RO_") clause</p>
-
+<p>Every OBO-Document is automatically populated with two clauses:
+ <ul>
+   <li>idspace(RO "http://purl.obolibrary.org/obo/RO_")</li>
+   <li>idspace(BFO "http://purl.obolibrary.org/obo/BFO_")</li>
+ </ul>
+</p>
 
 <h4>Translation of canonical OBO identifiers</h4>
 
@@ -1623,7 +1627,7 @@ in ontologies. These have also proven useful for NLP purposes.
 
 <tr>
 <td valign="top" style="white-space: pre;">Unprefixed-ID</td>
-<td valign="top" style="white-space: pre;"><span class="name">T<sup>prefix</sup></span>('unprefixed') <b>'_' Unprefixed-ID</b></td>
+<td valign="top" style="white-space: pre;">OntologyIRI <b>'#' Unprefixed-ID</b></td>
 </tr>
 
 </tbody>

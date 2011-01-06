@@ -20,7 +20,7 @@ formulas(goals).
 
 (   all r all r1 all r2 ((equivalent_to_chain(r,r1,r2) & transitive(r2)) -> holds_over_chain(r,r,r2)) ).
 
-% UNCOMMENT THIS LINE AND COMMENT THE ABOVE TO TEST THIS GOAL
+% UNCOMMENT THE FOLLOWING LINE AND COMMENT OUT THE ABOVE TO TEST THIS GOAL
 %( all r all r1 all r2 ((equivalent_to_chain(r,r1,r2) & transitive(r1)) -> holds_over_chain(r,r1,r)) ).
 
 

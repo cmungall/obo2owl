@@ -6,7 +6,7 @@
 %-exp.owlpl: %.owl
 	thea  --ensure_loaded owlmacros/owlmacros $< --debug owlmacros --goal expand_all --to owlpl > $@
 
-# go-perl is required for obo->owl conversion
-# (note currently requires latest version from cvs)
+# see oboformat project on googlecode
 %.owl: %.obo
-	go2owl $< > $@
+	obolib-obo2owl $< -o file://`pwd`/$@
+#go2owl $< > $@
