@@ -428,8 +428,9 @@ order to be more consistent with Manchester Syntax.</p>
             [ <span class="nonterminal">sp</span> <span class="nonterminal">QuotedString</span> ]
         | treat-xrefs-as-equivalent-Tag <span class="nonterminal">IDPrefix</span>
         | treat-xrefs-as-genus-differentia-Tag <span class="nonterminal">IDPrefix</span> <span class="nonterminal">ws</span> <span class="nonterminal">Rel-ID</span> <span class="nonterminal">ws</span> <span class="nonterminal">Class-ID</span>
-        | treat-xrefs-as-relationship-Tag <span class="nonterminal">IDPrefix</span>
+        | treat-xrefs-as-relationship-Tag <span class="nonterminal">IDPrefix</span> <span class="nonterminal">Rel-ID</span>
         | treat-xrefs-as-is_a-Tag <span class="nonterminal">IDPrefix</span>
+        | treat-xrefs-as-has-subclass-Tag <span class="nonterminal">IDPrefix</span>
         | remark-TVP
         | <span class="nonterminal">UnreservedToken</span> ':'  [  <span class="nonterminal">ws</span> ] <span class="nonterminal">UnquotedString</span>
 <span class="nonterminal">entity-frame</span> ::= <span class="nonterminal">term-frame</span> | <span class="nonterminal">typedef-frame</span> | <span class="nonterminal">instance-frame</span> | <span class="nonterminal">annotation-frame</span>
@@ -458,7 +459,7 @@ classes).</p >
         | synonym-Tag <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">SynonymScope</span> [ <span class="nonterminal">ws</span> <span class="nonterminal">SynonymType-ID</span> ] <span class="nonterminal">XrefList</span> 
         | xref-Tag <span class="nonterminal">Xref</span> 
         | builtin-BT
-        | property_value-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">ID</span> 
+        | property_value-Tag <span class="nonterminal">Relation-ID</span> ( <span class="nonterminal">QuotedString</span> <span class="nonterminal">XSD-Type</span> | <span class="nonterminal">ID</span> )
         | is_a-Tag <span class="nonterminal">Class-ID</span> 
         | intersection_of-Tag <span class="nonterminal">Class-ID</span> 
         | intersection_of-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">Class-ID</span> 
@@ -495,7 +496,7 @@ classes).</p >
         | subset-Tag <span class="nonterminal">Subset-ID</span> 
         | synonym-Tag <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">SynonymScope</span> [ <span class="nonterminal">ws</span> <span class="nonterminal">SynonymType-ID</span> ] <span class="nonterminal">XrefList</span> 
         | xref-Tag <span class="nonterminal">Xref</span> 
-        | property_value-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">ID</span> 
+        | property_value-Tag <span class="nonterminal">Relation-ID</span> ( <span class="nonterminal">QuotedString</span> <span class="nonterminal">XSD-Type</span> | <span class="nonterminal">ID</span> )
         | domain-Tag <span class="nonterminal">Class-ID</span> 
         | range-Tag <span class="nonterminal">Class-ID</span> 
         | builtin-BT
@@ -627,16 +628,49 @@ Document - the result of parsing a physical OBO document file.</p>
   source of the ontology (typically using http or file schemes).
 </p>
 
-<h3><a name="4.3"></a>4.4 Processing Header Macros</h3>
+<h3><a name="4.4"></a>4.4 Processing Header Macros</h3>
+
+<h4><a name="4.4.1"></a>4.4.1 Implicit Header Macros</h4>
+
+<p>
+  Every OBO-Doc is automatically populated with two header clauses:
+<ul>
+                  <li>treat-xrefs-as-equivalent(RO)</li>
+                  <li>treat-xrefs-as-equivalent(BFO)</li>
+</ul>
+</p>
+
+<h4><a name="4.4.2"></a>4.4.2 Header Macro Translation</h4>
+
+<p>
+The following table shows how header macros are used to insert new
+clauses into the ontology document. If the pre-condition is satisfied
+(middle column) and the header contains the specified macro (first
+column), then clauses are added to the ontology such that the
+post-condition is satisfied (right hand column). Note that the
+original xref tags are <i>not</i> replaced in the ontology.
+</p>
+
+<p>
+Expansion of these clauses is optional. A typicaly use case is to
+expand clauses into a separate bridging ontology. NOTE: this part of
+the spec is unsatisfactory. A better solution will be to do this as an
+OWL Macro (section 7). Specifically, obo header macros will be
+translated to OWL macros, and then the generic OWL macro engine will
+translate these. We leave this section in the draft spec for now to
+show the intended semantics.
+</p>
+
+
 
 <table border="1" cellspacing="0">
-<caption><a id="cardinality" name="cardinality" />
-	Cardinality Constraints</caption>
+<caption><a id="header-macros" name="header-macros" />
+	Header Macros</caption>
 
 <thead>
 <tr><th>Header</th>
     <th>Precondition</th>
-    <th>Postcondition</th>
+    <th>Add clauses</th>
 </tr>
 </thead>
 
@@ -655,6 +689,12 @@ Document - the result of parsing a physical OBO document file.</p>
   </tr>
 
   <tr>
+    <td valign="top" style="white-space: pre;">treat-xrefs-as-has-subclass(Prefix)</td>
+    <td valign="top" style="white-space: pre;">xref(Prefix:B) &isin; Frame[A]</td>
+    <td valign="top" style="white-space: pre;">is_a(Prefix:A) &isin; Frame[B]</td>
+  </tr>
+
+  <tr>
     <td valign="top" style="white-space: pre;">treat-xrefs-as-genus-differentia(Prefix Rel-ID Class-ID)</td>
     <td valign="top" style="white-space: pre;">xref(Prefix:B) &isin; Frame[A] and
 intersection_of(...) &notin; Frame[A]</td>
@@ -669,9 +709,6 @@ intersection_of(Rel-ID Class-ID) &isin; Frame[A]
     <td valign="top" style="white-space: pre;">relationship(Rel-ID X:B) &isin; Frame[A]</td>
   </tr>
 
-<p>
-  Every OBO-Doc is automatically populated with a treat-xrefs-as-equivalent(RO) clause
-</p>
 
 </tbody>
 </table>
@@ -1352,6 +1389,11 @@ is_transitive(Rel1-ID)</td>
 <tr>
 <td valign="top" style="white-space: pre;">property_value(Rel-ID Entity-ID Qualifiers)</td>
 <td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(ID) <span class="name">T</span>(Entity-ID))</td>
+</tr>
+
+<tr>
+<td valign="top" style="white-space: pre;">property_value(Rel-ID Value XSD-Type Qualifiers)</td>
+<td valign="top" style="white-space: pre;">AnnotationAssertion(<span class="name">T</span>(Qualifiers) <span class="name">T</span>(Rel-ID) <span class="name">T</span>(ID) <span class="name">T<sup>literal</sup></span>(Value XSD-Type))</td>
 </tr>
 
 <tr>
