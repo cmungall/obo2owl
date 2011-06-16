@@ -317,8 +317,9 @@ a translation to the OWL DL abstract syntax.</p>
 <p>Because generic tag-value pairs occur in very many places in the syntax,
 to save space the grammar has meta-productions for basic tag-values and for the tags themselves:
 </p>
-<p class="grammar" style="white-space: pre;"><span class="nonterminal">&lt;T&gt;-TVP</span>  ::= '<span class="terminal">&lt;T&gt;:</span>' {ws} <span class="nonterminal">UnquotedString</span> }
-<span class="nonterminal">&lt;T&gt;-Tag</span> ::= '<span class="terminal">&lt;T&gt;:</span>' {ws}
+<p class="grammar" style="white-space: pre;"><span class="nonterminal">&lt;T&gt;-TVP</span>  ::= '<span class="terminal">&lt;T&gt;:</span>' {ws} <span class="nonterminal">UnquotedString</span>
+<span class="nonterminal">&lt;T&gt;-BT</span>   ::= '<span class="terminal">&lt;T&gt;:</span>' {ws} ( 'true' | 'false' )
+<span class="nonterminal">&lt;T&gt;-Tag</span>  ::= '<span class="terminal">&lt;T&gt;:</span>' {ws}
 </p>
 <p>
 For example, <span>property_value-Tag</span> should be interpreted as: <span>'property_value:' { ws }</span>
@@ -459,20 +460,20 @@ classes).</p >
 <p class="grammar" style="white-space: pre;">
 <span class="nonterminal">term-frame</span> ::= <span class="nonterminal">nl*</span>
         '[Term]' <span class="nonterminal">nl</span>
-        id-Tag <span class="nonterminal">Class-ID</span> <span class="nonterminal">EOL</span>
+        <span class="nonterminal">id-Tag</span> <span class="nonterminal">Class-ID</span> <span class="nonterminal">EOL</span>
         { <span class="nonterminal">term-frame-clause</span> <span class="nonterminal">EOL</span> }
 
 <span class="nonterminal">term-frame-clause</span> ::= 
-        is_anonymous-BT
-        | name-TVP
+        <span class="nonterminal">is_anonymous-BT</span>
+        | <span class="nonterminal">name-TVP</span>
         | <span class="nonterminal">namespace-Tag</span> <span class="nonterminal">OBONamespace</span> 
         | <span class="nonterminal">alt_id-Tag</span> <span class="nonterminal">ID</span> 
         | <span class="nonterminal">def-Tag</span> <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">XrefList</span> 
-        | comment-TVP
+        | <span class="nonterminal">comment-TVP</span>
         | <span class="nonterminal">subset-Tag</span> <span class="nonterminal">Subset-ID</span> 
         | <span class="nonterminal">synonym-Tag</span> <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">SynonymScope</span> [ <span class="nonterminal">ws</span> <span class="nonterminal">SynonymType-ID</span> ] <span class="nonterminal">XrefList</span> 
         | <span class="nonterminal">xref-Tag</span> <span class="nonterminal">Xref</span> 
-        | builtin-BT
+        | <span class="nonterminal">builtin-BT</span>
         | <span class="nonterminal">property_value-Tag</span> <span class="nonterminal">Relation-ID</span> ( <span class="nonterminal">QuotedString</span> <span class="nonterminal">XSD-Type</span> | <span class="nonterminal">ID</span> )
         | <span class="nonterminal">is_a-Tag</span> <span class="nonterminal">Class-ID</span> 
         | <span class="nonterminal">intersection_of-Tag</span> <span class="nonterminal">Class-ID</span> 
@@ -483,7 +484,7 @@ classes).</p >
         | <span class="nonterminal">relationship-Tag</span> <span class="nonterminal">Relation-ID</span> <span class="nonterminal">Class-ID</span> 
         | <span class="nonterminal">created_by-Tag</span> <span class="nonterminal">Person-ID</span> 
         | <span class="nonterminal">creation_date-Tag</span> <span class="nonterminal">ISO-8601-DateTime</span> 
-        | is_obsolete-BT
+        | <span class="nonterminal">is_obsolete-BT</span>
         | <span class="nonterminal">replaced_by-Tag</span> <span class="nonterminal">Class-ID</span> 
         | <span class="nonterminal">consider-Tag</span> <span class="nonterminal">ID</span> 
 </p >
@@ -497,16 +498,16 @@ classes).</p >
 <p class="grammar" style="white-space: pre;">
 <span class="nonterminal">typedef-frame</span> ::= [ <span class="nonterminal">nl</span> ]
         '[Typedef]' <span class="nonterminal">nl</span>
-        id-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">EOL</span>
+        <span class="nonterminal">id-Tag</span> <span class="nonterminal">Relation-ID</span> <span class="nonterminal">EOL</span>
         { <span class="nonterminal">typedef-frame-clause</span> <span class="nonterminal">EOL</span> }
 
 <span class="nonterminal">typedef-frame-clause</span> ::= 
-        is_anonymous-BT
-        | name-TVP
+        <span class="nonterminal">is_anonymous-BT</span>
+        | <span class="nonterminal">name-TVP</span>
         | <span class="nonterminal">namespace-Tag</span> <span class="nonterminal">OBONamespace</span> 
         | <span class="nonterminal">alt_id-Tag</span> <span class="nonterminal">ID</span> 
         | <span class="nonterminal">def-Tag</span> <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">XrefList</span> 
-        | comment-TVP
+        | <span class="nonterminal">comment-TVP</span>
         | <span class="nonterminal">subset-Tag</span> <span class="nonterminal">Subset-ID</span> 
         | <span class="nonterminal">synonym-Tag</span> <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">SynonymScope</span> [ <span class="nonterminal">ws</span> <span class="nonterminal">SynonymType-ID</span> ] <span class="nonterminal">XrefList</span> 
         | <span class="nonterminal">xref-Tag</span> <span class="nonterminal">Xref</span> 
