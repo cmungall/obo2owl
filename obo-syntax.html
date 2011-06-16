@@ -514,14 +514,14 @@ classes).</p >
         | <span class="nonterminal">property_value-Tag</span> <span class="nonterminal">Relation-ID</span> ( <span class="nonterminal">QuotedString</span> <span class="nonterminal">XSD-Type</span> | <span class="nonterminal">ID</span> )
         | <span class="nonterminal">domain-Tag</span> <span class="nonterminal">Class-ID</span> 
         | <span class="nonterminal">range-Tag</span> <span class="nonterminal">Class-ID</span> 
-        | builtin-BT
-        | is_anti_symmetric-BT
-        | is_cyclic-BT
-        | is_reflexive-BT
-        | is_symmetric-BT
-        | is_transitive-BT
-        | is_functional-BT
-        | is_inverse_functional-BT
+        | <span class="nonterminal">builtin-BT</span>
+        | <span class="nonterminal">is_anti_symmetric-BT</span>
+        | <span class="nonterminal">is_cyclic-BT</span>
+        | <span class="nonterminal">is_reflexive-BT</span>
+        | <span class="nonterminal">is_symmetric-BT</span>
+        | <span class="nonterminal">is_transitive-BT</span>
+        | <span class="nonterminal">is_functional-BT</span>
+        | <span class="nonterminal">is_inverse_functional-BT</span>
         | <span class="nonterminal">is_a-Tag</span> <span class="nonterminal">Rel-ID</span> 
         | <span class="nonterminal">intersection_of-Tag</span> <span class="nonterminal">Rel-ID</span> 
         | <span class="nonterminal">union_of-Tag</span> <span class="nonterminal">Rel-ID</span> 
@@ -535,13 +535,13 @@ classes).</p >
         | <span class="nonterminal">relationship-Tag</span> <span class="nonterminal">Rel-ID</span> <span class="nonterminal">Rel-ID</span> 
         | <span class="nonterminal">created_by-Tag</span> <span class="nonterminal">Person-ID</span> 
         | <span class="nonterminal">creation_date-Tag</span> <span class="nonterminal">ISO-8601-DateTime</span> 
-        | is-obsolete-BT
+        | <span class="nonterminal">is-obsolete-BT</span>
         | <span class="nonterminal">replaced_by-Tag</span> <span class="nonterminal">Rel-ID</span> 
         | <span class="nonterminal">consider-Tag</span> <span class="nonterminal">ID</span> 
         | <span class="nonterminal">expand_assertion_to-Tag</span> <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">XrefList</span> 
         | <span class="nonterminal">expand_expression_to-Tag</span> <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">XrefList</span> 
-        | is_metadata_tag-BT
-        | is_class_level_tag-BT
+        | <span class="nonterminal">is_metadata_tag-BT</span>
+        | <span class="nonterminal">is_class_level_tag-BT</span>
 </p >
 
 
@@ -553,16 +553,16 @@ classes).</p >
 <p class="grammar" style="white-space: pre;">
 <span class="nonterminal">instance-frame</span> ::= [ <span class="nonterminal">nl</span> ]
         '[Instance]' <span class="nonterminal">nl</span>
-        id-Tag <span class="nonterminal">Relation-ID</span> <span class="nonterminal">EOL</span>
+        <span class="nonterminal">id-Tag</span> <span class="nonterminal">Relation-ID</span> <span class="nonterminal">EOL</span>
         { <span class="nonterminal">instance-frame-clause</span> <span class="nonterminal">EOL</span> }
 
 <span class="nonterminal">instance-frame-clause</span> ::= 
-        is_anonymous-BT
-        | name-TVP
+        <span class="nonterminal">is_anonymous-BT</span>
+        | <span class="nonterminal">name-TVP</span>
         | <span class="nonterminal">namespace-Tag</span> <span class="nonterminal">OBONamespace</span> 
         | <span class="nonterminal">alt_id-Tag</span> <span class="nonterminal">ID</span> 
         | <span class="nonterminal">def-Tag</span> <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">XrefList</span> 
-        | comment-TVP
+        | <span class="nonterminal">comment-TVP</span>
         | <span class="nonterminal">subset-Tag</span> <span class="nonterminal">Subset-ID</span> 
         | <span class="nonterminal">synonym-Tag</span> <span class="nonterminal">QuotedString</span> <span class="nonterminal">ws</span> <span class="nonterminal">SynonymScope</span> [ <span class="nonterminal">ws</span> <span class="nonterminal">SynonymType-ID</span> ] <span class="nonterminal">XrefList</span> 
         | <span class="nonterminal">xref-Tag</span> <span class="nonterminal">ID</span> 
@@ -572,7 +572,7 @@ classes).</p >
         | <span class="nonterminal">relationship-Tag</span> <span class="nonterminal">Rel-ID</span> <span class="nonterminal">ID</span> 
         | <span class="nonterminal">created_by-Tag</span> <span class="nonterminal">Person-ID</span> 
         | <span class="nonterminal">creation_date-Tag</span> <span class="nonterminal">ISO-8601-DateTime</span> 
-        | is-obsolete-BT
+        | <span class="nonterminal">is-obsolete-BT</span>
         | <span class="nonterminal">replaced_by-Tag</span> <span class="nonterminal">Rel-ID</span> 
         | <span class="nonterminal">consider-Tag</span> <span class="nonterminal">ID</span> 
 </p >
