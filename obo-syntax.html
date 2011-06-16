@@ -111,7 +111,7 @@ body {
 						 alt="The Open Biological and Biomedical Ontology Foundry" /></a>
 <h1 class="mainTitle">
 OBO Flat File Format 1.4 Syntax and Semantics [DRAFT]</h1>
-<h2><a id="editordraft" name="editordraft"></a>Editor's Draft of Sept 2010</h2>
+<h2><a id="editordraft" name="editordraft"></a>Editor's Draft of Feb 2011</h2>
 <dl>
   <dt>This version: </dt>
   <dd><a href="http://berkeleybop.org/~cjm/obo2owl/obo-syntax.html">http://berkeleybop.org/~cjm/obo2owl/obo-syntax.html</a></dd>
@@ -122,7 +122,7 @@ OBO Flat File Format 1.4 Syntax and Semantics [DRAFT]</h1>
   <dt>Editors: </dt>
   <dd>Chris Mungall, Lawrence Berkeley National Laboratory</dd>
  <dt>Contributors: </dt>
-  <dd>Erick Antezana, [ADD AFFILIATION]</dd>
+  <dd>Erick Antezana</dd>
   <dd>James Balhoff, National Evolutionary Synthesis Center</dd>
   <dd>John Day-Richter, Google</dd>
   <dd>Amelia Ireland, Jackson Laboratory</dd>
@@ -169,7 +169,8 @@ to ensure wide visibility. </p>
   <li class="tocline1"><a href="#5">5 OBO Semantics: Mapping to OWL2-DL</a></li>
   <li class="tocline1"><a href="#6">6 OWL to OBO</a></li>
   <li class="tocline1"><a href="#7">7 OWL Macros</a></li>
-  <li class="tocline1"><a href="#8">8 References</a></li>
+  <li class="tocline1"><a href="#8">8 Recommendations (informative)</a></li>
+  <li class="tocline1"><a href="#9">9 References</a></li>
 </ul>
 <hr>
 </div>
@@ -316,9 +317,13 @@ a translation to the OWL DL abstract syntax.</p>
 <p>Because generic tag-value pairs occur in very many places in the syntax,
 to save space the grammar has meta-productions for basic tag-values and for the tags themselves:
 </p>
-<p class="grammar" style="white-space: pre;"><span class="nonterminal">&lt;T&gt;-TVP</span>  ::= <span class="terminal">&lt;T&gt;:</span> {ws} <span class="nonterminal">UnquotedString</span> }
-<span class="nonterminal">&lt;T&gt;-Tag</span> ::= <span class="terminal">&lt;T&gt;:</span> {ws}
+<p class="grammar" style="white-space: pre;"><span class="nonterminal">&lt;T&gt;-TVP</span>  ::= '<span class="terminal">&lt;T&gt;:</span>' {ws} <span class="nonterminal">UnquotedString</span> }
+<span class="nonterminal">&lt;T&gt;-Tag</span> ::= '<span class="terminal">&lt;T&gt;:</span>' {ws}
 </p>
+<p>
+For example, <span>property_value-Tag</span> should be interpreted as: <span>'property_value:' { ws }</span>
+</p>
+
 
 <p>
 Documents in the obo-format consist of sequences of Unicode characters
@@ -418,27 +423,29 @@ order to be more consistent with Manchester Syntax.</p>
 
 <h3><a name="3.2"></a>3.2 OBO Headers</h3>
 
+
+
 <p class="grammar" style="white-space: pre;">
 <span class="nonterminal">header-frame</span> ::= { <span class="nonterminal">header-clause</span> <span class="nonterminal">nl*</span> }
 <span class="nonterminal">header-clause</span> ::= <span class="nonterminal">format-version-TVP</span>
         | <span class="nonterminal">ontology-TVP</span>
         | <span class="nonterminal">data-version-TVP</span>
-        | date-Tag  <span class="nonterminal">DD-MM-YYYY</span> <span class="nonterminal">sp</span> <span class="nonterminal">hh-mm</span>
+        | <span class="nonterminal">date-Tag</span>  <span class="nonterminal">DD-MM-YYYY</span> <span class="nonterminal">sp</span> <span class="nonterminal">hh-mm</span>
         | <span class="nonterminal">saved-by-TVP</span>
         | <span class="nonterminal">auto-generated-by-TVP</span>
-        | import-Tag  <span class="nonterminal">IRI</span> | <span class="nonterminal">filepath</span>
-        | subsetdef-Tag  <span class="nonterminal">ID</span> <span class="nonterminal">sp</span> <span class="nonterminal">QuotedString</span>
-        | synonymtypedef-Tag  <span class="nonterminal">ID</span> <span class="nonterminal">sp</span> <span class="nonterminal">QuotedString</span>
+        | <span class="nonterminal">import-Tag</span>  <span class="nonterminal">IRI</span> | <span class="nonterminal">filepath</span>
+        | <span class="nonterminal">subsetdef-Tag</span>  <span class="nonterminal">ID</span> <span class="nonterminal">sp</span> <span class="nonterminal">QuotedString</span>
+        | <span class="nonterminal">synonymtypedef-Tag</span>  <span class="nonterminal">ID</span> <span class="nonterminal">sp</span> <span class="nonterminal">QuotedString</span>
              [  <span class="nonterminal">SynonymScope</span> ]
-        | default-namespace-Tag  <span class="nonterminal">OBONamespace</span>
-        | idspace-Tag <span class="nonterminal">IDPrefix</span> <span class="nonterminal">sp</span> <span class="nonterminal">IRI</span>
+        | <span class="nonterminal">default-namespace-Tag</span>  <span class="nonterminal">OBONamespace</span>
+        | <span class="nonterminal">idspace-Tag</span> <span class="nonterminal">IDPrefix</span> <span class="nonterminal">sp</span> <span class="nonterminal">IRI</span>
             [ <span class="nonterminal">sp</span> <span class="nonterminal">QuotedString</span> ]
         | treat-xrefs-as-equivalent-Tag <span class="nonterminal">IDPrefix</span>
         | treat-xrefs-as-genus-differentia-Tag <span class="nonterminal">IDPrefix</span> <span class="nonterminal">ws</span> <span class="nonterminal">Rel-ID</span> <span class="nonterminal">ws</span> <span class="nonterminal">Class-ID</span>
         | treat-xrefs-as-relationship-Tag <span class="nonterminal">IDPrefix</span> <span class="nonterminal">Rel-ID</span>
         | treat-xrefs-as-is_a-Tag <span class="nonterminal">IDPrefix</span>
         | treat-xrefs-as-has-subclass-Tag <span class="nonterminal">IDPrefix</span>
-        | remark-TVP
+        | <span class="nonterminal">remark-TVP</span>
         | <span class="nonterminal">UnreservedToken</span> ':'  [  <span class="nonterminal">ws</span> ] <span class="nonterminal">UnquotedString</span>
 <span class="nonterminal">entity-frame</span> ::= <span class="nonterminal">term-frame</span> | <span class="nonterminal">typedef-frame</span> | <span class="nonterminal">instance-frame</span> | <span class="nonterminal">annotation-frame</span>
 </p>
@@ -645,6 +652,9 @@ Document - the result of parsing a physical OBO document file.</p>
                   <li>treat-xrefs-as-equivalent(RO)</li>
                   <li>treat-xrefs-as-equivalent(BFO)</li>
 </ul>
+                It is illegal to override these. These declarations
+                are taken as implicit, and an OBO format generator
+                need not export these
 </p>
 
 <h4><a name="4.4.2"></a>4.4.2 Header Macro Translation</h4>
@@ -1592,7 +1602,7 @@ is_transitive(Rel1-ID)</td>
 Note we have no cognate of IAO:definition_source - we would have a generic xref annotation on the definition annotation assertion
 </p>
 
-<h4><a name="5.9.1"></a>5.9.1 Semantics of synonyms</h3>
+<h4><a name="5.8.1"></a>5.8.1 Semantics of synonyms</h3>
 
 <p>
   Mapping of OBO Format synonym clauses is described
@@ -1639,19 +1649,18 @@ in ontologies. These have also proven useful for NLP purposes.
 
 <h3><a name="5.9"></a>5.9 Translation of Identifiers</h3>
 
-<p>
-  Based on: <a href="https://docs.google.com/View?docID=0Acx6Blq96uycZHpwcm5td18wZGtkMmdiZ3Y&revision=_latest">OBO ID Policy</a>
-</p>
-
-<h4>Pre-processing</h4>
+<h4><a name="5.9.1"></a>5.9.1. Pre-processing</h4>
 <p>Every OBO-Document is automatically populated with two clauses:
  <ul>
    <li>idspace(RO "http://purl.obolibrary.org/obo/RO_")</li>
    <li>idspace(BFO "http://purl.obolibrary.org/obo/BFO_")</li>
  </ul>
+(see <a href="#4.4.1">4.4.1</a>)
 </p>
 
-<h4>Translation of canonical OBO identifiers</h4>
+<h4><a name="5.9.2"></a>5.9.2. Translation of canonical OBO identifiers</h4>
+
+<p>The following table is used when translating an OBO identifier to an IRI</p>
 
 <table border="1" cellspacing="0">
 <caption><a id="translation-id" name="translationID" />
@@ -1681,6 +1690,40 @@ in ontologies. These have also proven useful for NLP purposes.
 
 </tbody>
 </table>
+
+<h4><a name="5.9.3"></a>5.9.3. Special Rules for Relations</h4>
+
+                <p>
+                  An exception is made to 5.9.2 for translating relation IDs:
+                  <ul>
+                    <li>If an Unprefixed-ID is declared in a Typedef
+                    frame, and that Typedef frame has an xref clause,
+                    then the value of that xref clause is used in the
+                    translation.
+                    </li>
+                    <li>
+                      If there are multiple xref clauses in the
+                      Typedef frame, then precedence is as follows:
+                      <ul>
+                        <li>
+                          xrefs in the 'BFO' and 'RO' ID-space take
+                          priority over all others
+                        </li>
+                        <li>
+                          xrefs for which there is a corresponding
+                          idspace declaration in the header of the
+                          same document take precedence over xrefs
+                          for which there is no such declaration
+                        </li>
+                      </ul>
+                      If these rules produce no clear winner, the
+                      source document is invalid.
+                    </li>
+                  </ul>
+                </p>
+                <p>
+                  These rules are normative. An informative summary is provided in section <a href="#8.2.2">8.2.2</a>.
+                </p>
 
 <h4>Mapping ID Prefixes</h4>
 
@@ -1868,6 +1911,113 @@ in ontologies. These have also proven useful for NLP purposes.
 
 </tbody>
 </table>
+
+<h2><a name="8"></a>8 Recommendations (informative)</h2>
+
+<h3><a name="8.1"></a>8.1 Generating OBO Format Documents</h3>
+                <p>
+                  These guidelines are provided to minimize character-level differences between OBO Documents generated by different procedures.
+                </p>
+<h3><a name="8.1.1"></a>8.1.1 Whitespace</h3>
+                <ul>
+                  <li>
+                    For every tag-value line, the initial ':' character should be followed by a space character (' ').
+                  </li>
+                  <li>
+                    Every successive pair of frames should be seperated by a single empty line.
+                  </li>
+                  <li>
+                    The initial frame should be separated from the header block by a single empty line.
+                  </li>
+                  <li>
+                    Each document should have an ontology declaration in the header.
+                  </li>
+                  <li>
+                    The ontology id should be all lower case, and
+                    should match the primary ID space used in the
+                    ontology (for example: 'go', 'cl').
+                  </li>
+                </ul>
+<h3><a name="8.1.2"></a>8.1.2 File Comments</h3>
+                <ul>
+                  <li>
+                    If a frame references an identifier, and that
+                    identifier is opaque (i.e. the local part of the
+                    identifier is entirely numeric), then the
+                    generator should add commments, adding a label for
+                    every opaque identifier. For example:
+                    <pre>
+relationship: part_of ABC:1234567 ! hand
+relationship: R:9999999 ABC:1234567 ! part_of hand
+                    </pre>
+                  </li>
+                  <li>
+                    All file comments should be preceded by a tag-value pair, and there should be exactly one space character on either side of the '!' character
+                  </li>
+                </ul>
+<h3><a name="8.1.3"></a>8.1.3 Tag Ordering</h3>
+                <p>
+                  TODO
+                </p>
+<h3><a name="8.2"></a>8.2 Identifiers</h3>
+<h3><a name="8.2.1"></a>8.2.1 Class (Term) Identifiers</h3>
+                <p>
+                  All class identifiers should
+                  follow <a href="http://www.obofoundry.org/id-policy.shtml">OBO
+                  Foundry ID Policy</a>. I.e. all ID-spaces must be
+                  registered and approved (email obo-admin at
+                  obofoundry.org to register), and the entire ID
+                  should consist of the ID space followed by ':'
+                  followed by a zero-padded numeric local identifer (a
+                  minimum of 7 digits is recommended).
+                </p>
+<h3><a name="8.2.2"></a>8.2.2 Relation (Property) Identifiers</h3>
+                <p>
+                  Relation identifiers should in follow the same
+                  guidelines as class identifiers. Note however that
+                  the use of symbolic identifiers such as 'part_of' is
+                  common in almost all OBO format ontologies, and has
+                  a precedent stretching back over ten years. A large
+                  body of software now expects symbolic identifiers
+                  for relations, and ontology maintainers are
+                  understandably reluctant to change these to numeric
+                  identifiers.
+                </p>
+                <p>
+                  This specification provides a means of using numeric
+                  identifiers globally whilst retaining symbolic
+                  identifiers within the context of a single
+                  file. Refer to section <a href="#5.9.3">5.9.3</a> for
+                  details.
+                </p>
+                <ul>
+                  <li>
+                    Every symbolic relation identifier
+                    (e.g. 'part_of') should have an xref tag to a formal relation identifier. E.g.
+<pre>
+[Typedef]
+id: has_part
+name: has_part
+xref: BFO:0000051
+</pre>
+                  </li>
+                  <li>
+                    This xref should refer to either BFO
+                    (<a href="http://purl.obolibrary.org/obo/bfo.owl">http://purl.obolibrary.org/obo/bfo.owl</a)
+                    or to RO
+                    (<a href="http://purl.obolibrary.org/obo/ro.owl">http://purl.obolibrary.org/obo/ro.owl</a). Xrefs
+                    to the old RO can be provided for historic purposes, but are otherwise discouraged.
+                  </li>
+                  <li>
+                    According to the rules in
+                    section <a href="#5.9.3">5.9.3</a>, the symbolic
+                    relation identifier can be used as a shorthand for
+                    the formal relation identifier.
+                  </li>
+                  <li>
+                    When roundtripping the OBO file, the symbolic identifiers should be preserved.
+                  </li>
+                </ul>
 
 <a name="References"></a><h2> <span class="mw-headline">8  References </span></h2>
 <a name="Normative_References"></a><h3> <span class="mw-headline">7.1  Normative References </span></h3>
