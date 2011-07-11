@@ -387,6 +387,7 @@ tag-value qualifiers.
 <span class="nonterminal">Class-ID</span> ::=  <span class="nonterminal">ID</span>
 <span class="nonterminal">Rel-ID</span> ::=  <span class="nonterminal">ID</span>
 <span class="nonterminal">Instance-ID</span> ::=  <span class="nonterminal">ID</span>
+<!-- TODO: URLs -->
 <span class="nonterminal">ID</span> ::=  <span class="nonterminal">Prefixed-ID</span> | <span class="nonterminal">Unprefixed-ID</span>
 
 <span class="nonterminal">Unprefixed-ID</span> ::=  { ( <span class="nonterminal">NonWsChar</span> - <span class="nonterminal">':'</span> ) }
@@ -1850,6 +1851,9 @@ in ontologies. These have also proven useful for NLP purposes.
 
 <h2><a name="6"></a>6 OBO Sublanguages</h2>
 
+<p>
+</p>
+
 <h3><a name="6.1"></a>6.1 OBO Sublanguage Characteristics</h3>
 <h3><a name="6.1.1"></a>6.1.1 DAG</h3>
 
@@ -1871,10 +1875,27 @@ The ontology is a DAG if the transitive closure of E contains no cycles.
 <h3><a name="6.1.2"></a>6.1.2 Dangling Clauses</h3>
 
 <p>
-A dangling clause is an is_a, relationship, intersection_of,
-disjoint_from, domain or range clause in which any of the values is
-not declared in the ontology document. Here declaration means there
-exists a frame with the corresponding identifier.
+A dangling clause is an is_a, relationship, intersection_of, uniom_of,
+transitive_over, equivalent_to_chain, holds_over_chain, disjoint_from,
+domain or range clause in which any of the values is not declared in
+the ontology document. Here declaration means there exists a frame
+with the corresponding identifier.
+</p>
+
+<p>
+We can define 3 sub-characteristics:
+<ul>
+ <li>
+                      Dangling Classes
+ </li>
+ <li>
+                      Dangling Relations
+ </li>
+ <li>
+                      Dangling Individuals
+ </li>
+</ul>
+
 </p>
 
 <h3><a name="6.1.3"></a>6.1.3 Unidirectional</h3>
@@ -1919,6 +1940,27 @@ version, which is fully asserted, with the assertions added by a
 reasoner.
 </p>
 
+<h3><a name="6.1.5"></a>6.1.5 Fully Labeled</h3>
+
+<p>
+An OBO ontology is fully labeled if and only if every frame has a "name" tag.
+</p>
+
+<h3><a name="6.1.6"></a>6.1.6 Uniquely Labeled</h3>
+
+<p>
+An OBO ontology is uniquely labeled if and only if there are no two
+entities share the same name, including both the source ontology and
+its full import closure.
+</p>
+
+<h3><a name="6.1.7"></a>6.1.7 Locally Uniquely Labeled</h3>
+
+<p>
+An OBO ontology is locally uniquely labeled if and only if there are
+no two entities share the same name, considering only the source
+ontology but not its import closure.
+</p>
 
 <h3><a name="6.2"></a>6.2 OBO Basic</h3>
 
@@ -1947,35 +1989,59 @@ An ontology is OBO Basic if and only if it has the following characteristics:
                     Unidirectional
                   </li>
                   <li>
-                    No Dangling Classes
+                    No Dangling Clauses
                   </li>
                   <li>
                     Fully Asserted
+                  </li>
+                  <li>
+                    Fully Labeled
                   </li>
                 </ul>
                 </p>
 
 
+<h3><a name="6.3"></a>6.3 Conversion to sub-languages</h3>
+
+<p>
+In general translation to a sublanguage is lossy, but this is not
+always the case. An OBO-Dangling-Clause ontology can be converted to a
+semantically equivalent ontology with declarations for all undeclared
+referenced frames (note that this typically happens as a side-effect
+of obo-to-ow-to-obo roundtripping). Note that this means the target
+ontology is no longer OBO-Fully-Labeled.
+</p>
+
+
 <h2><a name="7"></a>7 OWL Macros</h2>
 
 <p>
-  This section can also be considered in isolation from OBO Format altogether
+  This section cab be considered an independent component that can be
+  used for any OWL ontology. It may eventually form its own separate
+  specification. It should be seen as informative for now.
 </p>
 
 <p>
   Macros are specified as the range of an AnnotationAssertion on a
   property. They take the form of a string encoding either an OWL
-  axiom or OWL expression in an extension Manchester Syntax
-  format [<cite><a href="#ref-bcp-47" title="">BCP 47</a></cite>]. This extension allows the use of variable markers
-  (written <i>?X</i> or <i>?Y</i>) in place of classes or class
-  expressions. When these variable markers are replaced by actual OWL
-  classes or expressions (again serialized in Manchester Syntax) as
-  part of a Template Substitution Operation, the resulting string must
-  be valid Manchester Syntax.
+  axiom or OWL expression in an extension Manchester Syntax format
+  [<cite><a href="#ref-bcp-47" title="">BCP 47</a></cite>]. This
+  extension allows the use of variable markers (written <i>?X</i>
+  or <i>?Y</i>) in place of classes or class expressions. When these
+  variable markers are replaced by actual OWL classes or expressions
+  (again serialized in Manchester Syntax) as part of a Template
+  Substitution Operation <span class="name">Subst</span>, the
+  resulting string must be valid Manchester Syntax.
 </p>
 
 <p>
   Examples are provided in [<cite><a href="#owl-macros" title="">OWL Macros</a></cite>].
+</p>
+
+<h2><a name="7.1"></a>7.1 Macro Annotation Assertions</h2>
+
+<p>
+Two IRIs are used to specify the two different types of macro expansion.
 </p>
 
 <table border="1" cellspacing="0">
@@ -2008,6 +2074,8 @@ An ontology is OBO Basic if and only if it has the following characteristics:
 
 </tbody>
 </table>
+
+<h2><a name="7.2"></a>7.2 Macro Expansion and Replacement</h2>
 
 <p>
 </p>
@@ -2062,6 +2130,97 @@ An ontology is OBO Basic if and only if it has the following characteristics:
 
 </tbody>
 </table>
+
+<p>
+
+</p>
+
+<h2><a name="7.3"></a>7.3 Macro-based GCI Enhancement</h2>
+
+                <p>
+                  An alternative strategy is to use the occurrence of
+                  macro relations to add General Class Inclusion (GCI)
+                  axioms to the ontology
+                </p>
+
+<table border="1" cellspacing="0">
+<caption><a id="postProcessing" name="postProcessing" />
+  GCI Addition Rules
+</caption>  
+<thead>
+  <tr><th>Matched Expression or Axiom</th>
+  <th>Condition</th>
+    <th>GCI to Add</th></tr>
+</thead>
+
+<tbody>
+
+<tr>
+    <td>
+      ObjectSomeValuesFrom(P CE)
+    </td>
+    <td>
+      AnnotationAssertion(expand_expression_to P Template)
+    </td>
+    <td>
+      EquivalentClasses(ObjectSomeValuesFrom(P CE) <span class="name">Subst</span>(Template)[CE])
+    </td>
+</tr>
+
+<tr>
+    <td>
+      ObjectAllValuesFrom(P CE)
+    </td>
+    <td>
+      AnnotationAssertion(expand_expression_to P Template)
+    </td>
+    <td>
+      EquivalentClasses(ObjectSomeValuesFrom(P CE) <span class="name">Subst</span>(Template)[CE])
+    </td>
+</tr>
+
+<tr>
+    <td>
+      AnnotationAssertion(P A B)
+    </td>
+    <td>
+      AnnotationAssertion(expand_assertion_to P Template)
+    </td>
+    <td>
+      use previous table
+    </td>
+</tr>
+
+</tbody>
+</table>
+
+<h2><a name="7.4"></a>7.4 Placement of Generated Axioms in External Ontologies</h2>
+
+<p>
+  The behavior of a macro-expansion engine regarding whether to
+  replace on add new GCIs is implementation-dependent, as this
+  decision of whether to place generated axioms in a new ontology or
+  the source ontology.
+                </p>
+                <p>
+                  The <i>recommended behavior</i> is:
+                  <ul>
+                    <li>
+                      The 2nd (GCI) table should be used.
+                    </li>
+                    <li>
+                      The source ontology should be left unmodified.
+                    </li>
+                    <li>
+                      GCIs generated from expand_expression_to
+                      templates and new axioms generated by
+                      expand_assertion_to should be placed in a
+                      separate ontology or ontologies. The recommended
+                      IRI of this ontology will be specified in the
+                      id-policy document.
+                    </li>
+                  </ul>
+</p>
 
 <h2><a name="8"></a>8 Recommendations (informative)</h2>
 
